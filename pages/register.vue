@@ -152,7 +152,7 @@ const handleSubmit = async () => {
       console.log(authStore.token);
       console.log("Login successful:", token);
       // تغییر مسیر به صفحه دیگر بعد از ورود موفق
-      router.push('/');
+      await router.push('/');
       // Optionally redirect or clear form
     } else {
       alert('Registration failed: ' + response.data.message);
