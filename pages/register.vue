@@ -149,6 +149,7 @@ const handleSubmit = async () => {
 
       const token = response.data.token;
       authStore.setToken(token);
+      localStorage.setItem('auth_token',authStore.token);
       console.log(authStore.token);
       console.log("Login successful:", token);
       // تغییر مسیر به صفحه دیگر بعد از ورود موفق

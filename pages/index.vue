@@ -37,7 +37,7 @@
               My Orders
               <span v-if="user.orders_count > 0" class="badge-sidebar">{{ user.orders_count }}</span>
             </NuxtLink>
-            <NuxtLink to="/my-cart">
+            <NuxtLink to="/steps-to-order">
               My Cart
               <span v-if="user.items_cart > 0" class="badge-sidebar">{{ user.items_cart }}</span>
             </NuxtLink>
@@ -69,7 +69,7 @@
             </div>
           </div>
           <div class="icon" @click="goToCart">
-            <NuxtLink to="/selected-payment-method">
+            <NuxtLink to="/steps-to-order">
             <i class="fas fa-shopping-cart"></i>
             <span v-if="user&&user.items_cart > 0" class="cart-badge">{{ user.items_cart }}</span>
             </NuxtLink>
