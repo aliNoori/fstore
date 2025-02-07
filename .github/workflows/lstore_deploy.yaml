@@ -12,7 +12,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+      - name: Check dist folder
+        run: ls -lah
       - name: Deploy to local server
         run: |
           sudo rsync -av --delete dist/ /var/www/store/public_html/fstore/
