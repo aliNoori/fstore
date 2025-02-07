@@ -18,7 +18,7 @@ export default defineNuxtPlugin((nuxtApp) => {
             authStore.hydrateToken() // بازیابی توکن هنگام بارگذاری
             const token = authStore.token
 
-            //console.log('توکن در Axios Interceptor:', token)
+            console.log('توکن در Axios Interceptor:', token)
 
             if (token) {
                 config.headers['Authorization'] = `Bearer ${token}`;
