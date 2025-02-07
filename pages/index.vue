@@ -56,11 +56,11 @@
 
         <h2>Store</h2>
         <!-- اضافه کردن آیکون‌های جدید -->
-        <div class="icons">
+<!--        <div class="icons">
           <div class="icon" @click="toggleMessages">
             <i class="fas fa-envelope"></i>
-            <span v-if="messages.length>0" class="ribbon-badge">{{ messages.length }}</span> <!-- تعداد پیام‌ها -->
-            <!-- نمایش پیام‌ها -->
+            <span v-if="messages.length>0" class="ribbon-badge">{{ messages.length }}</span> &lt;!&ndash; تعداد پیام‌ها &ndash;&gt;
+            &lt;!&ndash; نمایش پیام‌ها &ndash;&gt;
             <div class="messages-section" v-if="isMessagesOpen && messages.length">
               <h2>Messages</h2>
               <div class="message" v-for="(message, index) in messages" :key="index">
@@ -80,7 +80,7 @@
           <div class="icon" @click="goToInfo">
             <i class="fas fa-info-circle"></i>
           </div>
-        </div>
+        </div>-->
         <div class="menu-icon" @click="toggleMenu">
           <span></span>
           <span></span>
@@ -114,7 +114,7 @@
       <div class="product-list">
         <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
           <!-- برچسب تخفیف در صورت وجود تخفیف -->
-          <div v-if="product.discount" class="discount-badge">{{ product.discount }}% OFF</div>
+          <div v-if="product.discount" class="discount-badge">{{ product.discount }}% تخفیف</div>
 
           <!-- تصویر محصول -->
           <img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
@@ -142,8 +142,8 @@
 
 
             <h3>{{ product.name }}</h3>
-            <p class="price">Price: ${{ product.price }}</p>
-            <p class="stock">Stock: {{ product.stock }}</p>
+            <p class="price">قیمت: {{ product.price }}</p>
+            <p class="stock">موجودی: {{ product.stock }}</p>
 
             <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
             <div v-if="product.reviews && product.reviews.length > 0" class="star-rating">
@@ -517,11 +517,13 @@ onMounted(() => {
   padding: 10px;
 }
 .product-list {
+  font-family: 'Vazirmatn', sans-serif;
   position: relative;
   margin-top: 90px;
   left: 0;
   display: grid;
   gap: 5px;
+  padding: 5px;
   grid-template-columns: repeat(1, 1fr); /* حالت پیش‌فرض تک‌ستونی */
 }
 /* برای صفحه‌نمایش‌های کوچکتر از 768 پیکسل */
@@ -877,5 +879,9 @@ button .material-icons-outlined {
   justify-content: center;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   z-index: 10; /* برای اطمینان از اینکه روی دکمه قرار می‌گیرد */
+}
+.discount-badge{
+  font-family: 'Vazirmatn', sans-serif;
+  color: #da1b60;
 }
 </style>

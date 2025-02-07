@@ -220,6 +220,7 @@ watch(
 
 
 .product-info h1 {
+  font-family: 'Vazirmatn', sans-serif;
   font-size: 2rem;
   color: #333;
   font-weight: bold;
@@ -228,6 +229,7 @@ watch(
 }
 
 .product-info .description {
+  font-family: 'Vazirmatn', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   color: #666;
@@ -236,6 +238,7 @@ watch(
 }
 
 .product-info .price {
+  font-family: 'Vazirmatn', sans-serif;
   font-size: 1.5rem;
   font-weight: bold;
   color: #28a745; /* سبز برای قیمت */
@@ -247,6 +250,7 @@ watch(
 }
 
 .product-info .stock {
+  font-family: 'Vazirmatn', sans-serif;
   font-size: 1rem;
   font-weight: bold;
   background: rgba(255, 0, 0, 0.1);
@@ -318,7 +322,7 @@ watch(
   font-size: 0.8rem;
   border-radius: 50%;
   padding: 0.2rem 0.5rem;
-  margin-left: 0.5rem;
+  margin-left: 0.3rem;
 }
 
 /* بخش نظرات */
