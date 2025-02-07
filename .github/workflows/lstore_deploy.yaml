@@ -1,0 +1,29 @@
+name: FStore Deploy (Nuxt - Prebuilt)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to local server
+        run: |
+          sudo rsync -av --delete dist/ /var/www/store/public_html/fstore/
+          sudo chmod -R 770 /var/www/store/public_html/fstore
+          sudo chown -R www-data:www-data /var/www/store/public_html/fstore
+
+      - name: Enable site and restart Apache
+        run: |
+          sudo a2dissite store.python.local.conf
+          sudo a2ensite store.nuxt.local.conf
+          sudo systemctl restart apache2
+
+      - name: Check application health
+        run: curl -f http://185.204.197.237/health-check
