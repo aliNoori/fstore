@@ -22,7 +22,7 @@ jobs:
       - name: Enable site and restart Apache
         run: |
           sudo a2dissite store.python.local.conf
-          sudo a2ensite store.nuxt.local.conf
+          sudo a2ensite store.laravel.local.conf
           sudo systemctl restart apache2
 
       - name: Check application health
