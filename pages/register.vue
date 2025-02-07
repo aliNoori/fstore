@@ -1,0 +1,288 @@
+<template>
+  <div class="body">
+    <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
+      <h2>User Register Form</h2>
+
+      <!-- avatar Image Preview -->
+      <div class="avatar-preview">
+        <img
+            :src="avatarPreviewUrl || '/default-avatar.png'"
+            alt="avatar Preview"
+            @click="triggerAvatarUpload"
+        />
+      </div>
+
+      <!-- avatar Upload Input -->
+      <p>
+        <label for="avatar">Upload avatar</label>
+        <input
+            type="file"
+            id="avatar"
+            ref="avatarInput"
+            @change="previewAvatar"
+            accept="image/*"
+        />
+        <span class="help-text">Choose an image file for your avatar.</span>
+      </p>
+
+      <p>
+        <label for="name">Name</label>
+        <input
+            type="text"
+            id="name"
+            v-model="form.name"
+        />
+        <span class="help-text">{{ nameHelpText }}</span>
+      </p>
+
+      <p>
+        <label for="username">Username</label>
+        <input
+            type="text"
+            id="username"
+            v-model="form.username"
+        />
+        <span class="help-text">{{ usernameHelpText }}</span>
+      </p>
+
+      <p>
+        <label for="email">Email</label>
+        <input
+            type="email"
+            id="email"
+            v-model="form.email"
+        />
+        <span class="help-text">{{ emailHelpText }}</span>
+      </p>
+
+      <p>
+        <label for="password">Password</label>
+        <input
+            type="password"
+            id="password"
+            v-model="form.password"
+        />
+        <span class="help-text">{{ passwordHelpText }}</span>
+      </p>
+
+      <p>
+        <label for="password2">Confirm Password</label>
+        <input
+            type="password"
+            id="password_confirmation"
+            v-model="form.password_confirmation"
+        />
+        <span class="help-text">{{ passwordConfirmationHelpText }}</span>
+      </p>
+
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+const { $axios } = useNuxtApp();
+import {useNuxtApp, useRouter} from "#app";
+import { useAuthStore } from '~/stores/auth.js';
+const authStore=useAuthStore();
+const router=useRouter();
+const avatarPreviewUrl = ref(null);
+const form = ref({
+  name: '',
+  username: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
+});
+const nameHelpText='Enter a name.';
+const usernameHelpText = 'Enter a unique username.';
+const emailHelpText = 'Enter your email address.';
+const passwordHelpText = 'Choose a strong password.';
+const passwordConfirmationHelpText = 'Repeat the password for confirmation.';
+
+const previewAvatar = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      avatarPreviewUrl.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+const triggerAvatarUpload = () => {
+  const avatarInput = document.querySelector('#avatar');
+  avatarInput.click();
+};
+
+const handleSubmit = async () => {
+  try {
+    const formData = new FormData();
+    formData.append('name', form.value.name);
+    formData.append('username', form.value.username);
+    formData.append('email', form.value.email);
+    formData.append('password', form.value.password);
+    formData.append('password_confirmation', form.value.password_confirmation);
+
+    // Handle avatar file upload
+    const avatarFile = document.querySelector('#avatar').files[0];
+    if (avatarFile) {
+      formData.append('image', avatarFile);
+    }
+
+    // Replace with actual API endpoint
+    const response = await $axios.post('user/create', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log(response.data)
+
+    if (response.data) {
+      alert('Registration successful!');
+      const loginResponse  = await $axios.post('user/login', {
+        email: form.value.email,
+        password: form.value.password,
+      });
+
+      const token = response.data.token;
+      authStore.setToken(token);
+      console.log(authStore.token);
+      console.log("Login successful:", token);
+      // تغییر مسیر به صفحه دیگر بعد از ورود موفق
+      router.push('/');
+      // Optionally redirect or clear form
+    } else {
+      alert('Registration failed: ' + response.data.message);
+    }
+  } catch (error) {
+    console.error('Registration failed:', error);
+    alert('An error occurred during registration. Please try again.');
+  }
+};
+</script>
+
+<style scoped>
+/* General Styles */
+.body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Form Styles */
+form {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+}
+
+/* Form Elements */
+form p {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="file"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
+  outline: none;
+  background-color: #fff;
+}
+
+/* Submit Button */
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  width: 100%;
+  transition: background-color 0.3s ease, transform 0.2s, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+}
+
+button[type="submit"]:active {
+  background-color: #004494;
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+}
+
+/* Help Text */
+.help-text {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
+
+/* avatar Preview */
+.avatar-preview {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.avatar-preview img {
+  width: 150px; /* Fixed size for avatur */
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+/* Hide File Input */
+input[type="file"] {
+  display: none;
+}
+</style>
