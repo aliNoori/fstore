@@ -193,7 +193,7 @@ watch(
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   //gap: 2rem;
   width: 100vw;
   height: 100vh;
@@ -204,6 +204,10 @@ watch(
 
 /* اطلاعات محصول */
 .product-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
   max-width: 60%;
   background-color: #f9f9f9; /* پس‌زمینه ملایم */
   padding: 1.5rem;
