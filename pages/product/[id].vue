@@ -195,7 +195,8 @@ watch(
   justify-content: space-between;
   align-items: flex-start;
   //gap: 2rem;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   //border-bottom: 2px solid #ddd;
   //padding-bottom: 1.5rem;
   //margin-bottom: 2rem;
@@ -326,10 +327,10 @@ watch(
   height: 20px;
   background-color: red;
   color: white;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   border-radius: 50%;
-  padding: 0.2rem 0.5rem;
-  margin-left: 0.2rem;
+  padding: 2px;
+  margin-left: 0;
 }
 
 /* بخش نظرات */
