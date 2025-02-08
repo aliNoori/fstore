@@ -273,7 +273,7 @@
                   required
                   hidden
               />
-              <h3>{{ onlineMethod.name }}</h3>
+              <h3>{{ onlineMethod.gateway }}</h3>
               <img
                   :src="onlineMethod.image ? `${$config.public.API_BASE_URL}${onlineMethod.image.path}` : '/default-payment-image.jpg'"
                   :alt="onlineMethod.name"
@@ -507,7 +507,7 @@ const handleSelectedOnlineMethods = async () => {
   try {
     // دریافت در صفحه بعدی
     const order_number = JSON.parse(localStorage.getItem('order_number'));
-    const response = await $axios.post(`user/processPayment/${order_number}/${this.selectedOnlinePaymentMethod}`); // ارسال آدرس انتخاب شده به سرور
+    const response = await $axios.post(`user/processPayment/${order_number}/${selectedOnlinePaymentMethod.value}`); // ارسال آدرس انتخاب شده به سرور
     console.log('url :', response.data.url);
     window.location.href = response.data.url; // هدایت کاربر به URL پرداخت
 
