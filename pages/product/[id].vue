@@ -206,11 +206,12 @@ watch(
 .product-info {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
+  align-items: flex-start;
+  //gap: 10px;
   max-width: 60%;
+  height: 50%;
   background-color: #f9f9f9; /* پس‌زمینه ملایم */
-  padding: 1.5rem;
+  //padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* سایه نرم */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
