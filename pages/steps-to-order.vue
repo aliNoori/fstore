@@ -493,10 +493,10 @@ const onlinePaymentMethods = ref([]);
 const selectedOnlinePaymentMethod = ref(null);
 const loadOnlineMethods = async () => {
   try {
-    const response = await this.$axios.get('/onlineMethodGateway/list'); // مسیر API برای دریافت آدرس‌ها
+    const response = await $axios.get('/onlineMethodGateway/list'); // مسیر API برای دریافت آدرس‌ها
     onlinePaymentMethods.value = response.data.onlinePaymentMethods;
   } catch (error) {
-    console.error('Failed to load shippingMethods:', error);
+    console.error('Failed to load onlineMethods:', error);
   }
 };
 const handleSelectedOnlineMethods = async () => {
@@ -507,7 +507,7 @@ const handleSelectedOnlineMethods = async () => {
   try {
     // دریافت در صفحه بعدی
     const order_number = JSON.parse(localStorage.getItem('order_number'));
-    const response = await this.$axios.post(`user/processPayment/${order_number}/${this.selectedOnlinePaymentMethod}`); // ارسال آدرس انتخاب شده به سرور
+    const response = await $axios.post(`user/processPayment/${order_number}/${this.selectedOnlinePaymentMethod}`); // ارسال آدرس انتخاب شده به سرور
     console.log('url :', response.data.url);
     window.location.href = response.data.url; // هدایت کاربر به URL پرداخت
 
