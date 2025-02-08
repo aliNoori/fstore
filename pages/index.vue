@@ -122,17 +122,17 @@
           <div class="product-card-content">
             <div class="buttons">
               <!-- Like Icon -->
-              <button @click="ToggleLikeProduct(product.id)">
-                <!-- SVG Icon -->
+<!--              <button @click="ToggleLikeProduct(product.id)">
+                &lt;!&ndash; SVG Icon &ndash;&gt;
                 <span v-html="product.isLiked ? heartFilled : heartOutline"
                       :style="{ color: product.isLiked ? '#ff0000' : '#888888' }"> </span>
                 <span v-if="product.likes > 0" class="badge">{{ product.likes }}</span>
-              </button>
+              </button>-->
               <!-- View Icon -->
-              <button>
+<!--              <button>
                 <span class="material-icons-outlined" style="color: #888888;">visibility</span>
                 <span v-if="product.views > 0" class="badge">{{ product.views }}</span>
-              </button>
+              </button>-->
               <!-- Cart Icon -->
               <button @click="addToCart(product.id)">
                 <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
@@ -155,7 +155,7 @@
         ★
       </span>
             </div>
-            <div v-else class="no-rating">No rating available</div>
+            <div v-else class="no-rating">هنوز امتیازی ندارد</div>
           </div>
         </div>
       </div>
@@ -514,6 +514,7 @@ onMounted(() => {
 }
 /* محتویات کارت */
 .product-card-content {
+  direction: rtl;
   padding: 10px;
 }
 .product-list {
@@ -546,7 +547,7 @@ onMounted(() => {
 }
 .product-card-content h3 {
   font-size: 1.2rem;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Vazirmatn', sans-serif;
   color: #333;
   line-height: 1.5;
   font-weight: 600;
@@ -555,14 +556,16 @@ onMounted(() => {
 .product-card-content p {
   margin: 5px 0;
   font-size: 1rem;
-  font-family: "Nunito", sans-serif;
+  font-family: 'Vazirmatn', sans-serif;
   color: #555;
   }
 .product-card-content .price {
+  font-family: 'Vazirmatn', sans-serif;
   font-weight: bold;
   color: #333;
 }
 .product-card-content .stock {
+  font-family: 'Vazirmatn', sans-serif;
   color: #666;
 }
 .star-rating {

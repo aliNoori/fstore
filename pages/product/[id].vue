@@ -317,12 +317,14 @@ watch(
 
 /* نشانگر تعداد سبد خرید */
 .cart-badge {
+  width: 20px;
+  height: 20px;
   background-color: red;
   color: white;
   font-size: 0.8rem;
   border-radius: 50%;
   padding: 0.2rem 0.5rem;
-  margin-left: 0.3rem;
+  margin-left: 0.2rem;
 }
 
 /* بخش نظرات */
