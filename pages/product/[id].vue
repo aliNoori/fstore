@@ -193,7 +193,7 @@ watch(
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: flex-end;
   //gap: 2rem;
   width: 100vw;
   height: 100vh;
@@ -275,6 +275,7 @@ watch(
 /* تصویر محصول */
 .product-image img {
   max-width: 300px;
+  max-height: 50vh;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.5s ease, box-shadow 0.3s ease;
