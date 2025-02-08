@@ -209,8 +209,8 @@ watch(
   align-items: flex-start;
   justify-content: flex-end;
   //gap: 10px;
-  width: 60vw;
-  height: 100vh;
+  max-width: 60%;
+  height: 50%;
   background-color: #f9f9f9; /* پس‌زمینه ملایم */
   padding: 1.5rem;
   border-radius: 10px;
@@ -280,8 +280,8 @@ watch(
 
 /* تصویر محصول */
 .product-image img {
-  width: 40px;
-  max-height: 100vh;
+  max-width: 300px;
+  max-height: 50vh;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.5s ease, box-shadow 0.3s ease;
@@ -555,10 +555,8 @@ button.loading::after {
   }
   .product-info {
     order: 2; /* اطلاعات زیر تصویر قرار می‌گیرند */
-    width: 100vw; /* عرض کامل */
-    max-width: 100vw;
-    height: 100vh;
-    max-height: 100vh;
+    width: 100%; /* عرض کامل */
+    max-width: 100%;
     //padding: 1rem;
     box-sizing: border-box;
     background: #f9f9f9; /* پس‌زمینه ملایم */
