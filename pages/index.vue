@@ -514,6 +514,7 @@ onMounted(() => {
 }
 /* محتویات کارت */
 .product-card-content {
+  font-family: 'Vazirmatn', sans-serif;
   direction: rtl;
   padding: 10px;
 }
@@ -560,12 +561,10 @@ onMounted(() => {
   color: #555;
   }
 .product-card-content .price {
-  font-family: 'Vazirmatn', sans-serif;
   font-weight: bold;
   color: #333;
 }
 .product-card-content .stock {
-  font-family: 'Vazirmatn', sans-serif;
   color: #666;
 }
 .star-rating {
