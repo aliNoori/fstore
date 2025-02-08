@@ -136,14 +136,14 @@
               <!-- Cart Icon -->
               <button @click="addToCart(product.id)">
                 <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
-                <span v-if="product.cart_count > 0" class="badge">{{ product.cart_count }}</span>
+                <span v-if="product.cart_count > 0" class="badge">{{ toPersian(product.cart_count) }}</span>
               </button>
             </div>
 
 
             <h3>{{ product.name }}</h3>
-            <p class="price">قیمت: {{ product.price }}</p>
-            <p class="stock">موجودی: {{ product.stock }}</p>
+            <p class="price">قیمت: {{ toPersian(product.price) }}</p>
+            <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
 
             <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
             <div v-if="product.reviews && product.reviews.length > 0" class="star-rating">
@@ -199,6 +199,11 @@ const heartFilled = `
 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <path d="M12 21s-6-4.35-9.31-7.87A5.42 5.42 0 0 1 3.6 5.59a5.5 5.5 0 0 1 7.8 0L12 7l.6-.6a5.5 5.5 0 0 1 7.8 0 5.42 5.42 0 0 1 .91 7.54C18 16.65 12 21 12 21z"></path>
 </svg>`;
+
+const toPersian = (number) => {
+  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[digit]);
+};
 // نمایش/مخفی کردن پیام‌ها
 const toggleMessages = () => {
   isMessagesOpen.value = !isMessagesOpen.value;

@@ -5,13 +5,13 @@
       <div class="product-info" data-aos="fade-up">
         <h1>{{ product.name }}</h1>
         <p class="description">{{ product.description }}</p>
-        <p class="price">قیمت: {{ product.price }} تومان</p>
+        <p class="price">قیمت: {{ toPersian(product.price) }} تومان</p>
         <p class="stock" :class="{ 'out-of-stock': product.stock === 0 }">
-          موجودی: {{ product.stock > 0 ? product.stock : 'ناموجود' }}
+          موجودی: {{ product.stock > 0 ? toPersian(product.stock) : 'ناموجود' }}
         </p>
         <button @click.prevent="addToCart(product.id)" class="add-to-cart-btn">
           <i class="fas fa-shopping-cart"></i> افزودن به سبد خرید
-          <span v-if="cartCount > 0" class="cart-badge">{{ cartCount }}</span>
+          <span v-if="cartCount > 0" class="cart-badge">{{ toPersian(cartCount) }}</span>
         </button>
       </div>
       <div class="product-image" data-aos="zoom-in">
@@ -81,6 +81,11 @@ const product = ref(null);
 const newComment = ref('');
 const newRating = ref(0);
 const cartCount = ref(0);
+
+const toPersian = (number) => {
+  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[digit]);
+};
 
 // دریافت اطلاعات محصول
 async function fetchProduct() {
