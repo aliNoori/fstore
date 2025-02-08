@@ -56,11 +56,11 @@
 
         <h2>Store</h2>
         <!-- اضافه کردن آیکون‌های جدید -->
-<!--        <div class="icons">
+        <div class="icons">
           <div class="icon" @click="toggleMessages">
             <i class="fas fa-envelope"></i>
-            <span v-if="messages.length>0" class="ribbon-badge">{{ messages.length }}</span> &lt;!&ndash; تعداد پیام‌ها &ndash;&gt;
-            &lt;!&ndash; نمایش پیام‌ها &ndash;&gt;
+            <span v-if="messages.length>0" class="ribbon-badge">{{ messages.length }}</span> <!-- تعداد پیام‌ها -->
+            <!-- نمایش پیام‌ها -->
             <div class="messages-section" v-if="isMessagesOpen && messages.length">
               <h2>Messages</h2>
               <div class="message" v-for="(message, index) in messages" :key="index">
@@ -80,7 +80,7 @@
           <div class="icon" @click="goToInfo">
             <i class="fas fa-info-circle"></i>
           </div>
-        </div>-->
+        </div>
         <div class="menu-icon" @click="toggleMenu">
           <span></span>
           <span></span>
