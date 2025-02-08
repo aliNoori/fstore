@@ -4,7 +4,8 @@
     <div class="steps-wrapper">
       <div v-for="(step, index) in steps" :key="index" class="step-container">
         <!-- دایره مربوط به هر مرحله -->
-        <div :class="['step-circle', { 'step-active': index + 1 <= currentStep }, { 'step-raised': index + 1 === currentStep }]">
+        <div
+            :class="['step-circle', { 'step-active': index + 1 <= currentStep }, { 'step-raised': index + 1 === currentStep }]">
           <span>{{ toPersian(step.number) }}</span>
         </div>
         <!-- نام مرحله -->
@@ -21,20 +22,24 @@
     <div v-if="currentStep === 1" class="page card">
       <h2>سبد خرید</h2>
       <div class="items">
-      <div v-for="product in cartItems.cart.items" :key="product.id" class="item-card">
-        <div class="image">
-          <img :src="product.product.image ? `${config.public.API_BASE_URL}${product.product.image.path}` : '/default-product-image.jpg'" :alt="product.product.name" />
+        <div v-for="product in cartItems.cart.items" :key="product.id" class="item-card">
+          <div class="image">
+            <img
+                :src="product.product.image ? `${config.public.API_BASE_URL}${product.product.image.path}` : '/default-product-image.jpg'"
+                :alt="product.product.name"/>
+          </div>
+          <div class="product-details">
+            <div class="product-name">{{ product.product.name }}</div>
+            <div class="product-price">قیمت:{{ toPersian(product.product.price) }}</div>
+            <div class="product-quantity">تعداد:{{ toPersian(product.quantity) }}</div>
+          </div>
+          <div class="buttons">
+            <NuxtLink :to="`/product/${product.product.id}`">
+              <button class="product-info-btn">اطلاعات محصول</button>
+            </NuxtLink>
+            <button @click="removeFromCart(product.product.id)" class="rm-item-card-btn">حذف از سبد خرید</button>
+          </div>
         </div>
-        <div class="product-details">
-        <div class="product-name">{{ product.product.name }}</div>
-        <div class="product-price">قیمت:{{ toPersian(product.product.price) }}</div>
-        <div class="product-quantity">تعداد:{{ toPersian(product.quantity) }}</div>
-        </div>
-        <div class="buttons">
-          <NuxtLink :to="`/product/${product.product.id}`"><button class="product-info-btn">اطلاعات محصول</button></NuxtLink>
-        <button @click="removeFromCart(product.product.id)" class="rm-item-card-btn">حذف از سبد خرید</button>
-        </div>
-      </div>
       </div>
       <div class="controls">
         <button @click="() => { fetchUserAddresses(); nextStep(); }">ثبت آدرس</button>
@@ -108,21 +113,22 @@
             </label>
           </div>
         </div>
-      <div class="controls">
-        <button @click="previousStep">برگشت به انتخاب آدرس</button>
-        <button @click="() => {
+        <div class="controls">
+          <button @click="previousStep">برگشت به انتخاب آدرس</button>
+          <button @click="() => {
     handleSelectedShippingMethods()
         .then(fetchUser)
         .then(createInvoice)
         .then(nextStep)
-        .catch(error => console.error(error));}">صدور فاکتور</button>
+        .catch(error => console.error(error));}">صدور فاکتور
+          </button>
+        </div>
       </div>
-    </div>
     </div>
     <div v-if="currentStep === 4" class="page invoice">
       <h2>صدور فاکتور</h2>
       <div class="body">
-        <div v-if="isLoading"> Loading... </div>
+        <div v-if="isLoading"> Loading...</div>
         <div class="invoice-container">
           <!-- سربرگ فاکتور -->
           <div class="invoice-header">
@@ -200,7 +206,9 @@
       </div>
       <div class="controls">
         <button @click="previousStep">برگست به روش ارسال</button>
-        <button @click="() => {fetchPaymentMethods().then(nextStep).catch(error => console.error(error));}">انتخاب روش پرداخت</button>
+        <button @click="() => {fetchPaymentMethods().then(nextStep).catch(error => console.error(error));}">انتخاب روش
+          پرداخت
+        </button>
       </div>
     </div>
     <div v-if="currentStep === 5" class="page payment">
@@ -241,24 +249,57 @@
         <button @click="() => {
          handleSelectedPaymentMethods()
         .then(nextStep)
-        .catch(error => console.error(error));}">انتخاب درگاه پرداخت</button>
+        .catch(error => console.error(error));}">انتخاب درگاه پرداخت
+        </button>
       </div>
     </div>
-    <div v-if="currentStep === 6" class="page page6">
+    <div v-if="currentStep === 6" class="page online-payment-methods">
       <h2>انتخاب درگاه پرداخت</h2>
-      <p>درگاه پرداخت خود را تکمیل کنید.</p>
-      <div class="controls">
-        <button @click="previousStep">برگشت به درگاه پرداخت</button>
-        <button @click="nextStep">اتصال به بانک</button>
+      <div id="online-method-selection-page">
+        <!-- Cards container in the middle -->
+        <div class="online-cards-container">
+          <div
+              v-for="onlineMethod in onlinePaymentMethods"
+              :key="onlineMethod.id"
+              class="online-card"
+              :class="{ selected: selectedOnlinePaymentMethod === onlineMethod.id }"
+              @click="selectedOnlinePaymentMethod = onlineMethod.id"
+          >
+            <label>
+              <input
+                  type="radio"
+                  :value="onlineMethod.id"
+                  v-model="selectedOnlinePaymentMethod"
+                  required
+                  hidden
+              />
+              <h3>{{ onlineMethod.name }}</h3>
+              <img
+                  :src="onlineMethod.image ? `${$config.public.API_BASE_URL}${onlineMethod.image.path}` : '/default-payment-image.jpg'"
+                  :alt="onlineMethod.name"
+              />
+
+            </label>
+          </div>
+        </div>
+        <div class="controls">
+          <button @click="previousStep">برگشت به انتخاب روش پرداخت</button>
+          <button @click="() => {
+            handleSelectedOnlineMethods()
+            .then(nextStep)
+            .catch(error => console.error(error));}">اتصال به درگاه
+          </button>
+        </div>
       </div>
     </div>
 
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref, onMounted} from 'vue';
 import {useNuxtApp, useRuntimeConfig} from '#app';
-const router=useRouter();
+
+const router = useRouter();
 /////////// convert number to persian ///////
 // تبدیل اعداد به فارسی
 const toPersian = (number) => {
@@ -267,12 +308,12 @@ const toPersian = (number) => {
 };
 // تعداد مراحل و نام‌های هر مرحله
 const steps = [
-  { number: 1, name: 'سبد' },
-  { number: 2, name: 'آدرس' },
-  { number: 3, name: 'ارسال' },
-  { number: 4, name: 'فاکتور' },
-  { number: 5, name: 'درگاه' },
-  { number: 6, name: 'پرداخت' }
+  {number: 1, name: 'سبد'},
+  {number: 2, name: 'آدرس'},
+  {number: 3, name: 'ارسال'},
+  {number: 4, name: 'فاکتور'},
+  {number: 5, name: 'درگاه'},
+  {number: 6, name: 'پرداخت'}
 ];
 
 // مرحله فعلی
@@ -295,7 +336,7 @@ const previousStep = () => {
 
 //////////////// Fetch Cart Items /////////
 
-const { $axios } = useNuxtApp(); // Using Nuxt Axios
+const {$axios} = useNuxtApp(); // Using Nuxt Axios
 const cartItems = ref({});
 const config = useRuntimeConfig();
 const fetchCartItems = async () => {
@@ -332,7 +373,7 @@ const removeFromCart = async (productId) => {
   }
 };
 ////////////////// Fetch Addresses ///////////
-const addresses=ref([]);
+const addresses = ref([]);
 const fetchUserAddresses = async () => {
   try {
     const response = await $axios.get('user/addresses');
@@ -342,21 +383,21 @@ const fetchUserAddresses = async () => {
   }
 };
 ///////////// Selected Address Manage ////////////
-const selectedAddress=ref(null);
-const order=ref([]);
+const selectedAddress = ref(null);
+const order = ref([]);
 const handleSelectedAddress = async () => {
-      if (!selectedAddress.value) {
-        console.error('No address selected');
-        return;
-      }
-      try {
-        const response = await $axios.post(`user/create/order/${selectedAddress.value}`);
-        order.value = response.data.order;
-        localStorage.setItem('order_number', JSON.stringify(order.value.order_number));
-        console.log('Address added to order:', response.data.order);
-      } catch (error) {
-        console.error('Failed to add address to order:', error);
-      }
+  if (!selectedAddress.value) {
+    console.error('No address selected');
+    return;
+  }
+  try {
+    const response = await $axios.post(`user/create/order/${selectedAddress.value}`);
+    order.value = response.data.order;
+    localStorage.setItem('order_number', JSON.stringify(order.value.order_number));
+    console.log('Address added to order:', response.data.order);
+  } catch (error) {
+    console.error('Failed to add address to order:', error);
+  }
 };
 const editAddress = (addressId) => {
   // انتقال به صفحه ویرایش آدرس با شناسه آدرس
@@ -371,9 +412,9 @@ const addNewAddress = async () => {
 };
 
 ////////////// Add Shipping Methods //////////////
-const shippingMethods=ref([]);
-const selectedShippingMethod=ref(null);
-const fetchShippingMethods= async ()=> {
+const shippingMethods = ref([]);
+const selectedShippingMethod = ref(null);
+const fetchShippingMethods = async () => {
   try {
     const response = await $axios.get('/shippingMethod/list'); // مسیر API برای دریافت آدرس‌ها
     shippingMethods.value = response.data.shippingMethods;
@@ -397,21 +438,21 @@ const handleSelectedShippingMethods = async () => {
   }
 }
 //////////////// Create Invoice //////////////////
-const invoice=ref({});
-const isLoading=ref(true); // وضعیت بارگذاری
-const user=ref({});
-const createInvoice = async ()=> {
+const invoice = ref({});
+const isLoading = ref(true); // وضعیت بارگذاری
+const user = ref({});
+const createInvoice = async () => {
   try {
     const order_number = JSON.parse(localStorage.getItem('order_number'));
     const response = await $axios.get(`invoice/create/${order_number}`);
     invoice.value = response.data.invoice;
   } catch (error) {
     console.error("Invoice error:", error.response ? error.response.data : error);
-  }finally {
+  } finally {
     isLoading.value = false; // پایان بارگذاری
   }
 };
-const fetchUser = async ()=> {
+const fetchUser = async () => {
   try {
     const response = await $axios.get('user/profile');
     user.value = response.data;
@@ -421,9 +462,9 @@ const fetchUser = async ()=> {
   }
 };
 //////////////////////////// Payment Methods //////////////
-const paymentMethods=ref([]);
-const selectedPaymentMethod=ref(null);
-const fetchPaymentMethods= async ()=> {
+const paymentMethods = ref([]);
+const selectedPaymentMethod = ref(null);
+const fetchPaymentMethods = async () => {
   try {
     const response = await $axios.get('/paymentMethod/list'); // مسیر API برای دریافت آدرس‌ها
     paymentMethods.value = response.data.paymentMethods;
@@ -431,7 +472,7 @@ const fetchPaymentMethods= async ()=> {
     console.error('Failed to load shippingMethods:', error);
   }
 };
-const handleSelectedPaymentMethods= async ()=> {
+const handleSelectedPaymentMethods = async () => {
   if (!selectedPaymentMethod.value) {
     console.error('No shippingMethod selected');
     return;
@@ -440,14 +481,41 @@ const handleSelectedPaymentMethods= async ()=> {
     const response = await $axios.post(`user/manageSelectedPayment/${selectedPaymentMethod.value}`); // ارسال آدرس انتخاب شده به سرور
     console.log(response.data.action)
     console.log('PaymentMethod :', response.data.action);
-    if(response.data.action==='Online'){
-
+    if (response.data.action === 'Online') {
+      await loadOnlineMethods();
     }
-
   } catch (error) {
     console.error('Failed to selected paymentMethod :', error);
   }
 }
+/////////////////// Online Methods ///////////////
+const onlinePaymentMethods = ref([]);
+const selectedOnlinePaymentMethod = ref(null);
+const loadOnlineMethods = async () => {
+  try {
+    const response = await this.$axios.get('/onlineMethodGateway/list'); // مسیر API برای دریافت آدرس‌ها
+    onlinePaymentMethods.value = response.data.onlinePaymentMethods;
+  } catch (error) {
+    console.error('Failed to load shippingMethods:', error);
+  }
+};
+const handleSelectedOnlineMethods = async () => {
+  if (!selectedOnlinePaymentMethod.value) {
+    console.error('No OnlineMethod selected');
+    return;
+  }
+  try {
+    // دریافت در صفحه بعدی
+    const order_number = JSON.parse(localStorage.getItem('order_number'));
+    const response = await this.$axios.post(`user/processPayment/${order_number}/${this.selectedOnlinePaymentMethod}`); // ارسال آدرس انتخاب شده به سرور
+    console.log('url :', response.data.url);
+    window.location.href = response.data.url; // هدایت کاربر به URL پرداخت
+
+  } catch (error) {
+    console.error('Failed to selected onlinePaymentMethods :', error);
+  }
+};
+
 /////////////////On Mounted /////////
 onMounted(() => {
   fetchCartItems();
@@ -525,6 +593,7 @@ onMounted(() => {
 .step-line.line-active {
   background: #4caf50;
 }
+
 .controls {
   display: flex;
   justify-content: space-between;
@@ -561,10 +630,9 @@ onMounted(() => {
 }
 
 
-
 .step-content {
   width: 100%;
-  //padding: 1rem 0;
+//padding: 1rem 0;
 }
 
 .page {
@@ -575,9 +643,11 @@ onMounted(() => {
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-.card{
+
+.card {
   width: 100%;
 }
+
 .card .items {
   display: flex;
   flex-wrap: wrap;
@@ -672,6 +742,7 @@ onMounted(() => {
   transform: scale(0.98);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 .buttons .rm-item-card-btn {
   padding: 0.3rem 1rem;
   font-size: 0.85rem;
@@ -694,6 +765,7 @@ onMounted(() => {
   transform: scale(0.98);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 h2 {
   font-size: 1.8rem; /* اندازه مناسب برای تیتر */
   font-weight: bold; /* ضخامت متن */
@@ -761,6 +833,7 @@ h2:hover::after {
     justify-content: center;
   }
 }
+
 @media (max-width: 420px) {
   .buttons {
     flex-direction: column;
@@ -840,6 +913,7 @@ h2:hover::after {
   color: white;
   border-color: #388e3c;
 }
+
 .add-address-card {
   display: flex;
   flex-direction: column;
@@ -874,16 +948,19 @@ h2:hover::after {
 }
 
 @media (max-width: 768px) {
-  .address-cards-container{
+  .address-cards-container {
     flex-direction: column-reverse;
     align-items: center;
   }
-  .add-address-card{
+
+  .add-address-card {
     width: 100%;
   }
+
   .address-card {
     width: calc(50% - 20px);
   }
+
   @media (max-width: 768px) {
     .controls {
       flex-direction: column;
@@ -902,9 +979,10 @@ h2:hover::after {
 }
 
 @media (max-width: 480px) {
-  .address-cards-container{
+  .address-cards-container {
     justify-content: center;
   }
+
   .address-card {
     width: 100%;
   }
@@ -982,7 +1060,8 @@ h2:hover::after {
   gap: 20px;
   justify-content: flex-start;
 }
-.payment-card{
+
+.payment-card {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -998,6 +1077,7 @@ h2:hover::after {
   cursor: pointer;
   text-align: center; /* متن وسط‌چین */
 }
+
 .payment-card:hover {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
@@ -1006,6 +1086,7 @@ h2:hover::after {
   border-color: #4caf50;
   box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
 }
+
 .header-payment-card {
   width: 100%;
   display: flex;
@@ -1031,6 +1112,7 @@ h2:hover::after {
   border-radius: 5px;
   margin: 0; /* حذف فاصله‌های اضافی */
 }
+
 .payment-card p {
   font-size: 0.9rem;
   color: #666;
@@ -1053,6 +1135,7 @@ h2:hover::after {
     width: 100%;
   }
 }
+
 /* استایل برای موبایل */
 @media (max-width: 768px) {
   .payment-cards-container {
@@ -1071,6 +1154,106 @@ h2:hover::after {
   }
 }
 
+.online-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.online-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: relative;
+  width: calc(33.333% - 20px); /* برای نمایش سه کارت در یک ردیف */
+  max-width: 300px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center; /* متن وسط‌چین */
+}
+
+.online-card:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.online-card.selected {
+  border-color: #4caf50;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.header-online-card {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse; /* برای راست‌چین بودن */
+  align-items: center; /* هم‌تراز کردن عمودی تصویر و متن */
+  justify-content: space-between; /* فاصله بین تصویر و متن */
+  gap: 10px; /* فاصله بین تصویر و متن */
+}
+
+.header-online-card h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0; /* حذف فاصله‌های اضافی */
+  text-align: right; /* متن راست‌چین */
+  flex-grow: 1; /* متن فضای باقی‌مانده را پر می‌کند */
+}
+
+.header-online-card img {
+  width: 50px; /* تنظیم اندازه مناسب برای تصویر */
+  height: 50px;
+  object-fit: cover; /* جلوگیری از تغییر نسبت تصویر */
+  border-radius: 5px;
+  margin: 0; /* حذف فاصله‌های اضافی */
+}
+
+.online-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 768px) {
+  .online-cards-container {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .online-card {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 460px) {
+  .online-card {
+    width: 100%;
+  }
+}
+
+/* استایل برای موبایل */
+@media (max-width: 768px) {
+  .online-cards-container {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .card {
+    width: calc(50% - 20px); /* نمایش دو کارت در موبایل */
+  }
+}
+
+@media (max-width: 460px) {
+  .card {
+    width: 100%; /* کارت‌ها به صورت تمام‌عرض در موبایل‌های کوچک */
+  }
+}
 
 .body {
   direction: rtl;
@@ -1081,6 +1264,7 @@ h2:hover::after {
   min-height: 100vh;
   overflow-y: auto; /* امکان اسکرول عمودی */
 }
+
 .invoice-container {
   font-family: 'IRANSans', sans-serif;
   background: #f9f9f9;
@@ -1215,6 +1399,7 @@ h2:hover::after {
   .invoice-items {
     overflow-x: auto; /* فعال شدن اسکرول افقی در موبایل */
   }
+
   .invoice-items::-webkit-scrollbar {
     display: none; /* مخفی کردن نوار اسکرول */
   }
