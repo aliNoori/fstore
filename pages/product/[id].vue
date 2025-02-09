@@ -5,7 +5,7 @@
       <div class="product-info" data-aos="fade-up">
         <h1>{{ product.name }}</h1>
         <p class="description">{{ product.description }}</p>
-        <p class="price">قیمت: {{ toPersian(product.price) }} تومان</p>
+        <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }} تومان</p>
         <p class="stock" :class="{ 'out-of-stock': product.stock === 0 }">
           موجودی: {{ product.stock > 0 ? toPersian(product.stock) : 'ناموجود' }}
         </p>
@@ -53,7 +53,7 @@
                 <img :src="comment.user.image ? `${config.public.API_BASE_URL}${comment.user.image.path}` : '/default-avatar.png'" alt="User Image" class="user-avatar" />
                 <div class="comment-user-info">
                   <p class="user-name">{{ comment.user.name }}</p>
-                  <p class="user-username">{{ comment.user.username }}</p>
+<!--                  <p class="user-username">{{ comment.user.username }}</p>-->
                   <p class="comment-rating">امتیاز: {{ comment.rating }}</p>
                 </div>
               </div>
@@ -85,6 +85,9 @@ const cartCount = ref(0);
 const toPersian = (number) => {
   const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[digit]);
+};
+const formatPrice = (price) => {
+  return Math.floor(price).toLocaleString('fa-IR');
 };
 
 // دریافت اطلاعات محصول

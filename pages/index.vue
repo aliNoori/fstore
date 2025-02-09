@@ -117,7 +117,7 @@
       <div class="product-list">
         <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
           <!-- برچسب تخفیف در صورت وجود تخفیف -->
-          <div v-if="product.discount" class="discount-badge">{{ toPersian(product.discount) }}% تخفیف</div>
+          <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
 
           <!-- تصویر محصول -->
           <img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />

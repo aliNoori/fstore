@@ -2,7 +2,7 @@
   <div class="order-container">
     <!-- اطلاعات سفارش -->
     <div class="order-details special-background">
-      <div class="order-info" data-aos="fade-up">
+      <div class="order-info">
         <h1>سفارش شماره: #{{ order.order_number }}</h1>
         <p class="order-status">وضعیت: {{ getOrderStatus(order.status) }}</p>
         <p class="total-amount">مبلغ کل: {{ toPersian(formatPrice(order.total_amount)) }} تومان</p>
@@ -25,7 +25,7 @@
       <p>{{ order.shipping_method.name }}</p>
       <p>{{ order.shipping_method.description }}</p>
       <p>هزینه ارسال: {{ toPersian(order.shipping_method.cost) }} تومان</p>
-      <p>{{ order.shipping_method.delivery_time }}</p>
+      <p>{{ toPersian(order.shipping_method.delivery_time) }}</p>
     </div>
 
     <!-- اقلام سفارش -->
