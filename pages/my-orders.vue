@@ -9,12 +9,12 @@
       </div>
       <div class="order-body">
         <p>اقلام سفارش: {{ toPersian(order.items.length) }}</p>
-        <p>مبلغ پرداخت شده: ${{ toPersian(order.total_amount) }}</p>
+        <p>مبلغ پرداخت شده: {{ toPersian(formatPrice(order.total_amount)) }} تومان</p>
       </div>
       <div class="order-footer">
         <div class="order-status">{{ getOrderStatus(order.status) }}</div>
         <div class="order-actions">
-          <a href="#">نمایش جزییات</a>
+          <NuxtLink :to="`/order/${order.id}`">نمایش جزییات</NuxtLink>
         </div>
       </div>
     </div>
@@ -29,6 +29,9 @@ import jalaali from 'jalaali-js';
 
 const orders = ref([]);
 const {$axios} = useNuxtApp(); // Inject Axios from Nuxt context
+const formatPrice = (price) => {
+  return Math.floor(price).toLocaleString('fa-IR');
+};
 const toPersian = (number) => {
   const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[digit]);

@@ -145,7 +145,7 @@
 
 
             <h3>{{ product.name }}</h3>
-            <p class="price">قیمت: {{ toPersian(product.price) }}</p>
+            <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }}تومان</p>
             <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
 
             <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
@@ -203,6 +203,9 @@ const heartFilled = `
   <path d="M12 21s-6-4.35-9.31-7.87A5.42 5.42 0 0 1 3.6 5.59a5.5 5.5 0 0 1 7.8 0L12 7l.6-.6a5.5 5.5 0 0 1 7.8 0 5.42 5.42 0 0 1 .91 7.54C18 16.65 12 21 12 21z"></path>
 </svg>`;
 
+const formatPrice = (price) => {
+  return Math.floor(price).toLocaleString('fa-IR');
+};
 const toPersian = (number) => {
   const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[digit]);
