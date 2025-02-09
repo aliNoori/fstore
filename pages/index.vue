@@ -757,7 +757,7 @@ button .material-icons-outlined {
   height: 30px;
   cursor: pointer;
   position: relative;
-  right: 240px;
+  right: 180px;
 }
 
 .menu-icon-sidebar .arrow {
