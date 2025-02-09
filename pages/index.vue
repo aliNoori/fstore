@@ -2,7 +2,10 @@
     <!-- سایدبار ثابت در سمت چپ -->
     <aside class="sidebar" :class="{ open: isMenuOpen }">
       <div class="sidebar-content">
-        <h1 class="sidebar-title">User Info</h1>
+        <div class="menu-icon-sidebar" @click="toggleMenu">
+          <span class="arrow"></span>
+        </div>
+        <h1 class="sidebar-title">پروفایل</h1>
         <!-- نمایش اطلاعات کاربر اگر موجود باشد -->
         <div v-if="user" class="user-info">
           <img :src="user.image ? `${config.public.API_BASE_URL}${user.image.path}` : '/default-avatar.png'" :alt="user.name" class="user-avatar" />
@@ -11,37 +14,37 @@
             <div class="user-points">{{ user.scores }}</div>
           </div>
 
-          <button @click="logout" class="logout-button">Logout</button>
+          <button @click="logout" class="logout-button">خروج</button>
         </div>
         <div v-else>
-          <NuxtLink to="/login" class="sidebar-link">Login</NuxtLink>
-          <NuxtLink to="/register" class="sidebar-link">Register</NuxtLink>
+          <NuxtLink to="/login" class="sidebar-link">ورود</NuxtLink>
+          <NuxtLink to="/register" class="sidebar-link">ثبت نام</NuxtLink>
         </div>
 
         <!-- منوی سایدبار -->
         <div v-if="user" class="user-info">
           <nav class="sidebar-menu">
             <NuxtLink to="/my-wallet">
-              My Wallet
-              <span v-if="user.wallet_balance > 0" class="badge-sidebar">{{ user.wallet_balance }}</span>
+              کیف پول
+              <span v-if="user.wallet_balance > 0" class="badge-sidebar">{{ toPersian(user.wallet_balance) }}</span>
             </NuxtLink>
             <NuxtLink to="/my-scores">
-              My Scores
-              <span v-if="user.score > 0" class="badge-sidebar">{{ user.score }}</span>
+              امتیازات
+              <span v-if="user.score > 0" class="badge-sidebar">{{ toPersian(user.score) }}</span>
             </NuxtLink>
             <NuxtLink to="/my-coupons">
-              My Coupons
-              <span v-if="user.coupons_count > 0" class="badge-sidebar">{{ user.coupons_count }}</span>
+              کد های تخفیف
+              <span v-if="user.coupons_count > 0" class="badge-sidebar">{{ toPersian(user.coupons_count) }}</span>
             </NuxtLink>
             <NuxtLink to="/my-orders">
-              My Orders
-              <span v-if="user.orders_count > 0" class="badge-sidebar">{{ user.orders_count }}</span>
+              سفارشات
+              <span v-if="user.orders_count > 0" class="badge-sidebar">{{ toPersian(user.orders_count) }}</span>
             </NuxtLink>
             <NuxtLink to="/steps-to-order">
-              My Cart
-              <span v-if="user.items_cart > 0" class="badge-sidebar">{{ user.items_cart }}</span>
+              سبد خرید
+              <span v-if="user.items_cart > 0" class="badge-sidebar">{{ toPersian(user.items_cart) }}</span>
             </NuxtLink>
-            <NuxtLink to="/admin/admin-panel">Admin Panel</NuxtLink>
+            <NuxtLink to="/admin/admin-panel">صفحه مدیریت</NuxtLink>
           </nav>
         </div>
         <div v-else></div>
@@ -59,7 +62,7 @@
         <div class="icons">
           <div class="icon" @click="toggleMessages">
             <i class="fas fa-envelope"></i>
-            <span v-if="messages.length>0" class="ribbon-badge">{{ messages.length }}</span> <!-- تعداد پیام‌ها -->
+            <span v-if="messages.length>0" class="ribbon-badge">{{ toPersian(messages.length) }}</span> <!-- تعداد پیام‌ها -->
             <!-- نمایش پیام‌ها -->
             <div class="messages-section" v-if="isMessagesOpen && messages.length">
               <h2>Messages</h2>
@@ -71,7 +74,7 @@
           <div class="icon" @click="goToCart">
             <NuxtLink to="/steps-to-order">
             <i class="fas fa-shopping-cart"></i>
-            <span v-if="user&&user.items_cart > 0" class="cart-badge">{{ user.items_cart }}</span>
+            <span v-if="user&&user.items_cart > 0" class="cart-badge">{{ toPersian(user.items_cart) }}</span>
             </NuxtLink>
           </div>
           <div class="icon" @click="goToContactUs">
@@ -396,7 +399,7 @@ onMounted(() => {
 .sidebar {
   width: 250px;
   top: 0;
-  left: -350px; /* در حالت بسته */
+  right: -350px; /* در حالت بسته */
   transition: all 0.3s ease-in-out; /* انیمیشن باز/بسته شدن */
   padding: 20px;
   background: linear-gradient(145deg, #222, #444); /* گرادیان رنگی جدید */
@@ -405,6 +408,7 @@ onMounted(() => {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* سایه برای زیبایی */
   position: fixed;
   z-index: 1000;
+  font-family: 'Vazirmatn', sans-serif;
 
 }
 .sidebar-content {
@@ -417,6 +421,7 @@ onMounted(() => {
   max-height: calc(100vh - 40px); /* جلوگیری از نمایش بیش از حد */
 }
 .sidebar-title {
+  font-family: 'Vazirmatn', sans-serif;
   font-size: 2rem;
   margin-bottom: 25px;
   color: #fff;
@@ -678,6 +683,7 @@ button .material-icons-outlined {
 }
 
 .sidebar-menu {
+  font-family: 'Vazirmatn', sans-serif;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -687,6 +693,7 @@ button .material-icons-outlined {
 
 .sidebar-menu a {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center; /* تراز عمودی لینک و badge */
   color: #fff;
@@ -722,9 +729,9 @@ button .material-icons-outlined {
   color: #ccc; /* رنگ خاکستری برای ستاره‌های خالی */
 }
 .badge-sidebar {
-  background-color: #28a745;
+  background-color: #0c3fff;
   color: white;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   padding: 2px 8px;
   border-radius: 10px;
   display: inline-block;
@@ -742,8 +749,32 @@ button .material-icons-outlined {
   margin: 5px 0;
   transition: 0.3s;
 }
+.menu-icon-sidebar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  position: relative;
+  right: 240px;
+}
+
+.menu-icon-sidebar .arrow {
+  width: 10px;
+  height: 10px;
+  border-left: 2px solid #f5f5f5;
+  border-top: 2px solid #f5f5f5;
+  transform: rotate(135deg);
+  transition: all 0.3s ease-in-out;
+}
+
+.menu-icon-sidebar.open .arrow {
+  transform: rotate(-45deg);
+}
+
 .sidebar.open {
-  left: 0;
+  right: 0;
 }
 .ribbon-badge {
   position: absolute;
@@ -841,6 +872,7 @@ button .material-icons-outlined {
   object-fit: cover;
 }
 .slide-item h3 {
+  font-family: 'Vazirmatn', sans-serif;
   padding: 10px;
 }
 .icons{

@@ -1,31 +1,51 @@
 <template>
   <div class="orders-container">
-    <div v-for="order in orders" :key="order.id" class="order-card">
+    <div v-for="order in orders"
+         :key="order.id"
+         :class="['order-card', { 'pending-order': order.status === 'pending','complete-order':order.status==='completed' }]">
       <div class="order-header">
-        <div class="order-title">Order #{{ order.order_number }}</div>
-        <div class="order-date">Added on: {{ new Date(order.created_at).toLocaleString() }}</div>
+        <div class="order-title"> سفارش شماره: # {{ order.order_number }}</div>
+        <div class="order-date">تاریخ ایجاد سفارش: {{ toPersianDate(order.created_at) }}</div>
       </div>
       <div class="order-body">
-        <p>Items: {{ order.items.length }}</p>
-        <p>Total: ${{ order.total_amount }}</p>
+        <p>اقلام سفارش: {{ toPersian(order.items.length) }}</p>
+        <p>مبلغ پرداخت شده: ${{ toPersian(order.total_amount) }}</p>
       </div>
       <div class="order-footer">
-        <div class="order-status">{{ order.status }}</div>
+        <div class="order-status">{{ getOrderStatus(order.status) }}</div>
         <div class="order-actions">
-          <a href="#">View Details</a>
+          <a href="#">نمایش جزییات</a>
         </div>
       </div>
     </div>
   </div>
 </template>
 
+
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useNuxtApp } from '#app';
+import {ref, onMounted} from 'vue';
+import {useNuxtApp} from '#app';
+import jalaali from 'jalaali-js';
 
 const orders = ref([]);
-const { $axios } = useNuxtApp(); // Inject Axios from Nuxt context
-
+const {$axios} = useNuxtApp(); // Inject Axios from Nuxt context
+const toPersian = (number) => {
+  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[digit]);
+};
+const toPersianDate=(dateString)=> {
+  const date = new Date(dateString);
+  const jalaaliDate = jalaali.toJalaali(date);
+  return `${toPersian(jalaaliDate.jy)}/${toPersian(jalaaliDate.jm)}/${toPersian(jalaaliDate.jd)}`;
+}
+const getOrderStatus = (status) => {
+  if (status === 'pending') {
+    return 'پرداخت نشده';
+  } else if (status === 'completed') {
+    return 'پرداخت شده';
+  }
+  return status;
+}
 const fetchOrders = async () => {
   try {
     const response = await $axios.get('user/my/orders'); // Make sure the API URL is correct
@@ -41,23 +61,18 @@ onMounted(() => {
 </script>
 
 <style scoped>
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f4f7f6;
-  margin: 0;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
 .orders-container {
+  font-family: Vazirmatn, sans-serif;
+  direction: rtl;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   max-width: 1200px;
   width: 100%;
+  padding: 10px;
+}
+.order-header, .order-body, .order-footer {
+  text-align: right;
 }
 
 .order-card {
@@ -68,7 +83,12 @@ body {
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   position: relative;
 }
-
+.order-card.pending-order {
+  background: #fff8e1;
+}
+.order-card.complete-order {
+  background: #d0f0c0;
+}
 .order-card:hover {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   transform: translateY(-5px);

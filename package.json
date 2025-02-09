@@ -15,6 +15,7 @@
     "@pinia/nuxt": "^0.5.5",
     "aos": "^2.3.4",
     "axios": "^1.7.7",
+    "jalaali-js": "^1.2.7",
     "laravel-echo": "^1.7.0",
     "nuxt": "^3.13.0",
     "pinia": "^2.2.4",
