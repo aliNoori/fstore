@@ -2,19 +2,19 @@
   <div class="scores-container">
     <div v-for="score in scores" :key="score.id" class="score-card">
       <div class="score-header">
-        <div class="score-title">{{ score.score }} Points</div>
-        <div class="score-date">Added on: {{ new Date(score.created_at).toLocaleString() }}</div>
+        <div class="score-title">{{ $toPersian($formatPrice(score.score)) }} امتیاز</div>
+        <div class="score-date"> تاریخ ایجاد: {{ $toPersian($toPersianDate(score.created_at))}}</div>
       </div>
       <div class="score-body">
-        <p>Reason: {{ score.reason }}</p>
-        <p>Description: {{ score.description }}</p>
+        <p>بابت: {{ score.reason }}</p>
+        <p>توضیحات : {{ score.description }}</p>
       </div>
-      <div class="score-footer">
+<!--      <div class="score-footer">
         <div class="score-reason">{{ score.reason }}</div>
         <div class="score-actions">
           <a href="#">View Details</a>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@ import { ref, onMounted } from 'vue';
 import { useNuxtApp } from '#app';
 
 const scores = ref([]);
-const { $axios } = useNuxtApp(); // Inject Axios from the Nuxt context
+const { $axios,$formatPrice,$toPersian,$toPersianDate } = useNuxtApp(); // Inject Axios from the Nuxt context
 
 const fetchScores = async () => {
   try {
@@ -54,6 +54,7 @@ body {
   min-height: 100vh;
 }
 .scores-container {
+  padding: 20Px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;

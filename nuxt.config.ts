@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     }
   },
   plugins: [
-    '~/plugins/axios.ts', // پلاگین برای interceptor ها
+    '~/plugins/axios.ts',
+    '~/plugins/helper.js',
     { src: '~/plugins/echo.js', mode: 'client' },
   ],
   postcss: {

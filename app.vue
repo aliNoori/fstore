@@ -7,5 +7,6 @@
 <style>
 .body {
   direction: rtl;
+  font-family:Vazirmatn, sans-serif;
 }
 </style>

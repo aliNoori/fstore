@@ -25,9 +25,14 @@
       <p>{{ toPersian(order.address.street) }}, {{ order.address.city }}</p>
       <p>{{ order.address.state }}, {{ toPersian(order.address.postal_code) }}</p>
       <p>{{ order.address.country }}</p>
+      <button class="edit-address-btn" @click="editAddress">
+        <span>ویرایش آدرس</span>
+      </button>
     </div>
     <div v-else>
-      <p>ادرس یافت نشد.</p>
+      <button class="add-address-btn" @click="addAddress">
+        <span>افزودن آدرس</span>
+      </button>
     </div>
 
     <!-- روش ارسال -->
@@ -38,9 +43,14 @@
       <p>{{ order.shipping_method.description }}</p>
       <p>هزینه ارسال: {{ toPersian(order.shipping_method.cost) }} تومان</p>
       <p>{{ toPersian(order.shipping_method.delivery_time) }}</p>
+      <button class="edit-shipping-method-btn" @click="editShippingMethod">
+        <span>ویرایش روش ارسال</span>
+      </button>
     </div>
     <div v-else>
-      <p>روش ارسال یافت نشد.</p>
+      <button class="add-shipping-method-btn" @click="addShippingMethod">
+        <span>افزودن روش ارسال</span>
+      </button>
     </div>
 
     <!-- اقلام سفارش -->
@@ -358,6 +368,66 @@ watch(
     width: 100%;
     max-width: 280px;
   }
+}
+.edit-address-btn {
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.edit-address-btn:hover {
+  background-color: #0056b3;
+}
+.add-address-btn {
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.add-address-btn:hover {
+  background-color: #0056b3;
+}
+.edit-shipping-method-btn {
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.edit-shipping-method-btn:hover {
+  background-color: #0056b3;
+}
+.add-shipping-method-btn {
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.add-shipping-method-btn:hover {
+  background-color: #0056b3;
 }
 
 </style>
