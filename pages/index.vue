@@ -116,6 +116,7 @@
       </div>
       <div class="product-list">
         <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
+          <NuxtLink :to="`/product/${product.id}`">
           <!-- برچسب تخفیف در صورت وجود تخفیف -->
           <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
 
@@ -159,7 +160,9 @@
       </span>
             </div>
             <div v-else class="no-rating">هنوز امتیازی ندارد</div>
+
           </div>
+          </NuxtLink>
         </div>
       </div>
     </div>

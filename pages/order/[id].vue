@@ -3,23 +3,35 @@
     <!-- اطلاعات سفارش -->
     <div class="order-details special-background">
       <div class="order-info">
-        <h1>سفارش شماره: #{{ order.order_number }}</h1>
+        <h3>کد سفارش : #{{ order.order_number }}</h3>
         <p class="order-status">وضعیت: {{ getOrderStatus(order.status) }}</p>
         <p class="total-amount">مبلغ کل: {{ toPersian(formatPrice(order.total_amount)) }} تومان</p>
         <p class="order-date">تاریخ ایجاد سفارش: {{ toPersianDate(order.created_at) }}</p>
+        <div class="order-actions">
+          <button v-if="order.status === 'pending'" class="order-btn complete-order-btn" @click="completeOrder">
+            <span>✔ تکمیل سفارش</span>
+          </button>
+          <button v-if="order.status === 'pending'" class="order-btn cancel-order-btn" @click="cancelOrder">
+            <span>✖ لغو سفارش</span>
+          </button>
+        </div>
+
       </div>
     </div>
 
     <!-- جزئیات آدرس -->
-    <div class="address-details">
+    <div v-if="order.address" class="address-details">
       <h2>آدرس ارسال:</h2>
       <p>{{ toPersian(order.address.street) }}, {{ order.address.city }}</p>
       <p>{{ order.address.state }}, {{ toPersian(order.address.postal_code) }}</p>
       <p>{{ order.address.country }}</p>
     </div>
+    <div v-else>
+      <p>ادرس یافت نشد.</p>
+    </div>
 
     <!-- روش ارسال -->
-    <div class="shipping-method">
+    <div v-if="order.shipping_method" class="shipping-method">
       <h2>روش ارسال:</h2>
       <img :src="`${config.public.API_BASE_URL}${order.shipping_method.image.path}`" :alt="order.shipping_method.name" />
       <p>{{ order.shipping_method.name }}</p>
@@ -27,9 +39,12 @@
       <p>هزینه ارسال: {{ toPersian(order.shipping_method.cost) }} تومان</p>
       <p>{{ toPersian(order.shipping_method.delivery_time) }}</p>
     </div>
+    <div v-else>
+      <p>روش ارسال یافت نشد.</p>
+    </div>
 
     <!-- اقلام سفارش -->
-    <div class="order-items">
+    <div v-if="order.items" class="order-items">
       <h2>اقلام سفارش:</h2>
       <ul>
         <li v-for="item in order.items" :key="item.id">
@@ -37,9 +52,12 @@
           <p>محصول: {{ item.product.name }}</p>
           <p>قیمت: {{ toPersian(formatPrice(item.price)) }} تومان</p>
           <p>تعداد: {{ toPersian(item.quantity) }}</p>
-          <p>مبلغ کل: {{ toPersian(item.total) }} تومان</p>
+          <p>مبلغ کل: {{ toPersian(formatPrice(item.total)) }} تومان</p>
         </li>
       </ul>
+    </div>
+    <div v-else>
+      <p>اقلام سفارش یافت نشد.</p>
     </div>
   </div>
 </template>
@@ -149,7 +167,7 @@ watch(
   background-color: #c8e6c9; /* رنگ سبز ملایم برای اقلام سفارش */
 }
 
-.order-info h1,
+.order-info h3,
 .order-info p,
 .address-details p,
 .shipping-method p,
@@ -158,10 +176,10 @@ watch(
   margin-bottom: 1rem;
 }
 
-.order-info h1 {
+.order-info h3 {
   font-family: 'Vazirmatn', sans-serif;
-  font-size: 2rem;
-  color: #333;
+  font-size: 1.3rem;
+  color: #ff6961;
   font-weight: bold;
   text-align: right;
 }
@@ -251,6 +269,94 @@ watch(
     height: 80px;
     margin-left: 0;
     margin-bottom: 1rem;
+  }
+}
+.order-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.order-btn {
+  font-family: 'Vazirmatn', sans-serif;
+  font-size: 0.95rem;
+  font-weight: bold;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 50px; /* گرد کردن دکمه‌ها برای طراحی مدرن */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  min-width: 150px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* افکت جذاب برای کلیک */
+.order-btn::before {
+  content: "";
+  position: absolute;
+  width: 300%;
+  height: 300%;
+  background: rgba(255, 255, 255, 0.3);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.order-btn:active::before {
+  width: 0%;
+  height: 0%;
+  opacity: 1;
+}
+
+/* استایل دکمه "تکمیل سفارش" */
+.complete-order-btn {
+  background: linear-gradient(135deg, #00c853, #00e676);
+  color: white;
+}
+
+.complete-order-btn:hover {
+  background: linear-gradient(135deg, #00e676, #00c853);
+  transform: translateY(-3px);
+}
+
+/* استایل دکمه "لغو سفارش" */
+.cancel-order-btn {
+  background: linear-gradient(135deg, #d50000, #ff1744);
+  color: white;
+}
+
+.cancel-order-btn:hover {
+  background: linear-gradient(135deg, #ff1744, #d50000);
+  transform: translateY(-3px);
+}
+
+/* افکت زیبای کلیک */
+.order-btn:active {
+  transform: scale(0.95);
+}
+
+/* واکنش‌گرایی برای موبایل */
+@media (max-width: 768px) {
+  .order-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .order-btn {
+    width: 100%;
+    max-width: 280px;
   }
 }
 
