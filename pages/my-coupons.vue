@@ -2,15 +2,15 @@
   <div class="coupons-container">
     <div v-for="coupon in coupons" :key="coupon.id" class="coupon-card">
       <div class="coupon-header">
-        <div class="coupon-title">{{ coupon.code }}</div>
-        <div class="coupon-date">Expires: {{ new Date(coupon.expire_date).toLocaleString() }}</div>
+        <div class="coupon-title">{{ $toPersian(coupon.code) }}</div>
+        <div class="coupon-date">تاریخ اعتبار: {{ $toPersian($toPersianDate(coupon.expire_date))}}</div>
       </div>
       <div class="coupon-body">
-        <p>Discount: {{ coupon.discount_amount }} {{ coupon.discount_type }}</p>
-        <p>Description: {{ coupon.description }}</p>
+        <p>تخفیف : {{ $toPersian(coupon.discount_amount) }} {{ coupon.discount_type }}</p>
+        <p>توضیحات : {{ coupon.description }}</p>
       </div>
       <div class="coupon-footer">
-        <div class="coupon-status">{{ coupon.is_used ? 'Used' : 'Not Used' }}</div>
+        <div class="coupon-status">{{ coupon.is_used ? 'استفاده شده' : 'اعتبار دارد' }}</div>
         <div class="coupon-actions">
           <a href="#">Use Coupon</a>
         </div>
@@ -24,7 +24,7 @@ import { ref, onMounted } from 'vue';
 import { useNuxtApp } from '#app';
 
 const coupons = ref([]);
-const { $axios } = useNuxtApp(); // Inject Axios from Nuxt context
+const { $axios,$toPersian,$toPersianDate } = useNuxtApp(); // Inject Axios from Nuxt context
 
 const fetchCoupons = async () => {
   try {

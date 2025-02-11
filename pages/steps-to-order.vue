@@ -6,7 +6,7 @@
         <!-- دایره مربوط به هر مرحله -->
         <div
             :class="['step-circle', { 'step-active': index + 1 <= currentStep }, { 'step-raised': index + 1 === currentStep }]">
-          <span>{{ toPersian(step.number) }}</span>
+          <span>{{ $toPersian(step.number) }}</span>
         </div>
         <!-- نام مرحله -->
         <div class="step-name">
@@ -30,8 +30,8 @@
           </div>
           <div class="product-details">
             <div class="product-name">{{ product.product.name }}</div>
-            <div class="product-price">قیمت:{{ toPersian(product.product.price) }}</div>
-            <div class="product-quantity">تعداد:{{ toPersian(product.quantity) }}</div>
+            <div class="product-price">قیمت:{{ $toPersian($formatPrice(product.product.price)) }}</div>
+            <div class="product-quantity">تعداد:{{ $toPersian(product.quantity) }}</div>
           </div>
           <div class="buttons">
             <NuxtLink :to="`/product/${product.product.id}`">
@@ -57,7 +57,7 @@
               @click="selectedAddress = address.id"
           >
             <div class="address-content">
-              <h3>{{ address.street }}</h3>
+              <h3>{{ $toPersian(address.street) }}</h3>
               <p>{{ address.city }}, {{ address.state }}, {{ address.country }}</p>
             </div>
             <div class="address-buttons">
@@ -69,7 +69,6 @@
               </button>
             </div>
           </div>
-
           <!-- Add New Address Card -->
           <div class="add-address-card" @click="addNewAddress">
             <div class="add-address-icon">
@@ -79,11 +78,9 @@
           </div>
         </div>
       </div>
-
-
       <div class="controls">
-        <button @click="previousStep">برگشت به سبد خرید</button>
         <button @click="() => { handleSelectedAddress(); fetchShippingMethods(); nextStep(); }">ثبت روش ارسال</button>
+        <button @click="previousStep">برگشت به سبد خرید</button>
       </div>
     </div>
     <div v-if="currentStep === 3" class="page shipping-methods">
@@ -108,13 +105,12 @@
               />
               <h3>{{ shippingMethod.name }}</h3>
               <p>{{ shippingMethod.description }}</p>
-              <p>Cost: {{ shippingMethod.cost }}</p>
-              <p>Estimated Delivery: {{ shippingMethod.delivery_time }}</p>
+              <p>هزینه : {{ $toPersian(shippingMethod.cost) }}</p>
+              <p>مدت زمان تحویل :{{ $toPersian(shippingMethod.delivery_time) }}</p>
             </label>
           </div>
         </div>
         <div class="controls">
-          <button @click="previousStep">برگشت به انتخاب آدرس</button>
           <button @click="() => {
     handleSelectedShippingMethods()
         .then(fetchUser)
@@ -122,6 +118,7 @@
         .then(nextStep)
         .catch(error => console.error(error));}">صدور فاکتور
           </button>
+          <button @click="previousStep">برگشت به انتخاب آدرس</button>
         </div>
       </div>
     </div>
@@ -136,10 +133,10 @@
               <h2>فروشگاه ایرانی</h2>
             </div>
             <div class="user-details">
-              <p><strong>شماره فاکتور:</strong> {{ invoice.invoice_number }}</p>
-              <p><strong>تاریخ:</strong> {{ invoice.date }}</p>
+              <p><strong>شماره فاکتور:</strong> {{ $toPersian(invoice.invoice_number) }}</p>
+              <p><strong>تاریخ:</strong> {{ $toPersian($toPersianDate(invoice.created_at)) }}</p>
               <p><strong>خریدار:</strong> {{ user.name }}</p>
-              <p><strong>تلفن:</strong> {{ toPersian("058-362-10992") }}</p>
+              <p><strong>تلفن:</strong> {{ $toPersian("058-362-10992") }}</p>
               <p><strong>پست الکترونیکی:</strong> {{ user.email }}</p>
             </div>
           </div>
@@ -170,11 +167,11 @@
                   />
                 </td>
                 <td>{{ item.product.name }}</td>
-                <td>{{ toPersian(item.quantity) }}</td>
-                <td>{{ toPersian(item.price) }}</td>
-                <td>{{ toPersian(item.total) }}</td>
-                <td>{{ toPersian(item.discount) }}</td>
-                <td>{{ toPersian(item.price_with_discount) }}</td>
+                <td>{{ $toPersian(item.quantity) }}</td>
+                <td>{{ $toPersian($formatPrice(item.price)) }}</td>
+                <td>{{ $toPersian($formatPrice(item.total)) }}</td>
+                <td>{{ $toPersian($formatPrice(item.discount)) }}</td>
+                <td>{{ $toPersian($formatPrice(item.price_with_discount)) }}</td>
               </tr>
               <tr v-if="!invoice.items.length">
                 <td colspan="8">محصولی موجود نیست</td>
@@ -187,28 +184,28 @@
           <div class="invoice-summary">
             <div>
               <span>جمع کل:</span>
-              <strong>{{ toPersian(invoice.sub_total_amount) }}</strong>
+              <strong>{{ $toPersian($formatPrice(invoice.sub_total_amount)) }}</strong>
             </div>
             <div>
-              <span>مالیات ({{ toPersian(invoice.tax_rate) }}%):</span>
-              <strong>{{ toPersian(invoice.tax) }}</strong>
+              <span>مالیات ({{ $toPersian($formatPrice(invoice.tax_rate)) }}%):</span>
+              <strong>{{ $toPersian($formatPrice(invoice.tax)) }}</strong>
             </div>
             <div>
               <span>هزینه ارسال:</span>
-              <strong>{{ toPersian(invoice.shipping_cost) }}</strong>
+              <strong>{{ $toPersian($formatPrice(invoice.shipping_cost)) }}</strong>
             </div>
             <div class="total">
               <span>مجموع کل:</span>
-              <strong>{{ toPersian(invoice.total_amount) }}</strong>
+              <strong>{{ $toPersian($formatPrice(invoice.total_amount)) }}</strong>
             </div>
           </div>
         </div>
       </div>
       <div class="controls">
-        <button @click="previousStep">برگست به روش ارسال</button>
         <button @click="() => {fetchPaymentMethods().then(nextStep).catch(error => console.error(error));}">انتخاب روش
           پرداخت
         </button>
+        <button @click="previousStep">برگست به روش ارسال</button>
       </div>
     </div>
     <div v-if="currentStep === 5" class="page payment">
@@ -239,33 +236,33 @@
               </div>
 
               <p>{{ paymentMethod.description }}</p>
-              <p>Is Active: {{ paymentMethod.is_active }}</p>
+              <p>فعال/غیرفعال : {{ paymentMethod.is_active }}</p>
             </label>
           </div>
         </div>
       </div>
       <div class="controls">
-        <button @click="previousStep">برگشت به صدور فاکتور</button>
         <button @click="() => {
          handleSelectedPaymentMethods()
         .then(nextStep)
         .catch(error => console.error(error));}">انتخاب درگاه پرداخت
         </button>
+        <button @click="previousStep">برگشت به صدور فاکتور</button>
       </div>
     </div>
-    <div v-if="currentStep === 6" class="page online-payment-methods">
-      <h2>انتخاب درگاه پرداخت</h2>
-      <div id="online-method-selection-page">
-        <!-- Cards container in the middle -->
-        <div class="online-cards-container">
-          <div
-              v-for="onlineMethod in onlinePaymentMethods"
-              :key="onlineMethod.id"
-              class="online-card"
-              :class="{ selected: selectedOnlinePaymentMethod === onlineMethod.id }"
-              @click="selectedOnlinePaymentMethod = onlineMethod.id"
-          >
-            <label>
+    <div v-if="currentStep === 6 && action==='Online'">
+      <div class="page online-payment-methods">
+        <h2>انتخاب درگاه پرداخت</h2>
+        <div id="online-method-selection-page">
+          <!-- Cards container in the middle -->
+          <div class="online-cards-container">
+            <div
+                v-for="onlineMethod in onlinePaymentMethods"
+                :key="onlineMethod.id"
+                class="online-card"
+                :class="{ selected: selectedOnlinePaymentMethod === onlineMethod.id }"
+                @click="selectedOnlinePaymentMethod = onlineMethod.id"
+            >
               <input
                   type="radio"
                   :value="onlineMethod.id"
@@ -278,34 +275,74 @@
                   :src="onlineMethod.image ? `${$config.public.API_BASE_URL}${onlineMethod.image.path}` : '/default-payment-image.jpg'"
                   :alt="onlineMethod.name"
               />
-
-            </label>
+            </div>
           </div>
-        </div>
-        <div class="controls">
-          <button @click="previousStep">برگشت به انتخاب روش پرداخت</button>
-          <button @click="() => {
+          <div class="controls">
+            <button @click="() => {
             handleSelectedOnlineMethods()
             .then(nextStep)
             .catch(error => console.error(error));}">اتصال به درگاه
-          </button>
+            </button>
+            <button @click="previousStep">برگشت به انتخاب روش پرداخت</button>
+          </div>
         </div>
       </div>
     </div>
-
+    <div v-else-if="currentStep===6 && action==='Offline'">
+      <div class="page offline-payment-methods">
+        <h2>انتخاب درگاه پرداخت</h2>
+        <div class="offline-method-selection-page">
+          <!-- Cards container in the middle -->
+          <div class="wallet-card-container">
+            <div><p>کیف پول</p></div>
+            <div class="wallet-card"
+                 :class="{ selected: selectedWallet === wallet.id }"
+                 @click="selectedWallet = wallet.id">
+              <span>موجودی: </span>
+              <strong>{{ $toPersian($formatPrice(wallet.balance)) }} تومان</strong>
+            </div>
+          </div>
+          <div class="coupons-card-container">
+            <p>کارت های اعتباری</p>
+            <div v-for="coupon in coupons" :key="coupon.id" class="coupon-card"
+                 :class="{ selected: selectedCoupon === coupon.id }"
+                 @click="selectedCoupon = coupon.id">
+              <div class="coupon-header">
+                <div class="coupon-title">{{ $toPersian(coupon.code) }}</div>
+                <div class="coupon-date">تاریخ اعتبار: {{ $toPersian($toPersianDate(coupon.created_at)) }}</div>
+              </div>
+              <div class="coupon-body">
+                <p>تخفیف : {{ $toPersian(coupon.discount_amount) }} {{ coupon.discount_type }}</p>
+                <p>توضیحات : {{ coupon.description }}</p>
+              </div>
+              <div class="coupon-footer">
+                <div class="coupon-status">{{ coupon.is_used ? 'استفاده شده' : 'اعتبار دارد' }}</div>
+                <div class="coupon-actions">
+                  <a href="#">Use Coupon</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="controls">
+            <button @click="() => {
+            handleSelectedOnlineMethods()
+            .then(nextStep)
+            .catch(error => console.error(error));}">پرداخت سفارش
+            </button>
+            <button @click="previousStep">برگشت به انتخاب روش پرداخت</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
 import {ref, onMounted} from 'vue';
 import {useNuxtApp, useRuntimeConfig} from '#app';
+import jalaali from "jalaali-js";
 
 const router = useRouter();
 /////////// convert number to persian ///////
-// تبدیل اعداد به فارسی
-const toPersian = (number) => {
-  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[digit]);
-};
 // تعداد مراحل و نام‌های هر مرحله
 const steps = [
   {number: 1, name: 'سبد'},
@@ -336,7 +373,7 @@ const previousStep = () => {
 
 //////////////// Fetch Cart Items /////////
 
-const {$axios} = useNuxtApp(); // Using Nuxt Axios
+const {$axios, $toPersian, $toPersianDate, $formatPrice} = useNuxtApp(); // Using Nuxt Axios
 const cartItems = ref({});
 const config = useRuntimeConfig();
 const fetchCartItems = async () => {
@@ -462,6 +499,7 @@ const fetchUser = async () => {
   }
 };
 //////////////////////////// Payment Methods //////////////
+const action = ref(null);
 const paymentMethods = ref([]);
 const selectedPaymentMethod = ref(null);
 const fetchPaymentMethods = async () => {
@@ -481,8 +519,12 @@ const handleSelectedPaymentMethods = async () => {
     const response = await $axios.post(`user/manageSelectedPayment/${selectedPaymentMethod.value}`); // ارسال آدرس انتخاب شده به سرور
     console.log(response.data.action)
     console.log('PaymentMethod :', response.data.action);
+    action.value = response.data.action;
     if (response.data.action === 'Online') {
       await loadOnlineMethods();
+    } else if (response.data.action === 'Offline') {
+      await fetchWallet();
+      await fetchCoupons();
     }
   } catch (error) {
     console.error('Failed to selected paymentMethod :', error);
@@ -513,6 +555,27 @@ const handleSelectedOnlineMethods = async () => {
 
   } catch (error) {
     console.error('Failed to selected onlinePaymentMethods :', error);
+  }
+};
+/////////////////// Offline Methods ///////////////
+const wallet = ref({});
+const coupons = ref({});
+const selectedCoupon = ref(null);
+const selectedWallet = ref(null);
+const fetchWallet = async () => {
+  try {
+    const response = await $axios.get('user/my/wallet');
+    wallet.value = response.data.wallet;
+  } catch (error) {
+    console.error('خطا در دریافت اطلاعات کیف پول:', error);
+  }
+};
+const fetchCoupons = async () => {
+  try {
+    const response = await $axios.get('user/my/coupons'); // Adjust API endpoint as needed
+    coupons.value = response.data.coupons;
+  } catch (error) {
+    console.error('خطا در دریافت اطلاعات  کپن های کاربر:', error);
   }
 };
 
@@ -585,7 +648,7 @@ onMounted(() => {
   background: #ddd;
   position: absolute;
   top: 25px;
-  left: 25px;
+  right: 10px;
   z-index: -10;
   transition: background 0.3s ease;
 }
@@ -596,7 +659,7 @@ onMounted(() => {
 
 .controls {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
   margin: 1.5rem 0;
 }
@@ -651,8 +714,8 @@ onMounted(() => {
 .card .items {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px; /* فاصله بین کارت‌ها */
-  justify-content: flex-end; /* فضای بین کارت‌ها */
+  gap: 10px;
+  justify-content: center;
 }
 
 .item-card {
@@ -663,7 +726,7 @@ onMounted(() => {
 
 .item-card {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
   gap: 15px;
   width: 100%;
@@ -682,8 +745,8 @@ onMounted(() => {
 }
 
 .image img {
-  width: 80px;
-  height: 80px;
+  width: 54px;
+  height: 44px;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -691,7 +754,7 @@ onMounted(() => {
 .product-details {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   text-align: right;
   gap: 5px;
   flex-grow: 1;
@@ -845,9 +908,9 @@ h2:hover::after {
 .address-cards-container {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row-reverse;
+  flex-direction: row;
   gap: 20px;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .address-card {
@@ -996,9 +1059,9 @@ h2:hover::after {
 .shipping-cards-container {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row-reverse;
+  flex-direction: row;
   gap: 20px;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .shipping-card {
@@ -1056,7 +1119,7 @@ h2:hover::after {
 .payment-cards-container {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row-reverse;
+  flex-direction: row;
   gap: 20px;
   justify-content: flex-start;
 }
@@ -1064,11 +1127,10 @@ h2:hover::after {
 .payment-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   position: relative;
   width: calc(33.333% - 20px); /* برای نمایش سه کارت در یک ردیف */
-  max-width: 300px;
-  padding: 20px;
+//max-width: 300px; padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #fff;
@@ -1157,17 +1219,18 @@ h2:hover::after {
 .online-cards-container {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row-reverse;
+  flex-direction: row;
   gap: 20px;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .online-card {
   display: flex;
-  flex-direction: column;
   align-items: flex-end;
+  flex-direction: row;
+  justify-content: space-between;
   position: relative;
-  width: calc(33.333% - 20px); /* برای نمایش سه کارت در یک ردیف */
+  width: calc(33.333% - 20px);
   max-width: 300px;
   padding: 20px;
   border: 1px solid #ddd;
@@ -1176,7 +1239,7 @@ h2:hover::after {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
-  text-align: center; /* متن وسط‌چین */
+  gap: 10px; /* فاصله بین تصویر و متن */
 }
 
 .online-card:hover {
@@ -1188,7 +1251,7 @@ h2:hover::after {
   box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
 }
 
-.header-online-card {
+.online-card {
   width: 100%;
   display: flex;
   flex-direction: row-reverse; /* برای راست‌چین بودن */
@@ -1197,7 +1260,7 @@ h2:hover::after {
   gap: 10px; /* فاصله بین تصویر و متن */
 }
 
-.header-online-card h3 {
+.online-card h3 {
   font-size: 1.1rem;
   font-weight: bold;
   color: #333;
@@ -1206,9 +1269,9 @@ h2:hover::after {
   flex-grow: 1; /* متن فضای باقی‌مانده را پر می‌کند */
 }
 
-.header-online-card img {
-  width: 50px; /* تنظیم اندازه مناسب برای تصویر */
-  height: 50px;
+.online-card img {
+  max-width: 100%; /* تنظیم اندازه مناسب برای تصویر */
+  height: 35px;
   object-fit: cover; /* جلوگیری از تغییر نسبت تصویر */
   border-radius: 5px;
   margin: 0; /* حذف فاصله‌های اضافی */
@@ -1261,7 +1324,7 @@ h2:hover::after {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  min-height: 100vh;
+  //min-height: 100vh;
   overflow-y: auto; /* امکان اسکرول عمودی */
 }
 
@@ -1285,6 +1348,12 @@ h2:hover::after {
 .store-details h2 {
   color: #4caf50;
   margin: 0;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .user-details p {
@@ -1312,7 +1381,7 @@ h2:hover::after {
 
 .invoice-items .product-image {
   width: 50px;
-  height: 50px;
+  height: auto;
   object-fit: cover;
   border-radius: 5px;
 }
@@ -1391,8 +1460,8 @@ h2:hover::after {
   }
 
   .invoice-items .product-image {
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    height: auto;
   }
 
   /* دکمه‌ی انتخاب روش پرداخت */
@@ -1405,5 +1474,100 @@ h2:hover::after {
   }
 }
 
+.offline-method-selection-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-end;
+}
 
+.coupons-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row-reverse;
+  gap: 20px;
+  justify-content: flex-end;
+}
+
+.coupon-card {
+  position: relative;
+  width: calc(33.333% - 20px);
+  max-width: 300px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.coupon-card:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.coupon-card.selected {
+  border-color: #4caf50;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+
+.coupon-card h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.coupon-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+.wallet-card-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.wallet-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.wallet-card:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.wallet-card.selected {
+  border-color: #4caf50;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+
+.wallet-card h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.wallet-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 0;
+}
 </style>

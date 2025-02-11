@@ -95,16 +95,15 @@
             :modules="[Navigation, Pagination, Autoplay]"
             pagination
             :autoplay="{ delay: 3000, disableOnInteraction: false }"
+            :slides-per-view="desktopView ? 3 : 1"
+            :space-between="20"
             class="custom-swiper"
-            :slidesPerView="desktopView ? 3 : 1"
-            :spaceBetween="30"
         >
           <swiper-slide v-for="product in products" :key="product.id">
             <div class="slide-item">
-              <!-- تصویر محصول -->
               <NuxtLink :to="`/product/${product.id}`">
-              <img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
-              <!--<img src="@/src/static/images/img1.jpg" alt="Brand Logo">-->
+                <img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'"
+                     :alt="product.name" />
               </NuxtLink>
               <h3>{{ product.name }}</h3>
             </div>
@@ -116,35 +115,33 @@
       </div>
       <div class="product-list">
         <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
-          <NuxtLink :to="`/product/${product.id}`">
+
           <!-- برچسب تخفیف در صورت وجود تخفیف -->
           <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
 
           <!-- تصویر محصول -->
-          <img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
-
+          <NuxtLink :to="`/product/${product.id}`"><img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
+          </NuxtLink>
           <div class="product-card-content">
-            <div class="buttons">
-              <!-- Like Icon -->
-<!--              <button @click="ToggleLikeProduct(product.id)">
+<!--            <div class="buttons">
+              &lt;!&ndash; Like Icon &ndash;&gt;
+              <button @click="ToggleLikeProduct(product.id)">
                 &lt;!&ndash; SVG Icon &ndash;&gt;
                 <span v-html="product.isLiked ? heartFilled : heartOutline"
                       :style="{ color: product.isLiked ? '#ff0000' : '#888888' }"> </span>
                 <span v-if="product.likes > 0" class="badge">{{ product.likes }}</span>
-              </button>-->
-              <!-- View Icon -->
-<!--              <button>
+              </button>
+               View Icon
+              <button>
                 <span class="material-icons-outlined" style="color: #888888;">visibility</span>
                 <span v-if="product.views > 0" class="badge">{{ product.views }}</span>
-              </button>-->
-              <!-- Cart Icon -->
+              </button>
+               Cart Icon
               <button @click="addToCart(product.id)">
                 <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
                 <span v-if="product.cart_count > 0" class="badge">{{ toPersian(product.cart_count) }}</span>
               </button>
-            </div>
-
-
+            </div>-->
             <h3>{{ product.name }}</h3>
             <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }}تومان</p>
             <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
@@ -162,7 +159,6 @@
             <div v-else class="no-rating">هنوز امتیازی ندارد</div>
 
           </div>
-          </NuxtLink>
         </div>
       </div>
     </div>
@@ -517,15 +513,14 @@ onMounted(() => {
   position: relative;
   background: #ffffff;
   margin: 5px;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
+  //display: flex;
+  //flex-wrap: wrap;
+  //flex-direction: column;
   overflow: hidden; /* برای جلوگیری از بیرون زدن محتوا در حالت hover */
 }
 /* استایل تصویر داخل کارت */
-.product-card img {
-  width: 100%;
-  height: 150px;
+.product-card a {
+  width: 50%;
   object-fit: cover;
 }
 /* محتویات کارت */
@@ -549,6 +544,10 @@ onMounted(() => {
   .product-list {
     grid-template-columns: repeat(2, 1fr); /* نمایش دو ستون در صفحه‌های متوسط */
   }
+  .product-card a {
+    width:100%;
+    height: 150px;
+  }
 }
 
 /* برای صفحه‌نمایش‌های بزرگتر از 1024 پیکسل */
@@ -557,11 +556,11 @@ onMounted(() => {
     grid-template-columns: repeat(4, 1fr); /* چهار ستون در صفحه‌های بزرگ */
   }
 }
-.product-card:hover img {
+/*.product-card:hover img {
   border-radius: 12px 12px 0 0;
   max-height: 200px;
   object-fit: cover;
-}
+}*/
 .product-card-content h3 {
   font-size: 1.2rem;
   font-family: 'Vazirmatn', sans-serif;
@@ -861,26 +860,45 @@ button .material-icons-outlined {
   top: 60px;
   width: 100%;
   height: auto;
+  direction: rtl; /* مناسب برای زبان فارسی */
 }
+
+.swiper {
+  padding-bottom: 20px; /* کمی فاصله پایین اسلایدر */
+}
+
 .slide-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   padding: 15px;
-  margin-top: 15px;
+  margin-top: 30px;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
+
+.slide-item:hover {
+  transform: translateY(-5px);
+}
+
 .slide-item img {
   width: 100%;
-  max-height: 300px;
-  //overflow: clip;
+  max-width: 250px;
+  max-height: 250px;
   border-radius: 8px;
   object-fit: cover;
 }
+
 .slide-item h3 {
   font-family: 'Vazirmatn', sans-serif;
   padding: 10px;
+  font-size: 1rem;
+  color: #333;
 }
+
 .icons{
   position: absolute;
   left:130px;
