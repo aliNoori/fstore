@@ -71,17 +71,11 @@
               </div>
             </div>
           </div>
-          <div class="icon" @click="goToCart">
+          <div class="icon">
             <NuxtLink to="/steps-to-order">
             <i class="fas fa-shopping-cart"></i>
             <span v-if="user&&user.items_cart > 0" class="cart-badge">{{ toPersian(user.items_cart) }}</span>
             </NuxtLink>
-          </div>
-          <div class="icon" @click="goToContactUs">
-            <i class="fas fa-phone-alt"></i>
-          </div>
-          <div class="icon" @click="goToInfo">
-            <i class="fas fa-info-circle"></i>
           </div>
         </div>
         <div class="menu-icon" @click="toggleMenu">
@@ -912,7 +906,7 @@ button .material-icons-outlined {
   left:130px;
   //bottom: 20px;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   gap: 15px;
 }
 .icon i {
