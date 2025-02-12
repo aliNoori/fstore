@@ -95,7 +95,7 @@
             :modules="[Navigation, Pagination, Autoplay]"
             pagination
             :autoplay="{ delay: 3000, disableOnInteraction: false }"
-            :slides-per-view="desktopView ? 3 : 1"
+            :slides-per-view="desktopView ? 6 : 1"
             :space-between="20"
             class="custom-swiper"
         >
@@ -507,27 +507,37 @@ onMounted(() => {
   overflow: hidden; /* برای جلوگیری از تغییر اندازه صفحه */
 }
 .product-card {
+  width: 100%;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   background: #ffffff;
   margin: 5px;
-  //display: flex;
-  //flex-wrap: wrap;
-  //flex-direction: column;
+  gap: 25px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
   overflow: hidden; /* برای جلوگیری از بیرون زدن محتوا در حالت hover */
 }
 /* استایل تصویر داخل کارت */
 .product-card a {
-  width: 50%;
+  width: 100%;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   object-fit: cover;
+}
+.product-card a img{
+  width: 100%;
+  height: auto;
 }
 /* محتویات کارت */
 .product-card-content {
   font-family: 'Vazirmatn', sans-serif;
-  direction: rtl;
   padding: 10px;
+  height: 100%;
 }
 .product-list {
   font-family: 'Vazirmatn', sans-serif;
@@ -535,7 +545,7 @@ onMounted(() => {
   margin-top: 90px;
   left: 0;
   display: grid;
-  gap: 5px;
+  gap: 10px;
   padding: 5px;
   grid-template-columns: repeat(1, 1fr); /* حالت پیش‌فرض تک‌ستونی */
 }
@@ -553,7 +563,7 @@ onMounted(() => {
 /* برای صفحه‌نمایش‌های بزرگتر از 1024 پیکسل */
 @media (min-width: 1024px) {
   .product-list {
-    grid-template-columns: repeat(4, 1fr); /* چهار ستون در صفحه‌های بزرگ */
+    grid-template-columns: repeat(8, 1fr); /* چهار ستون در صفحه‌های بزرگ */
   }
 }
 /*.product-card:hover img {
@@ -860,11 +870,10 @@ button .material-icons-outlined {
   top: 60px;
   width: 100%;
   height: auto;
-  direction: rtl; /* مناسب برای زبان فارسی */
 }
 
 .swiper {
-  padding-bottom: 20px; /* کمی فاصله پایین اسلایدر */
+  padding-bottom: 40px; /* کمی فاصله پایین اسلایدر */
 }
 
 .slide-item {
@@ -898,7 +907,6 @@ button .material-icons-outlined {
   font-size: 1rem;
   color: #333;
 }
-
 .icons{
   position: absolute;
   left:130px;
@@ -944,6 +952,7 @@ button .material-icons-outlined {
   z-index: 10; /* برای اطمینان از اینکه روی دکمه قرار می‌گیرد */
 }
 .discount-badge{
+  padding: 10px;
   font-family: 'Vazirmatn', sans-serif;
   color: #da1b60;
 }

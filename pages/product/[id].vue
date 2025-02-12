@@ -195,7 +195,7 @@ watch(
 .product-details {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  //justify-content: space-between;
   align-items: flex-start;
   //gap: 2rem;
   width: 100vw;
