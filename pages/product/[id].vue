@@ -11,7 +11,7 @@
         </p>
         <button @click.prevent="addToCart(product.id)" class="add-to-cart-btn">
           <i class="fas fa-shopping-cart"></i> افزودن به سبد خرید
-          <span v-if="cartCount > 0" class="cart-badge">{{ toPersian(cartCount) }}</span>
+          <span v-if="infoProduct.quantity > 0" class="cart-badge">{{ toPersian(infoProduct.quantity) }}</span>
         </button>
       </div>
       <div class="product-image" data-aos="zoom-in">
@@ -80,8 +80,8 @@ const config = useRuntimeConfig();
 const product = ref(null);
 const newComment = ref('');
 const newRating = ref(0);
-const cartCount = ref(0);
-
+const infoProduct = ref(null);
+const user = ref(null);
 const toPersian = (number) => {
   const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[digit]);
@@ -89,6 +89,15 @@ const toPersian = (number) => {
 const formatPrice = (price) => {
   return Math.floor(price).toLocaleString('fa-IR');
 };
+async function fetchCartCount() {
+  try {
+    const response = await $axios.get(`cart/items/${route.params.id}/info`);
+    infoProduct.value = response.data;
+    console.log(response.data);
+  } catch (error) {
+    console.error('خطا در دریافت اطلاعات :', error);
+  }
+}
 
 // دریافت اطلاعات محصول
 async function fetchProduct() {
@@ -109,12 +118,46 @@ async function addToCart(productId) {
       console.log('محصول به سبد خرید اضافه شد:', response.data);
       alert('محصول با موفقیت به سبد خرید اضافه شد');
       cartCount.value += 1;
+    } else if (response.status === 400) {
+      console.log('تعداد درخواستی بیشتر از موجودی محصول است', response.data);
+      alert('تعداد درخواستی بیشتر از موجودی محصول است');
+    } else if (response.status === 404) {
+      console.log('محصول مورد نظر یافت نشد', response.data);
+      alert('محصول مورد نظر یافت نشد');
+    } else if (response.status === 500) {
+      console.log('خطایی در افزودن محصول به سبد خرید رخ داده است', response.data);
+      alert('خطایی در افزودن محصول به سبد خرید رخ داده است');
+    } else {
+      console.log('خطا:', response.data);
+      alert('خطایی رخ داده است');
     }
   } catch (error) {
-    console.error('خطا در افزودن محصول به سبد خرید:', error);
-    alert('خطایی در افزودن محصول به سبد خرید رخ داد.');
+    if (error.response && error.response.status) {
+      switch (error.response.status) {
+        case 400:
+          console.error('تعداد درخواستی بیشتر از موجودی محصول است:', error.response.data);
+          alert('تعداد درخواستی بیشتر از موجودی محصول است');
+          break;
+        case 404:
+          console.error('محصول مورد نظر یافت نشد:', error.response.data);
+          alert('محصول مورد نظر یافت نشد');
+          break;
+        case 500:
+          console.error('خطایی در افزودن محصول به سبد خرید رخ داده است:', error.response.data);
+          alert('خطایی در افزودن محصول به سبد خرید رخ داده است');
+          break;
+        default:
+          console.error('خطا:', error.response.data);
+          alert('خطایی رخ داده است');
+      }
+    } else {
+      console.error('خطا در افزودن محصول به سبد خرید:', error);
+      alert('خطایی در افزودن محصول به سبد خرید رخ داد.');
+    }
   }
 }
+
+
 
 // ثبت نظر جدید
 async function submitComment() {
@@ -156,6 +199,7 @@ onMounted(() => {
   const productId = route.params.id;
   if (productId) {
     fetchProduct();
+    fetchCartCount(productId);
   }
   AOS.init({
     duration: 1000, // مدت زمان انیمیشن
