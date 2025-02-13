@@ -383,8 +383,8 @@ watch(
   color: white;
   font-size: 0.9rem;
   border-radius: 50%;
-  padding: 2px;
-  margin-left: 0;
+  padding: 1px;
+  margin-right: 10px;
 }
 
 /* بخش نظرات */
