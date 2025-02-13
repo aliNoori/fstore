@@ -118,7 +118,7 @@ async function addToCart(productId) {
     const response = await $axios.post(`cart/item/add/${productId}`);
     if (response.status === 200) {
       console.log('محصول به سبد خرید اضافه شد:', response.data);
-      alert('محصول با موفقیت به سبد خرید اضافه شد');
+      //alert('محصول با موفقیت به سبد خرید اضافه شد');
       cartCount.value += 1;
     } else if (response.status === 400) {
       console.log('تعداد درخواستی بیشتر از موجودی محصول است', response.data);

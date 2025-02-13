@@ -131,7 +131,7 @@
           <!-- سربرگ فاکتور -->
           <div class="invoice-header">
             <div class="store-details">
-              <h2>فروشگاه ایرانی</h2>
+              <h2>فروشگاه<br>آنلاین</h2>
             </div>
             <div class="user-details">
               <p><strong>شماره فاکتور:</strong> {{ $toPersian(invoice.invoice_number) }}</p>
@@ -1255,10 +1255,15 @@ h2:hover::after {
   color: #666;
   margin: 0.5rem 0;
 }
+.payment-card label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
 @media (max-width: 768px) {
   .payment-cards-container {
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
   }
 
@@ -1418,9 +1423,12 @@ h2:hover::after {
   border-bottom: 2px solid #4caf50;
   padding-bottom: 15px;
   margin-bottom: 20px;
+  flex-direction: row;
+  align-items: center;
 }
 
 .store-details h2 {
+  font-size: 9px;
   color: #4caf50;
   margin: 0;
 }
@@ -1507,13 +1515,6 @@ h2:hover::after {
     text-align: right;
   }
 
-  .invoice-header {
-    flex-direction: column;
-
-    align-items: flex-end;
-  }
-
-  .store-details,
   .user-details {
     font-size: 12px;
   }
@@ -1559,14 +1560,14 @@ h2:hover::after {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  justify-content: flex-start;
-  align-items: flex-start;
+  //justify-content: flex-start;
+  align-items: center;
 }
 
 .coupons-card-container {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+  flex-direction: row;
   gap: 20px;
   justify-content: flex-end;
 }
@@ -1618,7 +1619,7 @@ h2:hover::after {
   flex-wrap: wrap;
   flex-direction: column;
   gap: 20px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .wallet-card {
