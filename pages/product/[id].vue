@@ -194,14 +194,14 @@ watch(
 /* جزئیات محصول */
 .product-details {
   display: flex;
-  flex-wrap: wrap;
-  //justify-content: space-between;
-  align-items: flex-start;
-  //gap: 2rem;
+  flex-direction:row-reverse;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 2rem;
   width: 100vw;
-  height: 100vh;
+  height: auto;
   //border-bottom: 2px solid #ddd;
-  //padding-bottom: 1.5rem;
+  padding: 2.5rem;
   //margin-bottom: 2rem;
 }
 
@@ -210,16 +210,16 @@ watch(
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-end;
+  justify-content: flex-start;
   //gap: 10px;
-  max-width: 60%;
-  height: 50%;
+  width: 100%;
+  height: auto;
   background-color: #f9f9f9; /* پس‌زمینه ملایم */
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* سایه نرم */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  flex: 1;
+  //flex: 1;
 }
 .product-info:hover {
   transform: translateY(-5px);
@@ -540,6 +540,7 @@ button.loading::after {
 
   .product-details {
     flex-direction: column;
+    padding: 0;
     align-items: center;
     width: 100%; /* کارت‌ها تمام عرض صفحه را می‌گیرند */
   }
