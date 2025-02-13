@@ -104,9 +104,10 @@
                   hidden
               />
               <h3>{{ shippingMethod.name }}</h3>
-              <p>{{ shippingMethod.description }}</p>
+              <p>{{ $toPersian(shippingMethod.description) }}</p>
               <p>هزینه : {{ $toPersian(shippingMethod.cost) }}</p>
               <p>مدت زمان تحویل :{{ $toPersian(shippingMethod.delivery_time) }}</p>
+              <span v-if="selectedShippingMethod === shippingMethod.id" class="checkmark-shipping">&#10003;</span>
             </label>
           </div>
         </div>
@@ -236,7 +237,11 @@
               </div>
 
               <p>{{ paymentMethod.description }}</p>
-              <p>فعال/غیرفعال : {{ paymentMethod.is_active }}</p>
+              <p>فعال/غیرفعال :
+                <span v-if="paymentMethod.is_active === 1">فعال</span>
+                <span v-else>غیرفعال</span>
+              </p>
+              <span v-if="selectedPaymentMethod === paymentMethod.id" class="checkmark">&#10003;</span>
             </label>
           </div>
         </div>
@@ -275,6 +280,7 @@
                   :src="onlineMethod.image ? `${$config.public.API_BASE_URL}${onlineMethod.image.path}` : '/default-payment-image.jpg'"
                   :alt="onlineMethod.name"
               />
+              <span v-if="selectedOnlinePaymentMethod === onlineMethod.id" class="checkmark">&#10003;</span>
             </div>
           </div>
           <div class="controls">
@@ -585,6 +591,21 @@ onMounted(() => {
 });
 </script>
 <style scoped>
+.checkmark {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translate(50%, -50%);
+  font-size: 1.5rem;
+  color: #28a745;
+}
+.checkmark-shipping {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.5rem;
+  color: #28a745;
+}
 /* استایل کلی */
 .progress-container {
   display: flex;

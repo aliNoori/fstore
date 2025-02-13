@@ -11,7 +11,7 @@
         </p>
         <button @click.prevent="addToCart(product.id)" class="add-to-cart-btn">
           <i class="fas fa-shopping-cart"></i> افزودن به سبد خرید
-          <span v-if="infoProduct.quantity > 0" class="cart-badge">{{ toPersian(infoProduct.quantity) }}</span>
+          <span v-if="cartCount > 0" class="cart-badge">{{ toPersian(cartCount) }}</span>
         </button>
       </div>
       <div class="product-image" data-aos="zoom-in">
@@ -81,6 +81,7 @@ const product = ref(null);
 const newComment = ref('');
 const newRating = ref(0);
 const infoProduct = ref(null);
+const cartCount=ref(0);
 const user = ref(null);
 const toPersian = (number) => {
   const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -93,6 +94,7 @@ async function fetchCartCount() {
   try {
     const response = await $axios.get(`cart/items/${route.params.id}/info`);
     infoProduct.value = response.data;
+    cartCount.value=infoProduct.value.quantity;
     console.log(response.data);
   } catch (error) {
     console.error('خطا در دریافت اطلاعات :', error);
@@ -213,6 +215,7 @@ watch(
     (newId) => {
       if (newId) {
         fetchProduct();
+        fetchCartCount();
       }
     }
 );
