@@ -229,14 +229,14 @@
                   hidden
               />
               <div class="header-payment-card">
-                <h3>{{ paymentMethod.name }}</h3>
+                <h3>{{ getPaymentMethodName(paymentMethod.name) }}</h3>
                 <img
                     :src="paymentMethod.image ? `${$config.public.API_BASE_URL}${paymentMethod.image.path}` : '/default-payment-image.jpg'"
                     :alt="paymentMethod.name"
                 />
               </div>
 
-              <p>{{ paymentMethod.description }}</p>
+              <p>{{ getPaymentMethodDescription(paymentMethod.name) }}</p>
               <p>فعال/غیرفعال :
                 <span v-if="paymentMethod.is_active === 1">فعال</span>
                 <span v-else>غیرفعال</span>
@@ -375,6 +375,29 @@ const previousStep = () => {
     currentStep.value--;
   }
 };
+
+const getPaymentMethodName = (name) => {
+  if (name === 'Online') {
+    return 'آنلاین';
+  } else if (name === 'Wallet') {
+    return 'کیف پول';
+  } else if (name === 'OtherWays') {
+    return 'از طرق دیگر';
+  }else {
+    return name; // یا هر مقدار دیگری که ممکن است داشته باشد
+  }
+};
+const getPaymentMethodDescription=(name)=>{
+  if (name === 'Online') {
+    return 'پرداخت از طریق درگاه های بانکی';
+  } else if (name === 'Wallet') {
+    return 'پرداخت از طریق کیف پول';
+  } else if (name === 'OtherWays') {
+    return 'پرداخت از طریق کارت جایزه و ...';
+  }else {
+    return name; // یا هر مقدار دیگری که ممکن است داشته باشد
+  }
+}
 
 
 //////////////// Fetch Cart Items /////////
