@@ -1263,7 +1263,7 @@ h2:hover::after {
 
 @media (max-width: 768px) {
   .payment-cards-container {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
   }
 

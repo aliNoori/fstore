@@ -65,7 +65,7 @@
             <span v-if="messages.length>0" class="ribbon-badge">{{ toPersian(messages.length) }}</span> <!-- تعداد پیام‌ها -->
             <!-- نمایش پیام‌ها -->
             <div class="messages-section" v-if="isMessagesOpen && messages.length">
-              <h2>Messages</h2>
+              <h2>اعلان ها</h2>
               <div class="message" v-for="(message, index) in messages" :key="index">
                 <p>{{ message }}</p>
               </div>
@@ -814,57 +814,79 @@ button .material-icons-outlined {
   display: inline-block;
 }
 .messages-section {
-  position: absolute;
-  top: 20px; /* Adjust as per your header's height */
-  right: -350px;
-  width: 350px; /* Width of the message box */
-  height: 500px; /* Height of the message box */
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  z-index: 1500;
-}
+   position: absolute;
+   top: 26px; /* Adjust as per your header's height */
+   right: -198px;
+   width: 260px; /* Width of the message box */
+   height: 500px; /* Height of the message box */
+   background: #fff;
+   border-radius: 12px;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+   overflow: hidden; /* Hide scroll */
+   display: flex;
+   flex-direction: column;
+   z-index: 1500;
+   transition: all 0.3s ease; /* Smooth transitions */
+ }
 
 .messages-section h2 {
   background: linear-gradient(145deg, #4caf50, #81c784); /* Green gradient */
   color: white;
-  font-size: 1.5rem;
+  font-size: 1rem;
   text-align: center;
-  padding: 10px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  padding: 12px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  margin: 0; /* Remove default margin */
 }
+
 .messages-section .message {
-  padding: 10px;
-  margin: 5px;
-  background: #f1f1f1;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  margin: 8px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   word-wrap: break-word;
+  transition: background 0.3s ease; /* Smooth hover transition */
 }
+
+.messages-section .message:hover {
+  background: #e1f5fe; /* Slight hover effect */
+}
+
 .messages-section .message:nth-child(even) {
-  background: #e0f7fa; /* Alternate color for better readability */
+  background: #e3f2fd; /* Alternate color for better readability */
 }
-.messages-section {
-  flex: 1;
-  overflow-y: auto; /* Enables scrolling for messages */
-  scrollbar-width: thin; /* Custom scrollbar width for modern browsers */
-  scrollbar-color: #81c784 transparent; /* Colors for custom scrollbar */
-}
+
 /* Custom scrollbar for Webkit-based browsers */
 .messages-section::-webkit-scrollbar {
   width: 6px;
 }
+
 .messages-section::-webkit-scrollbar-thumb {
-  background-color: #81c784;
+  background-color: transparent; /* Hide scrollbar thumb */
   border-radius: 3px;
 }
+
 .messages-section::-webkit-scrollbar-track {
-  background-color: transparent;
+  background-color: transparent; /* Hide scrollbar track */
 }
+
+.messages-section::before {
+  content: '';
+  position: absolute;
+  top: -10px; /* Adjust the position */
+  left: 50%;
+  width: 20px;
+  height: 10px;
+  background: white;
+  border-bottom: 10px solid #4caf50; /* Color of the border */
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  transform: translateX(-50%);
+  border-radius: 0 0 12px 12px; /* Rounded corners */
+}
+
 .swiper-container {
   position: relative;
   top: 60px;
