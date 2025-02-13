@@ -57,7 +57,7 @@
       <div class="ribbon">
           <!-- آیکون نمایش پیام‌ها -->
 
-        <h2>Store</h2>
+        <h3>فروشگاه آنلاین</h3>
         <!-- اضافه کردن آیکون‌های جدید -->
         <div class="icons">
           <div class="icon" @click="toggleMessages">
@@ -681,12 +681,12 @@ button .material-icons-outlined {
   align-items: center; /* تراز عمودی آیکون و عنوان */
   //gap: 10px; /* فاصله بین آیکون و عنوان */
 }
-.ribbon h2 {
+.ribbon h3 {
   position: absolute;
   //top: 15px;
-  left:10px;
+  right:80px;
   margin: 0; /* حذف فاصله‌های پیش‌فرض */
-  font-size: 2rem;
+  font-size: 1.2rem;
   //flex: 1; /* عنوان به اندازه فضای باقی‌مانده گسترش یابد */
   //text-align: left; /* تراز به چپ برای عنوان */
 }
@@ -792,7 +792,10 @@ button .material-icons-outlined {
   background-color: #f27474;
   color: white;
   font-size: 0.8rem;
-  padding: 2px 6px;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
   border-radius: 100%;
   display: inline-block;
 }
@@ -803,7 +806,10 @@ button .material-icons-outlined {
   background-color: #f27474;
   color: white;
   font-size: 0.8rem;
-  padding: 2px 6px;
+  padding: 2px;
+  width: 20px;
+  height: 20px;
+  text-align: center;
   border-radius: 100%;
   display: inline-block;
 }
@@ -903,7 +909,7 @@ button .material-icons-outlined {
 }
 .icons{
   position: absolute;
-  left:130px;
+  left:30px;
   //bottom: 20px;
   display: flex;
   flex-direction: row-reverse;

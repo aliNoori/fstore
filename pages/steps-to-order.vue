@@ -296,8 +296,8 @@
     </div>
     <div v-else-if="currentStep===6 && action==='Wallet'">
       <div class="page offline-payment-methods">
-        <h2>انتخاب درگاه پرداخت</h2>
-        <div class="offline-method-selection-page">
+        <h2>پرداخت با کیف پول</h2>
+        <div class="wallet-method-selection-page">
           <!-- Cards container in the middle -->
           <div class="wallet-card-container">
             <div><p>کیف پول</p></div>
@@ -321,11 +321,11 @@
     </div>
     <div v-else-if="currentStep===6 && action==='OtherWays'">
       <div class="page offline-payment-methods">
-        <h2>انتخاب درگاه پرداخت</h2>
-        <div class="offline-method-selection-page">
-          <!-- Cards container in the middle -->
+        <h2>پرداخت با کارت اعتباری</h2>
+        <div class="coupon-cards-selection-page">
+          <p>کارت های اعتباری</p>
           <div class="coupons-card-container">
-            <p>کارت های اعتباری</p>
+
             <div v-for="coupon in coupons" :key="coupon.id" class="coupon-card"
                  :class="{ selected: selectedCoupon === coupon.id }"
                  @click="selectedCoupon = coupon.id">
@@ -1555,6 +1555,13 @@ h2:hover::after {
   gap: 20px;
   justify-content: flex-end;
 }
+.coupon-cards-selection-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
 
 .coupons-card-container {
   display: flex;
@@ -1566,7 +1573,7 @@ h2:hover::after {
 
 .coupon-card {
   position: relative;
-  width: calc(33.333% - 20px);
+  //width: calc(33.333% - 20px);
   max-width: 300px;
   padding: 20px;
   border: 1px solid #ddd;
@@ -1598,6 +1605,12 @@ h2:hover::after {
   font-size: 0.9rem;
   color: #666;
   margin: 0.5rem 0;
+}
+.wallet-method-selection-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-end;
 }
 
 .wallet-card-container {
