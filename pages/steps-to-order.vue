@@ -275,7 +275,7 @@
                   required
                   hidden
               />
-              <h3>{{ onlineMethod.gateway }}</h3>
+              <h3>{{ getOnlineMethodGateway(onlineMethod.gateway) }}</h3>
               <img
                   :src="onlineMethod.image ? `${$config.public.API_BASE_URL}${onlineMethod.image.path}` : '/default-payment-image.jpg'"
                   :alt="onlineMethod.name"
@@ -294,7 +294,7 @@
         </div>
       </div>
     </div>
-    <div v-else-if="currentStep===6 && action==='Offline'">
+    <div v-else-if="currentStep===6 && action==='Wallet'">
       <div class="page offline-payment-methods">
         <h2>انتخاب درگاه پرداخت</h2>
         <div class="offline-method-selection-page">
@@ -308,6 +308,22 @@
               <strong>{{ $toPersian($formatPrice(wallet.balance)) }} تومان</strong>
             </div>
           </div>
+          <div class="controls">
+            <button @click="() => {
+            handleSelectedOnlineMethods()
+            .then(nextStep)
+            .catch(error => console.error(error));}">پرداخت سفارش
+            </button>
+            <button @click="previousStep">برگشت به انتخاب روش پرداخت</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else-if="currentStep===6 && action==='OtherWays'">
+      <div class="page offline-payment-methods">
+        <h2>انتخاب درگاه پرداخت</h2>
+        <div class="offline-method-selection-page">
+          <!-- Cards container in the middle -->
           <div class="coupons-card-container">
             <p>کارت های اعتباری</p>
             <div v-for="coupon in coupons" :key="coupon.id" class="coupon-card"
@@ -397,7 +413,18 @@ const getPaymentMethodDescription=(name)=>{
   }else {
     return name; // یا هر مقدار دیگری که ممکن است داشته باشد
   }
-}
+};
+const getOnlineMethodGateway = (gateway) => {
+  if (gateway === 'parsian') {
+    return 'پارسیان';
+  } else if (gateway === 'mellat') {
+    return 'ملت';
+  } else if (gateway === 'melli') {
+    return 'ملی';
+  }else {
+    return gateway; // یا هر مقدار دیگری که ممکن است داشته باشد
+  }
+};
 
 
 //////////////// Fetch Cart Items /////////
@@ -546,13 +573,17 @@ const handleSelectedPaymentMethods = async () => {
   }
   try {
     const response = await $axios.post(`user/manageSelectedPayment/${selectedPaymentMethod.value}`); // ارسال آدرس انتخاب شده به سرور
-    console.log(response.data.action)
-    console.log('PaymentMethod :', response.data.action);
+
     action.value = response.data.action;
+
     if (response.data.action === 'Online') {
+      console.log('action1 :', response.data.action);
       await loadOnlineMethods();
-    } else if (response.data.action === 'Offline') {
+    } else if (response.data.action === 'Wallet') {
+      console.log('action2 :', response.data.action);
       await fetchWallet();
+    } else if (response.data.action === 'OtherWays') {
+      console.log('action3 :', response.data.action);
       await fetchCoupons();
     }
   } catch (error) {
