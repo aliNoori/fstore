@@ -814,34 +814,35 @@ button .material-icons-outlined {
   display: inline-block;
 }
 .messages-section {
-   position: absolute;
-   top: 26px; /* Adjust as per your header's height */
-   right: -198px;
-   width: 260px; /* Width of the message box */
-   height: 500px; /* Height of the message box */
-   background: #fff;
-   border-radius: 12px;
-   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-   overflow: hidden; /* Hide scroll */
-   display: flex;
-   flex-direction: column;
-   z-index: 1500;
-   transition: all 0.3s ease; /* Smooth transitions */
- }
+  position: absolute;
+  top: 26px; /* Adjust as per your header's height */
+  right: -198px;
+  width: 260px; /* Width of the message box */
+  height: 500px; /* Height of the message box */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Enable scrolling for messages */
+  display: flex;
+  flex-direction: column;
+  z-index: 1500;
+  transition: all 0.3s ease; /* Smooth transitions */
+}
 
 .messages-section h2 {
   background: linear-gradient(145deg, #4caf50, #81c784); /* Green gradient */
   color: white;
   font-size: 1rem;
   text-align: center;
-  padding: 12px;
+  padding: 6px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   margin: 0; /* Remove default margin */
 }
 
 .messages-section .message {
-  padding: 12px;
+  font-size: 0.9rem; /* Smaller font size for mobile */
+  padding: 10px;
   margin: 8px;
   background: #f9f9f9;
   border-radius: 8px;
