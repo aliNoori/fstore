@@ -5,7 +5,7 @@
         <div class="menu-icon-sidebar" @click="toggleMenu">
           <span class="arrow"></span>
         </div>
-        <h1 class="sidebar-title">پروفایل</h1>
+        <h2 class="sidebar-title">پروفایل</h2>
         <!-- نمایش اطلاعات کاربر اگر موجود باشد -->
         <div v-if="user" class="user-info">
           <img :src="user.image ? `${config.public.API_BASE_URL}${user.image.path}` : '/default-avatar.png'" :alt="user.name" class="user-avatar" />

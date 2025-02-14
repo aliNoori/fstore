@@ -302,28 +302,50 @@
           <div class="wallet-card-container">
             <div><p>کیف پول</p></div>
             <div class="wallet-card"
-                 :class="{ selected: selectedWallet === wallet.id }"
-                 @click="selectedWallet = wallet.id">
+                 :class="{ selected: selectedWalletMethod === wallet.id }"
+                 @click="selectedWalletMethod = wallet.id">
               <span>موجودی: </span>
               <strong>{{ $toPersian($formatPrice(wallet.balance)) }} تومان</strong>
             </div>
           </div>
           <div class="controls">
-            <button @click="() => {
-            handleSelectedOnlineMethods()
-            .then(nextStep)
-            .catch(error => console.error(error));}">پرداخت سفارش
+            <button
+                v-if="wallet.balance >= invoice.total_amount"
+                @click="() => {
+            handleSelectedWalletMethod()
+              .then(nextStep)
+              .catch((error) => console.error(error));
+          }"
+            >
+              پرداخت سفارش
+            </button>
+            <button
+                v-else
+                @click="showPopup = true"
+            >
+              افزایش موجودی
             </button>
             <button @click="previousStep">برگشت به انتخاب روش پرداخت</button>
+          </div>
+        </div>
+      </div>
+      <div v-if="showPopup" class="popup-overlay">
+        <div class="popup">
+          <h3>افزایش موجودی کیف پول</h3>
+          <label for="amount">مقدار افزایش موجودی:</label>
+          <input type="number" v-model="increaseAmount" id="amount" class="modern-input" step="any"/>
+          <div class="popup-controls">
+            <button @click="increaseWalletBalance" class="modern-button">افزایش</button>
+            <button @click="showPopup = false" class="modern-button">لغو</button>
           </div>
         </div>
       </div>
     </div>
     <div v-else-if="currentStep===6 && action==='OtherWays'">
       <div class="page offline-payment-methods">
-        <h2>پرداخت با کارت اعتباری</h2>
+        <h2>پرداخت با کارت تخفیف</h2>
         <div class="coupon-cards-selection-page">
-          <p>کارت های اعتباری</p>
+          <p>کارت های تخفیف</p>
           <div class="coupons-card-container">
 
             <div v-for="coupon in coupons" :key="coupon.id" class="coupon-card"
@@ -399,18 +421,18 @@ const getPaymentMethodName = (name) => {
     return 'کیف پول';
   } else if (name === 'OtherWays') {
     return 'از طرق دیگر';
-  }else {
+  } else {
     return name; // یا هر مقدار دیگری که ممکن است داشته باشد
   }
 };
-const getPaymentMethodDescription=(name)=>{
+const getPaymentMethodDescription = (name) => {
   if (name === 'Online') {
     return 'پرداخت از طریق درگاه های بانکی';
   } else if (name === 'Wallet') {
     return 'پرداخت از طریق کیف پول';
   } else if (name === 'OtherWays') {
     return 'پرداخت از طریق کارت جایزه و ...';
-  }else {
+  } else {
     return name; // یا هر مقدار دیگری که ممکن است داشته باشد
   }
 };
@@ -421,7 +443,7 @@ const getOnlineMethodGateway = (gateway) => {
     return 'ملت';
   } else if (gateway === 'melli') {
     return 'ملی';
-  }else {
+  } else {
     return gateway; // یا هر مقدار دیگری که ممکن است داشته باشد
   }
 };
@@ -609,9 +631,9 @@ const handleSelectedOnlineMethods = async () => {
   try {
     // دریافت در صفحه بعدی
     const order_number = JSON.parse(localStorage.getItem('order_number'));
-    const response = await $axios.post(`user/processPayment/${order_number}/${selectedOnlinePaymentMethod.value}`); // ارسال آدرس انتخاب شده به سرور
-    console.log('url :', response.data.url);
-    window.location.href = response.data.url; // هدایت کاربر به URL پرداخت
+    const response = await $axios.post(`user/processPayment/${order_number}/${selectedOnlinePaymentMethod.value}?paymentType=online`); // ارسال آدرس انتخاب شده به سرور
+    //console.log('url :', response.data.url);
+    //window.location.href = response.data.url; // هدایت کاربر به URL پرداخت
 
   } catch (error) {
     console.error('Failed to selected onlinePaymentMethods :', error);
@@ -621,7 +643,7 @@ const handleSelectedOnlineMethods = async () => {
 const wallet = ref({});
 const coupons = ref({});
 const selectedCoupon = ref(null);
-const selectedWallet = ref(null);
+const selectedWalletMethod = ref(null);
 const fetchWallet = async () => {
   try {
     const response = await $axios.get('user/my/wallet');
@@ -630,6 +652,22 @@ const fetchWallet = async () => {
     console.error('خطا در دریافت اطلاعات کیف پول:', error);
   }
 };
+const handleSelectedWalletMethod=async ()=>{
+  if (!selectedWalletMethod.value) {
+    console.error('No Wallet selected');
+    return;
+  }
+  try {
+    // دریافت در صفحه بعدی
+    const order_number = JSON.parse(localStorage.getItem('order_number'));
+    const response = await $axios.post(`user/processPayment/${order_number}/${selectedWalletMethod.value}?paymentType=wallet`); // ارسال آدرس انتخاب شده به سرور
+    console.log('url :', response.data.url);
+    window.location.href = response.data.url; // هدایت کاربر به URL پرداخت
+
+  } catch (error) {
+    console.error('Failed to selected walletMethods :', error);
+  }
+}
 const fetchCoupons = async () => {
   try {
     const response = await $axios.get('user/my/coupons'); // Adjust API endpoint as needed
@@ -638,7 +676,18 @@ const fetchCoupons = async () => {
     console.error('خطا در دریافت اطلاعات  کپن های کاربر:', error);
   }
 };
-
+/////////////// Popup ///////////
+const showPopup=ref(false);
+const increaseAmount=ref(0);
+const increaseWalletBalance= async ()=>{
+  try {
+    const response = await $axios.post(`user/wallet/${wallet.id}/charge`); // Adjust API endpoint as needed
+    wallet.balance=response.data.new_balance;
+    showPopup.value=false;
+  } catch (error) {
+    console.error('خطا در افزایش موجودی کیف پول:', error);
+  }
+}
 /////////////////On Mounted /////////
 onMounted(() => {
   fetchCartItems();
@@ -653,6 +702,7 @@ onMounted(() => {
   font-size: 1.5rem;
   color: #28a745;
 }
+
 .checkmark-shipping {
   position: absolute;
   top: 10px;
@@ -660,6 +710,81 @@ onMounted(() => {
   font-size: 1.5rem;
   color: #28a745;
 }
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.popup {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transform: scale(0.9);
+  animation: popUp 0.3s ease forwards;
+}
+
+@keyframes popUp {
+  to { transform: scale(1); }
+}
+
+.popup-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-controls button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.popup-controls button:hover {
+  background: #0056b3;
+}
+
+.modern-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+  -moz-appearance: textfield; /* برای حذف استپر در فایرفاکس */
+}
+
+.modern-input::-webkit-outer-spin-button,
+.modern-input::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* برای حذف استپر در کروم و سافاری */
+  margin: 0;
+}
+
+.modern-input:focus {
+  border: 1px solid #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
 /* استایل کلی */
 .progress-container {
   display: flex;
@@ -1205,9 +1330,7 @@ h2:hover::after {
   align-items: flex-start;
   position: relative;
   width: calc(33.333% - 20px); /* برای نمایش سه کارت در یک ردیف */
-//max-width: 300px; padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
+//max-width: 300px; padding: 20px; border: 1px solid #ddd; border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -1255,6 +1378,7 @@ h2:hover::after {
   color: #666;
   margin: 0.5rem 0;
 }
+
 .payment-card label {
   display: flex;
   flex-direction: column;
@@ -1404,8 +1528,7 @@ h2:hover::after {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  //min-height: 100vh;
-  overflow-y: auto; /* امکان اسکرول عمودی */
+//min-height: 100vh; overflow-y: auto; /* امکان اسکرول عمودی */
 }
 
 .invoice-container {
@@ -1556,27 +1679,26 @@ h2:hover::after {
   gap: 20px;
   justify-content: flex-end;
 }
+
 .coupon-cards-selection-page {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  //justify-content: flex-start;
-  align-items: center;
+//justify-content: flex-start; align-items: center;
 }
 
 .coupons-card-container {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   flex-direction: row;
   gap: 20px;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  font-size: 12px;
 }
 
 .coupon-card {
   position: relative;
-  //width: calc(33.333% - 20px);
-  max-width: 300px;
-  padding: 20px;
+//width: calc(33.333% - 20px); max-width: 300px; padding: 25px;
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #fff;
@@ -1607,6 +1729,7 @@ h2:hover::after {
   color: #666;
   margin: 0.5rem 0;
 }
+
 .wallet-method-selection-page {
   display: flex;
   flex-direction: column;
