@@ -14,7 +14,13 @@ export default defineNuxtPlugin(() => {
                 const date = new Date(dateString);
                 const jalaaliDate = jalaali.toJalaali(date);
                 return `${jalaaliDate.jy}/${jalaaliDate.jm}/${jalaaliDate.jd}`;
-            }
+            },
+            parseDateTime: (dateTime) => {
+                const date = new Date(dateTime);
+                return date.toTimeString().split(' ')[0];
+
+            },
+
         }
     }
 });

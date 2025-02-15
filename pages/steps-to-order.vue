@@ -312,7 +312,7 @@
             <button
                 v-if="wallet.balance >= invoice.total_amount"
                 @click="() => {
-            handleSelectedWalletMethod()
+               handleSelectedWalletMethod()
               .then(nextStep)
               .catch((error) => console.error(error));
           }"
@@ -337,6 +337,24 @@
           <div class="popup-controls">
             <button @click="increaseWalletBalance" class="modern-button">افزایش</button>
             <button @click="showPopup = false" class="modern-button">لغو</button>
+          </div>
+        </div>
+      </div>
+      <div v-if="showPopupTransaction" class="popup-transaction-overlay">
+        <div class="popup-transaction">
+          <div class="popup-header">
+            <span class="icon-check-circle"></span>
+            <h3>تراکنش شما با موفقیت انجام شد</h3>
+          </div>
+          <div class="transaction-details">
+            <p><strong>شماره سفارش:</strong> {{ transaction.order.order_number }}</p>
+            <p><strong>مبلغ تراکنش:</strong> {{ $toPersian($formatPrice(transaction.amount)) }} تومان</p>
+            <p><strong>کد تراکنش:</strong> {{ transaction.code }}</p>
+            <p><strong>تاریخ تراکنش:</strong> {{ $toPersian($toPersianDate(transaction.date)) }}</p>
+            <p><strong>زمان تراکنش:</strong> {{ $toPersian($parseDateTime(transaction.date)) }}</p>
+          </div>
+          <div class="popup-controls">
+            <NuxtLink :to="`/order/${transaction.order.id}`" class="modern-button">بستن</NuxtLink>
           </div>
         </div>
       </div>
@@ -383,7 +401,6 @@
 <script setup>
 import {ref, onMounted} from 'vue';
 import {useNuxtApp, useRuntimeConfig} from '#app';
-import jalaali from "jalaali-js";
 
 const router = useRouter();
 /////////// convert number to persian ///////
@@ -447,11 +464,9 @@ const getOnlineMethodGateway = (gateway) => {
     return gateway; // یا هر مقدار دیگری که ممکن است داشته باشد
   }
 };
-
-
 //////////////// Fetch Cart Items /////////
 
-const {$axios, $toPersian, $toPersianDate, $formatPrice} = useNuxtApp(); // Using Nuxt Axios
+const {$axios, $toPersian, $toPersianDate, $formatPrice,$parseDateTime} = useNuxtApp(); // Using Nuxt Axios
 const cartItems = ref({});
 const config = useRuntimeConfig();
 const fetchCartItems = async () => {
@@ -631,9 +646,9 @@ const handleSelectedOnlineMethods = async () => {
   try {
     // دریافت در صفحه بعدی
     const order_number = JSON.parse(localStorage.getItem('order_number'));
-    const response = await $axios.post(`user/processPayment/${order_number}/${selectedOnlinePaymentMethod.value}?paymentType=online`); // ارسال آدرس انتخاب شده به سرور
-    //console.log('url :', response.data.url);
-    //window.location.href = response.data.url; // هدایت کاربر به URL پرداخت
+    const response = await $axios.post(`user/processPayment/${order_number}/${selectedOnlinePaymentMethod.value}`); // ارسال آدرس انتخاب شده به سرور
+    console.log('url :', response.data.url);
+    window.location.href = response.data.url; // هدایت کاربر به URL پرداخت
 
   } catch (error) {
     console.error('Failed to selected onlinePaymentMethods :', error);
@@ -644,6 +659,8 @@ const wallet = ref({});
 const coupons = ref({});
 const selectedCoupon = ref(null);
 const selectedWalletMethod = ref(null);
+const transaction=ref(null);
+const showPopupTransaction=ref(false);
 const fetchWallet = async () => {
   try {
     const response = await $axios.get('user/my/wallet');
@@ -653,6 +670,7 @@ const fetchWallet = async () => {
   }
 };
 const handleSelectedWalletMethod=async ()=>{
+
   if (!selectedWalletMethod.value) {
     console.error('No Wallet selected');
     return;
@@ -660,9 +678,11 @@ const handleSelectedWalletMethod=async ()=>{
   try {
     // دریافت در صفحه بعدی
     const order_number = JSON.parse(localStorage.getItem('order_number'));
-    const response = await $axios.post(`user/processPayment/${order_number}/${selectedWalletMethod.value}?paymentType=wallet`); // ارسال آدرس انتخاب شده به سرور
-    console.log('url :', response.data.url);
-    window.location.href = response.data.url; // هدایت کاربر به URL پرداخت
+    const response = await $axios.post(`user/processPayment/${order_number}/${selectedWalletMethod.value}/paymentWithWallet`); // ارسال آدرس انتخاب شده به سرور
+    console.log('url :', response.data.transaction);
+    transaction.value=response.data.transaction;
+    showPopupTransaction.value=true;
+
 
   } catch (error) {
     console.error('Failed to selected walletMethods :', error);
@@ -710,6 +730,59 @@ onMounted(() => {
   font-size: 1.5rem;
   color: #28a745;
 }
+.popup-transaction-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.3s ease;
+}
+.popup-transaction {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transform: scale(0.9);
+  animation: popUp 0.3s ease forwards;
+  max-width: 500px;
+  width: 100%;
+}
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.popup-header .icon-check-circle {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  //background: url('path/to/check-circle-icon.svg') no-repeat center center;
+  background-size: contain;
+  margin-right: 10px;
+}
+
+.popup-header h3 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #28a745;
+}
+
+.transaction-details {
+  margin-bottom: 20px;
+}
+
+.transaction-details p {
+  margin: 5px 0;
+}
+
 .popup-overlay {
   position: fixed;
   top: 0;
