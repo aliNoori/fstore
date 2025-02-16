@@ -1,5 +1,5 @@
 <template>
-  <div class="product-container">
+  <div v-if="product" class="product-container">
     <!-- اطلاعات محصول -->
     <div class="product-details">
       <div class="product-info" data-aos="fade-up">
@@ -50,10 +50,12 @@
           <li v-for="(comment, index) in product.reviews" :key="comment.id">
             <div class="comment">
               <div class="comment-header">
-                <img :src="comment.user.image ? `${config.public.API_BASE_URL}${comment.user.image.path}` : '/default-avatar.png'" alt="User Image" class="user-avatar" />
+                <img
+                    :src="comment.user.image ? `${config.public.API_BASE_URL}${comment.user.image.path}` : '/default-avatar.png'"
+                    alt="User Image" class="user-avatar"/>
                 <div class="comment-user-info">
                   <p class="user-name">{{ comment.user.name }}</p>
-<!--                  <p class="user-username">{{ comment.user.username }}</p>-->
+                  <!--                  <p class="user-username">{{ comment.user.username }}</p>-->
                   <p class="comment-rating">امتیاز: {{ comment.rating }}</p>
                 </div>
               </div>
@@ -70,18 +72,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
-import { useNuxtApp, useRoute } from '#app';
-import { useRuntimeConfig } from '#app';
+import {ref, onMounted, watch} from 'vue';
+import {useNuxtApp, useRoute} from '#app';
+import {useRuntimeConfig} from '#app';
 
-const { $axios } = useNuxtApp();
+const {$axios} = useNuxtApp();
 const route = useRoute();
 const config = useRuntimeConfig();
 const product = ref(null);
 const newComment = ref('');
 const newRating = ref(0);
 const infoProduct = ref(null);
-const cartCount=ref(0);
+const cartCount = ref(0);
 const user = ref(null);
 const toPersian = (number) => {
   const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
@@ -90,14 +92,24 @@ const toPersian = (number) => {
 const formatPrice = (price) => {
   return Math.floor(price).toLocaleString('fa-IR');
 };
+const isLoggedIn = ref(false);
+const checkUserLoginStatus = () => {
+  return !!localStorage.getItem('auth_token');
+}
+
 async function fetchCartCount() {
-  try {
-    const response = await $axios.get(`cart/items/${route.params.id}/info`);
-    infoProduct.value = response.data;
-    cartCount.value=infoProduct.value.quantity;
-    console.log(response.data);
-  } catch (error) {
-    console.error('خطا در دریافت اطلاعات :', error);
+  isLoggedIn.value = checkUserLoginStatus();
+  if (isLoggedIn.value) {
+    try {
+      const response = await $axios.get(`cart/items/${route.params.id}/info`);
+      infoProduct.value = response.data;
+      cartCount.value = infoProduct.value.quantity;
+      console.log(response.data);
+    } catch (error) {
+      console.error('خطا در دریافت اطلاعات:', error);
+    }
+  } else {
+    console.log('کاربر لاگین نیست.');
   }
 }
 
@@ -114,51 +126,57 @@ async function fetchProduct() {
 
 // افزودن محصول به سبد خرید
 async function addToCart(productId) {
-  try {
-    const response = await $axios.post(`cart/item/add/${productId}`);
-    if (response.status === 200) {
-      console.log('محصول به سبد خرید اضافه شد:', response.data);
-      //alert('محصول با موفقیت به سبد خرید اضافه شد');
-      cartCount.value += 1;
-    } else if (response.status === 400) {
-      console.log('تعداد درخواستی بیشتر از موجودی محصول است', response.data);
-      alert('تعداد درخواستی بیشتر از موجودی محصول است');
-    } else if (response.status === 404) {
-      console.log('محصول مورد نظر یافت نشد', response.data);
-      alert('محصول مورد نظر یافت نشد');
-    } else if (response.status === 500) {
-      console.log('خطایی در افزودن محصول به سبد خرید رخ داده است', response.data);
-      alert('خطایی در افزودن محصول به سبد خرید رخ داده است');
-    } else {
-      console.log('خطا:', response.data);
-      alert('خطایی رخ داده است');
-    }
-  } catch (error) {
-    if (error.response && error.response.status) {
-      switch (error.response.status) {
-        case 400:
-          console.error('تعداد درخواستی بیشتر از موجودی محصول است:', error.response.data);
-          alert('تعداد درخواستی بیشتر از موجودی محصول است');
-          break;
-        case 404:
-          console.error('محصول مورد نظر یافت نشد:', error.response.data);
-          alert('محصول مورد نظر یافت نشد');
-          break;
-        case 500:
-          console.error('خطایی در افزودن محصول به سبد خرید رخ داده است:', error.response.data);
-          alert('خطایی در افزودن محصول به سبد خرید رخ داده است');
-          break;
-        default:
-          console.error('خطا:', error.response.data);
-          alert('خطایی رخ داده است');
+
+  isLoggedIn.value = checkUserLoginStatus();
+  if (isLoggedIn.value) {
+    try {
+      const response = await $axios.post(`cart/item/add/${productId}`);
+      if (response.status === 200) {
+        console.log('محصول به سبد خرید اضافه شد:', response.data);
+        //alert('محصول با موفقیت به سبد خرید اضافه شد');
+        cartCount.value += 1;
+      } else if (response.status === 400) {
+        console.log('تعداد درخواستی بیشتر از موجودی محصول است', response.data);
+        alert('تعداد درخواستی بیشتر از موجودی محصول است');
+      } else if (response.status === 404) {
+        console.log('محصول مورد نظر یافت نشد', response.data);
+        alert('محصول مورد نظر یافت نشد');
+      } else if (response.status === 500) {
+        console.log('خطایی در افزودن محصول به سبد خرید رخ داده است', response.data);
+        alert('خطایی در افزودن محصول به سبد خرید رخ داده است');
+      } else {
+        console.log('خطا:', response.data);
+        alert('خطایی رخ داده است');
       }
-    } else {
-      console.error('خطا در افزودن محصول به سبد خرید:', error);
-      alert('خطایی در افزودن محصول به سبد خرید رخ داد.');
+    } catch (error) {
+      if (error.response && error.response.status) {
+        switch (error.response.status) {
+          case 400:
+            console.error('تعداد درخواستی بیشتر از موجودی محصول است:', error.response.data);
+            alert('تعداد درخواستی بیشتر از موجودی محصول است');
+            break;
+          case 404:
+            console.error('محصول مورد نظر یافت نشد:', error.response.data);
+            alert('محصول مورد نظر یافت نشد');
+            break;
+          case 500:
+            console.error('خطایی در افزودن محصول به سبد خرید رخ داده است:', error.response.data);
+            alert('خطایی در افزودن محصول به سبد خرید رخ داده است');
+            break;
+          default:
+            console.error('خطا:', error.response.data);
+            alert('خطایی رخ داده است');
+        }
+      } else {
+        console.error('خطا در افزودن محصول به سبد خرید:', error);
+        alert('خطایی در افزودن محصول به سبد خرید رخ داد.');
+      }
     }
+  } else {
+    console.log('لطفا لاگین نمایید.');
+    alert('لطفا لاگین نمایید.');
   }
 }
-
 
 
 // ثبت نظر جدید
@@ -241,15 +259,13 @@ watch(
 /* جزئیات محصول */
 .product-details {
   display: flex;
-  flex-direction:row-reverse;
+  flex-direction: row-reverse;
   justify-content: flex-end;
   align-items: flex-end;
   gap: 2rem;
   width: 100vw;
   height: auto;
-  //border-bottom: 2px solid #ddd;
-  padding: 2.5rem;
-  //margin-bottom: 2rem;
+//border-bottom: 2px solid #ddd; padding: 2.5rem; //margin-bottom: 2rem;
 }
 
 /* اطلاعات محصول */
@@ -258,20 +274,20 @@ watch(
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  //gap: 10px;
-  width: 100%;
-  height: auto;
+//gap: 10px; width: 100%; height: auto;
   background-color: #f9f9f9; /* پس‌زمینه ملایم */
   padding: 1.5rem;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* سایه نرم */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  //flex: 1;
+//flex: 1;
 }
+
 .product-info:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
+
 .product-info h1,
 .product-info .description,
 .product-info .price,
@@ -357,6 +373,7 @@ watch(
   justify-content: center;
   transition: all 0.3s ease;
 }
+
 .add-to-cart-btn i {
   margin-right: 0.5rem; /* آیکون فاصله با متن */
 }
@@ -371,6 +388,7 @@ watch(
   background-color: #aaa;
   cursor: not-allowed;
 }
+
 .add-to-cart-btn:active {
   transform: scale(0.95);
   background: linear-gradient(90deg, #0056b3, #003f7f);
@@ -495,6 +513,7 @@ watch(
   transform: translateY(-10px);
   animation: fadeIn 0.5s forwards;
 }
+
 .comment-header {
   display: flex;
   align-items: center;
@@ -554,6 +573,7 @@ watch(
   color: #555;
   font-size: 0.85rem;
 }
+
 button.loading {
   position: relative;
   pointer-events: none;
@@ -577,12 +597,13 @@ button.loading::after {
     transform: rotate(360deg);
   }
 }
+
 @media (max-width: 768px) {
   .product-container {
     padding: 0;
     flex-direction: column; /* چینش عمودی برای موبایل */
-    align-items: center;   /* تراز کردن محتوا به مرکز */
-    //gap: 1rem;
+    align-items: center; /* تراز کردن محتوا به مرکز */
+  //gap: 1rem;
   }
 
   .product-details {
@@ -591,6 +612,7 @@ button.loading::after {
     align-items: center;
     width: 100%; /* کارت‌ها تمام عرض صفحه را می‌گیرند */
   }
+
   .product-image {
     order: 1; /* تصویر در بالا قرار می‌گیرد */
     width: 100%; /* عرض کامل */
@@ -604,13 +626,12 @@ button.loading::after {
     border-radius: 0; /* حذف گوشه‌های گرد در موبایل */
     box-shadow: none; /* حذف سایه اضافی در موبایل */
   }
+
   .product-info {
     order: 2; /* اطلاعات زیر تصویر قرار می‌گیرند */
     width: 100%; /* عرض کامل */
     max-width: 100%;
-    //padding: 1rem;
-    box-sizing: border-box;
-    background: #f9f9f9; /* پس‌زمینه ملایم */
+  //padding: 1rem; box-sizing: border-box; background: #f9f9f9; /* پس‌زمینه ملایم */
     border-radius: 10px;
   }
 
@@ -619,6 +640,7 @@ button.loading::after {
     text-align: center;
   }
 }
+
 .star-rating {
   display: flex;
   gap: 5px;

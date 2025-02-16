@@ -104,8 +104,119 @@
           </swiper-slide>
         </swiper>
       </div>
-      <div>
+      <div class="store-banner">
+        <h2>فروشگاه آنلاین</h2>
+        <p>
+          با خرید از فروشگاه آنلاین تجربه بهتری از خرید داشنه باشید و اجناس و کالای با کیفیت و مرغوب را تهیه کنید و در مراحل بعد تبلیغ فروشگاه ما باشید.
+        </p>
+      </div>
+      <div class="product-list">
+        <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
 
+          <!-- برچسب تخفیف در صورت وجود تخفیف -->
+          <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
+
+          <!-- تصویر محصول -->
+          <NuxtLink :to="`/product/${product.id}`"><img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
+          </NuxtLink>
+          <div class="product-card-content">
+            <!--            <div class="buttons">
+                          &lt;!&ndash; Like Icon &ndash;&gt;
+                          <button @click="ToggleLikeProduct(product.id)">
+                            &lt;!&ndash; SVG Icon &ndash;&gt;
+                            <span v-html="product.isLiked ? heartFilled : heartOutline"
+                                  :style="{ color: product.isLiked ? '#ff0000' : '#888888' }"> </span>
+                            <span v-if="product.likes > 0" class="badge">{{ product.likes }}</span>
+                          </button>
+                           View Icon
+                          <button>
+                            <span class="material-icons-outlined" style="color: #888888;">visibility</span>
+                            <span v-if="product.views > 0" class="badge">{{ product.views }}</span>
+                          </button>
+                           Cart Icon
+                          <button @click="addToCart(product.id)">
+                            <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
+                            <span v-if="product.cart_count > 0" class="badge">{{ toPersian(product.cart_count) }}</span>
+                          </button>
+                        </div>-->
+            <h3>{{ product.name }}</h3>
+            <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }}تومان</p>
+            <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
+
+            <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
+            <div v-if="product.reviews && product.reviews.length > 0" class="star-rating">
+      <span
+          v-for="star in 5"
+          :key="star"
+          class="active"
+      >
+        ★
+      </span>
+            </div>
+            <div v-else class="no-rating">هنوز امتیازی ندارد</div>
+
+          </div>
+        </div>
+      </div>
+      <div class="store-banner-height-quality">
+        <h2>کیفیت برتر</h2>
+        <p>
+          در فروشگاه ما، بهترین و با کیفیت‌ترین محصولات را پیدا کنید و از خریدی مطمئن لذت ببرید.
+        </p>
+      </div>
+      <div class="product-list">
+        <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
+
+          <!-- برچسب تخفیف در صورت وجود تخفیف -->
+          <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
+
+          <!-- تصویر محصول -->
+          <NuxtLink :to="`/product/${product.id}`"><img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
+          </NuxtLink>
+          <div class="product-card-content">
+            <!--            <div class="buttons">
+                          &lt;!&ndash; Like Icon &ndash;&gt;
+                          <button @click="ToggleLikeProduct(product.id)">
+                            &lt;!&ndash; SVG Icon &ndash;&gt;
+                            <span v-html="product.isLiked ? heartFilled : heartOutline"
+                                  :style="{ color: product.isLiked ? '#ff0000' : '#888888' }"> </span>
+                            <span v-if="product.likes > 0" class="badge">{{ product.likes }}</span>
+                          </button>
+                           View Icon
+                          <button>
+                            <span class="material-icons-outlined" style="color: #888888;">visibility</span>
+                            <span v-if="product.views > 0" class="badge">{{ product.views }}</span>
+                          </button>
+                           Cart Icon
+                          <button @click="addToCart(product.id)">
+                            <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
+                            <span v-if="product.cart_count > 0" class="badge">{{ toPersian(product.cart_count) }}</span>
+                          </button>
+                        </div>-->
+            <h3>{{ product.name }}</h3>
+            <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }}تومان</p>
+            <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
+
+            <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
+            <div v-if="product.reviews && product.reviews.length > 0" class="star-rating">
+      <span
+          v-for="star in 5"
+          :key="star"
+          class="active"
+      >
+        ★
+      </span>
+            </div>
+            <div v-else class="no-rating">هنوز امتیازی ندارد</div>
+
+          </div>
+        </div>
+      </div>
+      <div class="store-banner-off">
+        <h2>تخفیف‌های ویژه</h2>
+        <p>
+          هر هفته از تخفیف‌ها و پیشنهادات ویژه فروشگاه ما بهره‌مند شوید و خریدی اقتصادی و به‌صرفه را تجربه کنید.
+        </p>
       </div>
       <div class="product-list">
         <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
@@ -154,6 +265,18 @@
 
           </div>
         </div>
+      </div>
+      <div class="store-banner-buy-fast">
+        <h2>خرید آسان و سریع</h2>
+        <p>
+          با خرید آنلاین از فروشگاه ما، به راحتی و با سرعت بالا، کالای مورد نیاز خود را تهیه کنید و از تخفیف‌های ویژه بهره‌مند شوید.
+        </p>
+      </div>
+      <div class="store-banner-support">
+        <h2>پشتیبانی 24 ساعته</h2>
+        <p>
+          تیم پشتیبانی ما در هر ساعت از شبانه‌روز آماده پاسخگویی به سوالات و مشکلات شماست. خریدی آسان و بدون دغدغه را تجربه کنید.
+        </p>
       </div>
     </div>
 </template>
@@ -392,6 +515,122 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.store-banner {
+  //background: linear-gradient(135deg, #f9f9f9, #ececec);
+  padding: 80px 80px 40px 80px;
+  //border-radius: 10px;
+  //box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 100%;
+  margin-top: 80px;
+}
+
+.store-banner h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #007bff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.store-banner p {
+  font-size: .8em;
+  color: #555;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.store-banner-buy-fast {
+  //background: linear-gradient(135deg, #f0f0f0, #dcdcdc);
+  padding: 80px 80px 80px 80px;
+  max-width: 100%;
+  //border-radius: 10px;
+  //box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.store-banner-buy-fast h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #007bff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.store-banner-buy-fast p {
+  font-size: .8em;
+  color: #555;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.store-banner-height-quality {
+  //background: linear-gradient(135deg, #ffefba, #ffffff);
+  padding: 80px 80px 80px 80px;
+  margin-top: 80px;
+  max-width: 100%;
+  //border-radius: 10px;
+  //box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+}
+
+.store-banner-height-quality h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #ff6f61;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.store-banner-height-quality p {
+  font-size: .8em;
+  color: #555;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.store-banner-support {
+  //background: linear-gradient(135deg, #d4fc79, #96e6a1);
+  padding: 80px 80px 80px 80px;
+  margin-top: 80px;
+  max-width: 100%;
+  //border-radius: 10px;
+  //box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.store-banner-support h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #2d572c;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.store-banner-support p {
+  font-size: .8em;
+  color: #333;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.store-banner-off {
+  //background: linear-gradient(135deg, #fceabb, #f8b500);
+  padding: 80px 80px 80px 80px;
+  margin-top: 80px;
+  max-width: 100%;
+  //border-radius: 10px;
+  //box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.store-banner-off h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: #d35400;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.store-banner-off p {
+  font-size: .8em;
+  color: #555;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
 .sidebar {
   width: 250px;
   top: 0;
@@ -895,9 +1134,9 @@ button .material-icons-outlined {
   height: auto;
 }
 
-.swiper {
-  padding-bottom: 40px; /* کمی فاصله پایین اسلایدر */
-}
+/*.swiper {
+  padding-bottom: 40px; !* کمی فاصله پایین اسلایدر *!
+}*/
 
 .slide-item {
   display: flex;

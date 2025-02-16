@@ -40,7 +40,7 @@
       <h2>روش ارسال:</h2>
       <img :src="`${config.public.API_BASE_URL}${order.shipping_method.image.path}`" :alt="order.shipping_method.name" />
       <p>{{ order.shipping_method.name }}</p>
-      <p>{{ order.shipping_method.description }}</p>
+      <p>{{ toPersian(order.shipping_method.description) }}</p>
       <p>هزینه ارسال: {{ toPersian(order.shipping_method.cost) }} تومان</p>
       <p>{{ toPersian(order.shipping_method.delivery_time) }}</p>
       <button class="edit-shipping-method-btn" @click="editShippingMethod">

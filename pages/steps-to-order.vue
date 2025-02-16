@@ -1,4 +1,5 @@
 <template>
+  <div v-if="cartItems.value && cartItems.value.cart && cartItems.value.cart.items && cartItems.value.cart.items.length" >
   <div class="progress-container">
     <!-- نوار پیشرفت -->
     <div class="steps-wrapper">
@@ -18,7 +19,7 @@
     </div>
   </div>
   <!-- محتوای مربوط به هر مرحله -->
-  <div class="step-content">
+  <div  class="step-content">
     <div v-if="currentStep === 1" class="page card">
       <h2>سبد خرید</h2>
       <div class="items">
@@ -397,6 +398,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 <script setup>
 import {ref, onMounted} from 'vue';
@@ -708,9 +710,15 @@ const increaseWalletBalance= async ()=>{
     console.error('خطا در افزایش موجودی کیف پول:', error);
   }
 }
+const isLoggedIn = ref(false);
+const checkUserLoginStatus = () => {
+  return !!localStorage.getItem('auth_token');
+}
 /////////////////On Mounted /////////
 onMounted(() => {
+  if (isLoggedIn.value) {
   fetchCartItems();
+  }
 });
 </script>
 <style scoped>
@@ -752,6 +760,13 @@ onMounted(() => {
   animation: popUp 0.3s ease forwards;
   max-width: 500px;
   width: 100%;
+}
+@media (max-width: 460px) {
+  .popup-transaction{
+    width: 90%;
+    padding: 12px;
+  }
+
 }
 
 .popup-header {
