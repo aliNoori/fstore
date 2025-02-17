@@ -399,9 +399,15 @@
     </div>
   </div>
   </div>
-  <div v-else>
-  <p>سبد خرید شما خالی است. لطفا محصولات مورد نظر خود را به سبد خرید اضافه کنید.</p>
-</div>
+  <div v-else class="empty-cart">
+    <img src="https://example.com/empty-cart-image.png" alt="سبد خرید خالی" class="cart-image"/>
+    <p>سبد خرید شما خالی است. لطفا محصولات مورد نظر خود را به سبد خرید اضافه کنید.</p>
+    <div class="cart-icons">
+      <a href="https://telegram.org"><i class="fab fa-telegram-plane"></i></a>
+      <a href="https://instagram.com"><i class="fab fa-instagram"></i></a>
+      <a href="https://whatsapp.com"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
 </template>
 <script setup>
 import {ref, onMounted} from 'vue';
@@ -725,6 +731,45 @@ onMounted(() => {
 });
 </script>
 <style scoped>
+
+.empty-cart {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+.cart-image {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+.empty-cart p {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.cart-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.cart-icons a {
+  color: #333;
+  font-size: 1.5em;
+  transition: color 0.3s ease;
+}
+
+.cart-icons a:hover {
+  color: #007bff;
+}
+
 .checkmark {
   position: absolute;
   top: 50%;
