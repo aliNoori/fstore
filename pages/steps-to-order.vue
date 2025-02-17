@@ -1,5 +1,5 @@
 <template>
-  <div v-if="cartItems.value && cartItems.value.cart && cartItems.value.cart.items && cartItems.value.cart.items.length" >
+  <div v-if="cartItems" >
   <div class="progress-container">
     <!-- نوار پیشرفت -->
     <div class="steps-wrapper">
@@ -400,7 +400,7 @@
   </div>
   </div>
   <div v-else class="empty-cart">
-    <img src="https://example.com/empty-cart-image.png" alt="سبد خرید خالی" class="cart-image"/>
+<!--    <img src="https://example.com/empty-cart-image.png" alt="سبد خرید خالی" class="cart-image"/>-->
     <p>سبد خرید شما خالی است. لطفا محصولات مورد نظر خود را به سبد خرید اضافه کنید.</p>
     <div class="cart-icons">
       <a href="https://telegram.org"><i class="fab fa-telegram-plane"></i></a>
@@ -480,12 +480,19 @@ const getOnlineMethodGateway = (gateway) => {
 const {$axios, $toPersian, $toPersianDate, $formatPrice,$parseDateTime} = useNuxtApp(); // Using Nuxt Axios
 const cartItems = ref({});
 const config = useRuntimeConfig();
+const isLoggedIn = ref(false);
+const checkUserLoginStatus = () => {
+  return !!localStorage.getItem('auth_token');
+}
 const fetchCartItems = async () => {
+  isLoggedIn.value = checkUserLoginStatus();
+  if (isLoggedIn.value) {
   try {
     const response = await $axios.get('cart/items/show'); // Adjust API endpoint
     cartItems.value = response.data;
   } catch (error) {
     console.error('Error fetching cart items:', error);
+  }
   }
 };
 ///////// Remove items in cart /////////
@@ -719,15 +726,11 @@ const increaseWalletBalance= async ()=>{
     console.error('خطا در افزایش موجودی کیف پول:', error);
   }
 }
-const isLoggedIn = ref(false);
-const checkUserLoginStatus = () => {
-  return !!localStorage.getItem('auth_token');
-}
 /////////////////On Mounted /////////
 onMounted(() => {
-  if (isLoggedIn.value) {
+
   fetchCartItems();
-  }
+
 });
 </script>
 <style scoped>
