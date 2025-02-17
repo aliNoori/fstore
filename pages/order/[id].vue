@@ -126,9 +126,9 @@ const fetchOrder = async () => {
 onMounted(() => {
   const orderId = route.params.id;
   if (orderId) {
-    if (isLoggedIn.value) {
+    //if (isLoggedIn.value) {
     fetchOrder();
-    }
+    //}
   }
 });
 
@@ -136,9 +136,9 @@ watch(
     () => route.params.id,
     (newId) => {
       if (newId) {
-        if (isLoggedIn.value) {
+        //if (isLoggedIn.value) {
           fetchOrder();
-        }
+        //}
       }
     }
 );
