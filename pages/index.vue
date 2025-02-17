@@ -5,7 +5,7 @@
         <div class="menu-icon-sidebar" @click="toggleMenu">
           <span class="arrow"></span>
         </div>
-        <h2 class="sidebar-title">پروفایل</h2>
+        <h2 v-if="user" class="sidebar-title">پروفایل</h2>
         <!-- نمایش اطلاعات کاربر اگر موجود باشد -->
         <div v-if="user" class="user-info">
           <img :src="user.image ? `${config.public.API_BASE_URL}${user.image.path}` : '/default-avatar.png'" :alt="user.name" class="user-avatar" />
@@ -16,7 +16,7 @@
 
           <button @click="logout" class="logout-button">خروج</button>
         </div>
-        <div v-else>
+        <div v-else style="margin-top: 70px;">
           <NuxtLink to="/login" class="sidebar-link">ورود</NuxtLink>
           <NuxtLink to="/register" class="sidebar-link">ثبت نام</NuxtLink>
         </div>
@@ -110,8 +110,15 @@
           با خرید از فروشگاه آنلاین تجربه بهتری از خرید داشنه باشید و اجناس و کالای با کیفیت و مرغوب را تهیه کنید و در مراحل بعد تبلیغ فروشگاه ما باشید.
         </p>
       </div>
-      <div class="product-list">
-        <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
+      <div class="swiper-container">
+        <swiper
+            :modules="[Navigation]"
+            pagination
+            :slides-per-view="desktopView ? 6 : 2"
+            :space-between="20"
+            class="custom-swiper"
+        >
+        <swiper-slide v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id" style="width: 200px;">
 
           <!-- برچسب تخفیف در صورت وجود تخفیف -->
           <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
@@ -156,7 +163,8 @@
             <div v-else class="no-rating">هنوز امتیازی ندارد</div>
 
           </div>
-        </div>
+        </swiper-slide>
+        </swiper>
       </div>
       <div class="store-banner-height-quality">
         <h2>کیفیت برتر</h2>
@@ -164,41 +172,48 @@
           در فروشگاه ما، بهترین و با کیفیت‌ترین محصولات را پیدا کنید و از خریدی مطمئن لذت ببرید.
         </p>
       </div>
-      <div class="product-list">
-        <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
+      <div class="swiper-container">
+        <swiper
+            :modules="[Navigation]"
+            pagination
+            :slides-per-view="desktopView ? 6 : 2"
+            :space-between="20"
+            class="custom-swiper"
+        >
+          <swiper-slide v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id" style="width: 200px;">
 
-          <!-- برچسب تخفیف در صورت وجود تخفیف -->
-          <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
+            <!-- برچسب تخفیف در صورت وجود تخفیف -->
+            <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
 
-          <!-- تصویر محصول -->
-          <NuxtLink :to="`/product/${product.id}`"><img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
-          </NuxtLink>
-          <div class="product-card-content">
-            <!--            <div class="buttons">
-                          &lt;!&ndash; Like Icon &ndash;&gt;
-                          <button @click="ToggleLikeProduct(product.id)">
-                            &lt;!&ndash; SVG Icon &ndash;&gt;
-                            <span v-html="product.isLiked ? heartFilled : heartOutline"
-                                  :style="{ color: product.isLiked ? '#ff0000' : '#888888' }"> </span>
-                            <span v-if="product.likes > 0" class="badge">{{ product.likes }}</span>
-                          </button>
-                           View Icon
-                          <button>
-                            <span class="material-icons-outlined" style="color: #888888;">visibility</span>
-                            <span v-if="product.views > 0" class="badge">{{ product.views }}</span>
-                          </button>
-                           Cart Icon
-                          <button @click="addToCart(product.id)">
-                            <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
-                            <span v-if="product.cart_count > 0" class="badge">{{ toPersian(product.cart_count) }}</span>
-                          </button>
-                        </div>-->
-            <h3>{{ product.name }}</h3>
-            <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }}تومان</p>
-            <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
+            <!-- تصویر محصول -->
+            <NuxtLink :to="`/product/${product.id}`"><img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
+            </NuxtLink>
+            <div class="product-card-content">
+              <!--            <div class="buttons">
+                            &lt;!&ndash; Like Icon &ndash;&gt;
+                            <button @click="ToggleLikeProduct(product.id)">
+                              &lt;!&ndash; SVG Icon &ndash;&gt;
+                              <span v-html="product.isLiked ? heartFilled : heartOutline"
+                                    :style="{ color: product.isLiked ? '#ff0000' : '#888888' }"> </span>
+                              <span v-if="product.likes > 0" class="badge">{{ product.likes }}</span>
+                            </button>
+                             View Icon
+                            <button>
+                              <span class="material-icons-outlined" style="color: #888888;">visibility</span>
+                              <span v-if="product.views > 0" class="badge">{{ product.views }}</span>
+                            </button>
+                             Cart Icon
+                            <button @click="addToCart(product.id)">
+                              <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
+                              <span v-if="product.cart_count > 0" class="badge">{{ toPersian(product.cart_count) }}</span>
+                            </button>
+                          </div>-->
+              <h3>{{ product.name }}</h3>
+              <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }}تومان</p>
+              <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
 
-            <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
-            <div v-if="product.reviews && product.reviews.length > 0" class="star-rating">
+              <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
+              <div v-if="product.reviews && product.reviews.length > 0" class="star-rating">
       <span
           v-for="star in 5"
           :key="star"
@@ -206,11 +221,12 @@
       >
         ★
       </span>
-            </div>
-            <div v-else class="no-rating">هنوز امتیازی ندارد</div>
+              </div>
+              <div v-else class="no-rating">هنوز امتیازی ندارد</div>
 
-          </div>
-        </div>
+            </div>
+          </swiper-slide>
+        </swiper>
       </div>
       <div class="store-banner-off">
         <h2>تخفیف‌های ویژه</h2>
@@ -218,41 +234,48 @@
           هر هفته از تخفیف‌ها و پیشنهادات ویژه فروشگاه ما بهره‌مند شوید و خریدی اقتصادی و به‌صرفه را تجربه کنید.
         </p>
       </div>
-      <div class="product-list">
-        <div v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id">
+      <div class="swiper-container">
+        <swiper
+            :modules="[Navigation]"
+            pagination
+            :slides-per-view="desktopView ? 6 : 2"
+            :space-between="20"
+            class="custom-swiper"
+        >
+          <swiper-slide v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id" style="width: 200px;">
 
-          <!-- برچسب تخفیف در صورت وجود تخفیف -->
-          <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
+            <!-- برچسب تخفیف در صورت وجود تخفیف -->
+            <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
 
-          <!-- تصویر محصول -->
-          <NuxtLink :to="`/product/${product.id}`"><img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
-          </NuxtLink>
-          <div class="product-card-content">
-<!--            <div class="buttons">
-              &lt;!&ndash; Like Icon &ndash;&gt;
-              <button @click="ToggleLikeProduct(product.id)">
-                &lt;!&ndash; SVG Icon &ndash;&gt;
-                <span v-html="product.isLiked ? heartFilled : heartOutline"
-                      :style="{ color: product.isLiked ? '#ff0000' : '#888888' }"> </span>
-                <span v-if="product.likes > 0" class="badge">{{ product.likes }}</span>
-              </button>
-               View Icon
-              <button>
-                <span class="material-icons-outlined" style="color: #888888;">visibility</span>
-                <span v-if="product.views > 0" class="badge">{{ product.views }}</span>
-              </button>
-               Cart Icon
-              <button @click="addToCart(product.id)">
-                <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
-                <span v-if="product.cart_count > 0" class="badge">{{ toPersian(product.cart_count) }}</span>
-              </button>
-            </div>-->
-            <h3>{{ product.name }}</h3>
-            <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }}تومان</p>
-            <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
+            <!-- تصویر محصول -->
+            <NuxtLink :to="`/product/${product.id}`"><img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
+            </NuxtLink>
+            <div class="product-card-content">
+              <!--            <div class="buttons">
+                            &lt;!&ndash; Like Icon &ndash;&gt;
+                            <button @click="ToggleLikeProduct(product.id)">
+                              &lt;!&ndash; SVG Icon &ndash;&gt;
+                              <span v-html="product.isLiked ? heartFilled : heartOutline"
+                                    :style="{ color: product.isLiked ? '#ff0000' : '#888888' }"> </span>
+                              <span v-if="product.likes > 0" class="badge">{{ product.likes }}</span>
+                            </button>
+                             View Icon
+                            <button>
+                              <span class="material-icons-outlined" style="color: #888888;">visibility</span>
+                              <span v-if="product.views > 0" class="badge">{{ product.views }}</span>
+                            </button>
+                             Cart Icon
+                            <button @click="addToCart(product.id)">
+                              <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
+                              <span v-if="product.cart_count > 0" class="badge">{{ toPersian(product.cart_count) }}</span>
+                            </button>
+                          </div>-->
+              <h3>{{ product.name }}</h3>
+              <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }}تومان</p>
+              <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
 
-            <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
-            <div v-if="product.reviews && product.reviews.length > 0" class="star-rating">
+              <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
+              <div v-if="product.reviews && product.reviews.length > 0" class="star-rating">
       <span
           v-for="star in 5"
           :key="star"
@@ -260,11 +283,12 @@
       >
         ★
       </span>
-            </div>
-            <div v-else class="no-rating">هنوز امتیازی ندارد</div>
+              </div>
+              <div v-else class="no-rating">هنوز امتیازی ندارد</div>
 
-          </div>
-        </div>
+            </div>
+          </swiper-slide>
+        </swiper>
       </div>
       <div class="store-banner-buy-fast">
         <h2>خرید آسان و سریع</h2>
@@ -272,12 +296,74 @@
           با خرید آنلاین از فروشگاه ما، به راحتی و با سرعت بالا، کالای مورد نیاز خود را تهیه کنید و از تخفیف‌های ویژه بهره‌مند شوید.
         </p>
       </div>
+      <div class="swiper-container">
+        <swiper
+            :modules="[Navigation]"
+            pagination
+            :slides-per-view="desktopView ? 6 : 2"
+            :space-between="20"
+            class="custom-swiper"
+        >
+          <swiper-slide v-for="product in products" :key="product.id" class="product-card" :data-product-id="product.id" style="width: 200px;">
+
+            <!-- برچسب تخفیف در صورت وجود تخفیف -->
+            <div v-if="product.discount" class="discount-badge">{{ toPersian(formatPrice(product.discount)) }}% تخفیف</div>
+
+            <!-- تصویر محصول -->
+            <NuxtLink :to="`/product/${product.id}`"><img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" />
+            </NuxtLink>
+            <div class="product-card-content">
+              <!--            <div class="buttons">
+                            &lt;!&ndash; Like Icon &ndash;&gt;
+                            <button @click="ToggleLikeProduct(product.id)">
+                              &lt;!&ndash; SVG Icon &ndash;&gt;
+                              <span v-html="product.isLiked ? heartFilled : heartOutline"
+                                    :style="{ color: product.isLiked ? '#ff0000' : '#888888' }"> </span>
+                              <span v-if="product.likes > 0" class="badge">{{ product.likes }}</span>
+                            </button>
+                             View Icon
+                            <button>
+                              <span class="material-icons-outlined" style="color: #888888;">visibility</span>
+                              <span v-if="product.views > 0" class="badge">{{ product.views }}</span>
+                            </button>
+                             Cart Icon
+                            <button @click="addToCart(product.id)">
+                              <span class="material-icons-outlined" style="color: #da1b60;">add_shopping_cart</span>
+                              <span v-if="product.cart_count > 0" class="badge">{{ toPersian(product.cart_count) }}</span>
+                            </button>
+                          </div>-->
+              <h3>{{ product.name }}</h3>
+              <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }}تومان</p>
+              <p class="stock">موجودی: {{ toPersian(product.stock) }}</p>
+
+              <!-- بررسی وجود امتیاز و نمایش ستاره‌ها -->
+              <div v-if="product.reviews && product.reviews.length > 0" class="star-rating">
+      <span
+          v-for="star in 5"
+          :key="star"
+          class="active"
+      >
+        ★
+      </span>
+              </div>
+              <div v-else class="no-rating">هنوز امتیازی ندارد</div>
+
+            </div>
+          </swiper-slide>
+        </swiper>
+      </div>
       <div class="store-banner-support">
-        <h2>پشتیبانی 24 ساعته</h2>
+        <h2>{{toPersian('پشتیبانی 24 ساعته')}}</h2>
         <p>
           تیم پشتیبانی ما در هر ساعت از شبانه‌روز آماده پاسخگویی به سوالات و مشکلات شماست. خریدی آسان و بدون دغدغه را تجربه کنید.
         </p>
+        <div class="social-icons">
+          <a href="https://t.me/your-telegram" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+          <a href="https://instagram.com/your-instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/your-whatsapp-number" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        </div>
       </div>
+
     </div>
 </template>
 
@@ -542,6 +628,7 @@ onMounted(() => {
   //background: linear-gradient(135deg, #f0f0f0, #dcdcdc);
   padding: 80px 80px 80px 80px;
   max-width: 100%;
+  margin-top: 80px;
   //border-radius: 10px;
   //box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -607,6 +694,20 @@ onMounted(() => {
   line-height: 1.6;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icons a {
+  margin: 0 10px;
+  color: #333;
+  font-size: 1.5em;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #007bff;
+}
 .store-banner-off {
   //background: linear-gradient(135deg, #fceabb, #f8b500);
   padding: 80px 80px 80px 80px;
@@ -637,7 +738,7 @@ onMounted(() => {
   right: -350px; /* در حالت بسته */
   transition: all 0.3s ease-in-out; /* انیمیشن باز/بسته شدن */
   padding: 20px;
-  background: linear-gradient(145deg, #222, #444); /* گرادیان رنگی جدید */
+  background: white; /* گرادیان رنگی جدید */
   color: #f5f5f5; /* تغییر رنگ متن */
   height: 100vh; /* ارتفاع تمام صفحه */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* سایه برای زیبایی */
@@ -652,20 +753,22 @@ onMounted(() => {
   flex-direction: column;
   justify-content: flex-start;
   height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
   max-height: calc(100vh - 40px); /* جلوگیری از نمایش بیش از حد */
 }
 .sidebar-title {
   font-family: 'Vazirmatn', sans-serif;
-  font-size: 2rem;
+  font-size: 1rem;
   margin-bottom: 25px;
-  color: #fff;
+  color: #000000;
   text-align: center;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   padding-bottom: 10px;
+  margin-right: 50px;
+  width: 50%;
 }
 .user-info {
   display: flex;
@@ -690,9 +793,9 @@ onMounted(() => {
   align-items: center;
 }
 .user-name {
-  font-size: 1.3rem;
+  font-size: 1rem;
   font-weight: bold;
-  color: #fff;
+  color: #0d0d0d;
 }
 .user-points {
   margin-top: 5px;
@@ -701,13 +804,13 @@ onMounted(() => {
 }
 .sidebar-link {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin: 15px 0;
-  color: #f5f5f5;
-  background: #333;
+  color: #2000ff;
+  background: #fff4f46b;
   text-align: right;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: .9rem;
   padding: 12px 25px;
   border-radius: 25px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -719,10 +822,10 @@ onMounted(() => {
 }
 .logout-button {
   margin-top: 30px;
-  background-color: #d9534f;
+  background-color: #ff0083;
   color: #fff;
   border: none;
-  padding: 12px 30px;
+  padding: 5px 15px;
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
@@ -944,9 +1047,9 @@ button .material-icons-outlined {
   flex-direction: row;
   justify-content: space-between;
   align-items: center; /* تراز عمودی لینک و badge */
-  color: #fff;
+  color: #000000;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: .8rem;
   //padding: 10px 0;
   text-align: left;
   padding-left: 15px;
@@ -977,9 +1080,9 @@ button .material-icons-outlined {
   color: #ccc; /* رنگ خاکستری برای ستاره‌های خالی */
 }
 .badge-sidebar {
-  background-color: #0c3fff;
+  background-color: #0070ff;
   color: white;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   padding: 2px 8px;
   border-radius: 10px;
   display: inline-block;
@@ -1011,8 +1114,9 @@ button .material-icons-outlined {
 .menu-icon-sidebar .arrow {
   width: 10px;
   height: 10px;
-  border-left: 2px solid #f5f5f5;
-  border-top: 2px solid #f5f5f5;
+  padding: 5px;
+  border-left: 2px solid #000000;
+  border-top: 2px solid #000000;
   transform: rotate(135deg);
   transition: all 0.3s ease-in-out;
 }

@@ -399,6 +399,9 @@
     </div>
   </div>
   </div>
+  <div v-else>
+  <p>سبد خرید شما خالی است. لطفا محصولات مورد نظر خود را به سبد خرید اضافه کنید.</p>
+</div>
 </template>
 <script setup>
 import {ref, onMounted} from 'vue';

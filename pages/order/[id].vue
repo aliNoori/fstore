@@ -1,5 +1,5 @@
 <template>
-  <div class="order-container">
+  <div v-if="order" class="order-container">
     <!-- اطلاعات سفارش -->
     <div class="order-details special-background">
       <div class="order-info">
@@ -106,8 +106,13 @@ const getOrderStatus = (status) => {
   }
   return status;
 };
-
+const isLoggedIn = ref(false);
+const checkUserLoginStatus = () => {
+  return !!localStorage.getItem('auth_token');
+}
 const fetchOrder = async () => {
+  isLoggedIn.value = checkUserLoginStatus();
+  if (isLoggedIn.value) {
   try {
     const response = await $axios.get(`user/order/${route.params.id}`);
     order.value = response.data.order;
@@ -115,12 +120,15 @@ const fetchOrder = async () => {
   } catch (error) {
     console.error('خطا در دریافت جزئیات سفارش:', error);
   }
+  }
 };
 
 onMounted(() => {
   const orderId = route.params.id;
   if (orderId) {
+    if (isLoggedIn.value) {
     fetchOrder();
+    }
   }
 });
 
@@ -128,7 +136,9 @@ watch(
     () => route.params.id,
     (newId) => {
       if (newId) {
-        fetchOrder();
+        if (isLoggedIn.value) {
+          fetchOrder();
+        }
       }
     }
 );
