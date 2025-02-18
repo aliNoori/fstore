@@ -735,7 +735,7 @@ const increaseWalletBalance= async ()=>{
 onMounted(() => {
 
   fetchCartItems();
-  if(currentStep===2){
+  if(currentStep.value===2){
     fetchUserAddresses();
   }
 
