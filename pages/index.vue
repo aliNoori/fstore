@@ -55,13 +55,10 @@
     <!-- محتوای اصلی -->
     <div class="content">
       <div class="ribbon">
-          <!-- آیکون نمایش پیام‌ها -->
-
         <h3>فروشگاه آنلاین</h3>
-        <!-- اضافه کردن آیکون‌های جدید -->
         <div class="icons">
           <div class="icon" @click="toggleMessages">
-            <i class="fas fa-envelope"></i>
+            <img src="@/src/static/images/contact-us--629.png" alt="اعلان">
             <span v-if="messages.length>0" class="ribbon-badge">{{ toPersian(messages.length) }}</span> <!-- تعداد پیام‌ها -->
             <!-- نمایش پیام‌ها -->
             <div class="messages-section" v-if="isMessagesOpen && messages.length">
@@ -73,7 +70,7 @@
           </div>
           <div class="icon">
             <NuxtLink to="/steps-to-order">
-            <i class="fas fa-shopping-cart"></i>
+              <img src="@/src/static/images/basket-32.png" alt="سبد خرید">
             <span v-if="user&&user.items_cart > 0" class="cart-badge">{{ toPersian(user.items_cart) }}</span>
             </NuxtLink>
           </div>
@@ -807,17 +804,17 @@ onMounted(() => {
   justify-content: center;
   margin: 15px 0;
   color: #2000ff;
-  background: #fff4f46b;
+  background: #41ff39;
   text-align: right;
   text-decoration: none;
   font-size: .9rem;
   padding: 12px 25px;
   border-radius: 25px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  //box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 .sidebar-link:hover {
-  background: #555;
+  background: #8eff89;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 .logout-button {
@@ -1057,7 +1054,7 @@ button .material-icons-outlined {
 }
 
 .sidebar-menu a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(45, 90, 45, 0.2);
 }
 
 /* استایل برای برچسب تخفیف */

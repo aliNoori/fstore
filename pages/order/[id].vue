@@ -1,5 +1,6 @@
 <template>
   <div v-if="order" class="order-container">
+    <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
     <!-- اطلاعات سفارش -->
     <div class="order-details special-background">
       <div class="order-info">

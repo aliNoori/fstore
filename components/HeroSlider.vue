@@ -1,8 +1,8 @@
 <template>
   <section class="hero">
     <div class="slider">
-      <img src="@/src/static/images/logo.webp" alt="بنر 1" />
-      <img src="@/src/static/images/logo.webp" alt="بنر 2" />
+      <img src="@/src/static/images/basket-32.png" alt="بنر 1" />
+      <img src="@/src/static/images/basket-32.png" alt="بنر 2" />
     </div>
   </section>
 </template>

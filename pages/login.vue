@@ -1,19 +1,20 @@
 <template>
   <div class="body">
-  <div class="login-container">
-    <img src="@/src/static/images/logo.webp" alt="Brand Logo">
-    <form @submit.prevent="handleLogin">
-      <input type="text" v-model="email" placeholder="email" required />
-      <input type="password" v-model="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-    <div class="forgot-password">
-      <a href="#">Forgot Password?</a>
+    <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
+    <div class="login-container">
+      <img src="https://example.com/your-logo.png" alt="لوگوی برند">
+      <form @submit.prevent="handleLogin">
+        <input type="text" v-model="email" placeholder="ایمیل" required />
+        <input type="password" v-model="password" placeholder="رمز عبور" required />
+        <button type="submit">ورود</button>
+      </form>
+      <div class="forgot-password">
+        <a href="#">رمز عبور خود را فراموش کرده‌اید؟</a>
+      </div>
+      <div class="signup">
+        جدید در سایت؟ <router-link to="/register">همین حالا ثبت‌نام کنید</router-link>
+      </div>
     </div>
-    <div class="signup">
-      New to the site? <router-link to="/register">Sign up now</router-link>
-    </div>
-  </div>
   </div>
 </template>
 

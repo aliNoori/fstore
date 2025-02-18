@@ -1,20 +1,11 @@
 <template>
   <div class="body">
+    <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
-      <h2>User Register Form</h2>
-
-      <!-- avatar Image Preview -->
-      <div class="avatar-preview">
-        <img
-            :src="avatarPreviewUrl || '/default-avatar.png'"
-            alt="avatar Preview"
-            @click="triggerAvatarUpload"
-        />
-      </div>
-
-      <!-- avatar Upload Input -->
-      <p>
-        <label for="avatar">Upload avatar</label>
+      <h2>فرم ثبت‌نام کاربر</h2>
+      <!-- ورودی آپلود آواتار -->
+      <p style="display: flex;flex-direction: column;justify-content: center;align-items: center">
+        <label for="avatar">آپلود آواتار</label>
         <input
             type="file"
             id="avatar"
@@ -22,11 +13,18 @@
             @change="previewAvatar"
             accept="image/*"
         />
-        <span class="help-text">Choose an image file for your avatar.</span>
+        <span class="help-text">یک فایل تصویر برای آواتار خود انتخاب کنید.</span>
       </p>
-
+      <!-- نمایش تصویر آواتار -->
+      <div class="avatar-preview">
+        <img style="font-family: 'Vazirmatn', sans-serif;font-size: .7rem"
+            :src="avatarPreviewUrl || 'https://example.com/default-avatar.png'"
+            alt="پیش‌نمایش آواتار"
+            @click="triggerAvatarUpload"
+        />
+      </div>
       <p>
-        <label for="name">Name</label>
+        <label for="name">نام</label>
         <input
             type="text"
             id="name"
@@ -36,7 +34,7 @@
       </p>
 
       <p>
-        <label for="username">Username</label>
+        <label for="username">نام کاربری</label>
         <input
             type="text"
             id="username"
@@ -46,7 +44,7 @@
       </p>
 
       <p>
-        <label for="email">Email</label>
+        <label for="email">ایمیل</label>
         <input
             type="email"
             id="email"
@@ -56,7 +54,7 @@
       </p>
 
       <p>
-        <label for="password">Password</label>
+        <label for="password">رمز عبور</label>
         <input
             type="password"
             id="password"
@@ -66,7 +64,7 @@
       </p>
 
       <p>
-        <label for="password2">Confirm Password</label>
+        <label for="password2">تایید رمز عبور</label>
         <input
             type="password"
             id="password_confirmation"
@@ -75,7 +73,7 @@
         <span class="help-text">{{ passwordConfirmationHelpText }}</span>
       </p>
 
-      <button type="submit">Save</button>
+      <button type="submit">ذخیره</button>
     </form>
   </div>
 </template>
@@ -95,12 +93,11 @@ const form = ref({
   password: '',
   password_confirmation: '',
 });
-const nameHelpText='Enter a name.';
-const usernameHelpText = 'Enter a unique username.';
-const emailHelpText = 'Enter your email address.';
-const passwordHelpText = 'Choose a strong password.';
-const passwordConfirmationHelpText = 'Repeat the password for confirmation.';
-
+const nameHelpText = 'نام خود را وارد کنید.';
+const usernameHelpText = 'یک نام کاربری منحصربه‌فرد وارد کنید.';
+const emailHelpText = 'آدرس ایمیل خود را وارد کنید.';
+const passwordHelpText = 'یک رمز عبور قوی انتخاب کنید.';
+const passwordConfirmationHelpText = 'رمز عبور را برای تأیید تکرار کنید.';
 const previewAvatar = (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -168,18 +165,20 @@ const handleSubmit = async () => {
 <style scoped>
 /* General Styles */
 .body {
-  font-family: 'Roboto', sans-serif;
+  font-family: Vazirmatn, sans-serif;
   background-color: #f0f2f5;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: auto;
   margin: 0;
   padding: 20px;
   box-sizing: border-box;
 }
 
 h2 {
+  font-family: Vazirmatn, sans-serif;
+  font-size: 1.5rem;
   text-align: center;
   color: #333;
   margin-bottom: 20px;
@@ -274,6 +273,11 @@ button[type="submit"]:active {
 }
 
 .avatar-preview img {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
   width: 150px; /* Fixed size for avatur */
   height: 150px;
   border-radius: 50%;

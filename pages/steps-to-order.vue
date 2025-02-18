@@ -1,5 +1,8 @@
 <template>
-  <div v-if="cartItems" >
+  <NuxtLink to="/">
+  <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
+  </NuxtLink>
+  <div v-if="cartItems && cartItems.cart && cartItems.cart.items && cartItems.cart.items.length" >
   <div class="progress-container">
     <!-- نوار پیشرفت -->
     <div class="steps-wrapper">
@@ -73,7 +76,7 @@
           <!-- Add New Address Card -->
           <div class="add-address-card" @click="addNewAddress">
             <div class="add-address-icon">
-              <i class="fas fa-plus">+</i>
+              <i class="fas fa-plus"></i>
             </div>
             <p>افزودن آدرس جدید</p>
           </div>
@@ -410,8 +413,9 @@
   </div>
 </template>
 <script setup>
-import {ref, onMounted} from 'vue';
+import {ref, onMounted,watchEffect} from 'vue';
 import {useNuxtApp, useRuntimeConfig} from '#app';
+import {useStepStore} from "~/stores/useStepStore.js";
 
 const router = useRouter();
 /////////// convert number to persian ///////
@@ -426,7 +430,8 @@ const steps = [
 ];
 
 // مرحله فعلی
-const currentStep = ref(1);
+const stepStore=useStepStore();
+const currentStep = ref(stepStore.currentStep);
 
 // رفتن به مرحله بعد
 const nextStep = () => {
@@ -730,11 +735,31 @@ const increaseWalletBalance= async ()=>{
 onMounted(() => {
 
   fetchCartItems();
+  if(currentStep===2){
+    fetchUserAddresses();
+  }
 
+});
+const route=useRoute()
+const previousPath = ref('');
+// استفاده از afterEach برای نظارت بر تغییر مسیر
+router.afterEach((to, from) => {
+  console.log('afterEach', to.path, from.path);
+  if (to.path === '/add-new-address') {
+    // بازگشت به مرحله ثبت آدرس
+    stepStore.setStep(2);
+    currentStep.value = stepStore.currentStep;
+
+  }
 });
 </script>
 <style scoped>
-
+.home-page-btn{
+  position: absolute;
+  top:160px;
+  left: 20px;
+  z-index: 200;
+}
 .empty-cart {
   text-align: center;
   padding: 20px;
@@ -1085,7 +1110,7 @@ onMounted(() => {
 
 .image img {
   width: 54px;
-  height: 44px;
+  height: 54px;
   object-fit: cover;
   border-radius: 8px;
 }

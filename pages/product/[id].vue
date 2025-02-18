@@ -5,10 +5,10 @@
       <div class="product-info" data-aos="fade-up">
         <h1>{{ product.name }}</h1>
         <p class="description">{{ product.description }}</p>
-        <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }} تومان</p>
         <p class="stock" :class="{ 'out-of-stock': product.stock === 0 }">
           موجودی: {{ product.stock > 0 ? toPersian(product.stock) : 'ناموجود' }}
         </p>
+        <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }} تومان</p>
         <button @click.prevent="addToCart(product.id)" class="add-to-cart-btn">
           <i class="fas fa-shopping-cart"></i> افزودن به سبد خرید
           <span v-if="cartCount > 0" class="cart-badge">{{ toPersian(cartCount) }}</span>
@@ -20,6 +20,9 @@
             :alt="product.name"
         />
       </div>
+      <NuxtLink to="/">
+        <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
+      </NuxtLink>
     </div>
 
     <!-- بخش نظرات -->
@@ -241,6 +244,12 @@ watch(
 
 
 <style scoped>
+.home-page-btn{
+  position: absolute;
+  top:15px;
+  left: 20px;
+  z-index: 200;
+}
 /* کانتینر اصلی */
 .product-container {
   display: flex;
@@ -299,8 +308,8 @@ watch(
 
 .product-info h1 {
   font-family: 'Vazirmatn', sans-serif;
-  font-size: 2rem;
-  color: #333;
+  font-size: 1.5rem;
+  color: #000000;
   font-weight: bold;
   margin-bottom: 1rem;
   text-align: right;
@@ -317,26 +326,26 @@ watch(
 
 .product-info .price {
   font-family: 'Vazirmatn', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #28a745; /* سبز برای قیمت */
   margin: 1rem 0;
-  background: rgba(40, 167, 69, 0.1);
-  padding: 0.5rem 1rem;
+  //background: rgba(40, 167, 69, 0.1);
+  //padding: 0.5rem 1rem;
   border-radius: 5px;
   display: inline-block;
 }
 
 .product-info .stock {
   font-family: 'Vazirmatn', sans-serif;
-  font-size: 1rem;
+  font-size: .8rem;
   font-weight: bold;
-  background: rgba(255, 0, 0, 0.1);
-  padding: 0.5rem 1rem;
+  //background: rgba(255, 0, 0, 0.1);
+  //padding: 0.5rem 1rem;
   border-radius: 5px;
   display: inline-block;
   margin-top: 0.5rem;
-  color: #666;
+  color: #d90101;
 }
 
 .product-info .stock.out-of-stock {
@@ -350,6 +359,7 @@ watch(
   max-height: 50vh;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(0.85);
   transition: transform 0.5s ease, box-shadow 0.3s ease;
 }
 

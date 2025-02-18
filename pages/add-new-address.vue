@@ -1,37 +1,39 @@
 <template>
+  <NuxtLink to="/">
+    <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
+  </NuxtLink>
   <div class="body">
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
-      <h2>Address Register Form</h2>
-      <!-- Address Information -->
+      <h2>فرم ثبت‌ نام آدرس</h2>
+      <!-- اطلاعات آدرس -->
       <p>
-        <label for="street">Street</label>
+        <label for="street">خیابان</label>
         <input type="text" id="street" v-model="form.street" />
       </p>
 
       <p>
-        <label for="city">City</label>
+        <label for="city">شهر</label>
         <input type="text" id="city" v-model="form.city" />
       </p>
 
       <p>
-        <label for="state">State</label>
+        <label for="state">استان</label>
         <input type="text" id="state" v-model="form.state" />
       </p>
 
       <p>
-        <label for="postal_code">Postal Code</label>
+        <label for="postal_code">کد پستی</label>
         <input type="text" id="postal_code" v-model="form.postal_code" />
       </p>
 
       <p>
-        <label for="country">Country</label>
+        <label for="country">کشور</label>
         <input type="text" id="country" v-model="form.country" />
       </p>
-      <button type="submit">Save</button>
+      <button type="submit">ذخیره</button>
     </form>
   </div>
 </template>
-
 <script setup>
 import { ref } from 'vue';
 const { $axios } = useNuxtApp();
@@ -59,7 +61,7 @@ const handleSubmit = async () => {
     if (response.data) {
       alert('Address Registration successful!');
       // تغییر مسیر به صفحه دیگر بعد از ورود موفق
-      await router.push('/add-address-to-order');
+      await router.push('/steps-to-order');
       // Optionally redirect or clear form
     } else {
       alert('Address Registration failed: ' + response.data.message);
@@ -74,7 +76,7 @@ const handleSubmit = async () => {
 <style scoped>
 /* General Styles */
 .body {
-  font-family: 'Roboto', sans-serif;
+  font-family: Vazirmatn, sans-serif;
   background-color: #f0f2f5;
   display: flex;
   justify-content: center;
@@ -86,8 +88,9 @@ const handleSubmit = async () => {
 }
 
 h2 {
+  font-size: 1.5rem;
   text-align: center;
-  color: #333;
+  color: #2000ff;
   margin-bottom: 20px;
 }
 
@@ -166,5 +169,11 @@ button[type="submit"]:active {
 /* Hide File Input */
 input[type="file"] {
   display: none;
+}
+.home-page-btn{
+  position: absolute;
+  top:15px;
+  left: 20px;
+  z-index: 200;
 }
 </style>
