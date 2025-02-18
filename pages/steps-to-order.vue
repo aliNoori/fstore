@@ -83,7 +83,7 @@
         </div>
       </div>
       <div class="controls">
-        <button @click="() => { handleSelectedAddress(); fetchShippingMethods(); nextStep(); }">ثبت روش ارسال</button>
+        <button @click="() => { handleSelectedAddress(); fetchShippingMethods();if (selectedAddress) { nextStep(); }}">ثبت روش ارسال</button>
         <button @click="previousStep">برگشت به سبد خرید</button>
       </div>
     </div>

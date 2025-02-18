@@ -1,6 +1,8 @@
 <template>
   <div v-if="order" class="order-container">
-    <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
+    <NuxtLink to="/">
+      <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
+    </NuxtLink>
     <!-- اطلاعات سفارش -->
     <div class="order-details special-background">
       <div class="order-info">
@@ -145,6 +147,12 @@ watch(
 );
 </script>
 <style>
+.home-page-btn{
+  position: absolute;
+  top:15px;
+  left: 20px;
+  z-index: 200;
+}
 .order-container {
   display: flex;
   flex-direction: column;
@@ -152,7 +160,7 @@ watch(
   padding: 2rem;
   border-radius: 8px;
   width: 100%;
-  margin: 0;
+  margin-top: 45px;
   text-align: right;
   direction: rtl;
   overflow: hidden;

@@ -1,6 +1,8 @@
 <template>
   <div class="orders-container">
-    <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
+    <NuxtLink to="/">
+      <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
+    </NuxtLink>
     <div v-for="order in orders"
          :key="order.id"
          :class="['order-card', { 'pending-order': order.status === 'pending','complete-order':order.status==='completed' }]">
@@ -65,6 +67,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.home-page-btn{
+  position: absolute;
+  top:15px;
+  left: 20px;
+  z-index: 200;
+}
 .orders-container {
   font-family: Vazirmatn, sans-serif;
   direction: rtl;
@@ -74,6 +82,7 @@ onMounted(() => {
   max-width: 1200px;
   width: 100%;
   padding: 10px;
+  margin-top: 45px;
 }
 .order-header, .order-body, .order-footer {
   text-align: right;
