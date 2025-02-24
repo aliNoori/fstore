@@ -1,17 +1,15 @@
 <template>
-  <NuxtLink to="/">
-  <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
-  </NuxtLink>
-  <div v-if="cartItems && cartItems.cart && cartItems.cart.items && cartItems.cart.items.length" >
+  <SideBar/>
+  <div style="margin-top: 80px" v-if="cartItems && cartItems.cart && cartItems.cart.items && cartItems.cart.items.length" >
   <div class="progress-container">
     <!-- نوار پیشرفت -->
     <div class="steps-wrapper">
       <div v-for="(step, index) in steps" :key="index" class="step-container">
         <!-- دایره مربوط به هر مرحله -->
-        <div
+<!--        <div
             :class="['step-circle', { 'step-active': index + 1 <= currentStep }, { 'step-raised': index + 1 === currentStep }]">
-          <span>{{ $toPersian(step.number) }}</span>
-        </div>
+        -->  <span :class="['step-circle', { 'step-active': index + 1 <= currentStep }, { 'step-raised': index + 1 === currentStep }]">&#10003;</span>
+<!--        </div>-->
         <!-- نام مرحله -->
         <div class="step-name">
           <span>{{ step.name }}</span>
@@ -416,7 +414,9 @@
 import {ref, onMounted,watchEffect} from 'vue';
 import {useNuxtApp, useRuntimeConfig} from '#app';
 import {useStepStore} from "~/stores/useStepStore.js";
-
+definePageMeta({
+  layout: 'default'
+});
 const router = useRouter();
 /////////// convert number to persian ///////
 // تعداد مراحل و نام‌های هر مرحله
@@ -768,7 +768,7 @@ router.afterEach((to, from) => {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   max-width: 400px;
-  margin: 20px auto;
+  margin: 180px auto;
 }
 
 .cart-image {
@@ -954,7 +954,12 @@ router.afterEach((to, from) => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2rem 0;
+  /*margin: 2rem 0;*/
+  padding: 15px;
+  position: fixed;
+  z-index: 200;
+  width: 100%;
+  background: #fbfbfb;
 }
 
 .steps-wrapper {
@@ -989,7 +994,7 @@ router.afterEach((to, from) => {
 }
 
 .step-circle.step-active {
-  border-color: #4caf50;
+  border-color: #00cfff;;
   background-color: #e8f5e9;
   color: #2e7d32;
 }
@@ -1007,7 +1012,7 @@ router.afterEach((to, from) => {
 }
 
 .step-line {
-  width: 150px;
+  width: 130px;
   height: 3px;
   background: #ddd;
   position: absolute;
@@ -1055,11 +1060,9 @@ router.afterEach((to, from) => {
   cursor: not-allowed;
   box-shadow: none;
 }
-
-
 .step-content {
   width: 100%;
-//padding: 1rem 0;
+  padding-top: 100px;
 }
 
 .page {
@@ -1070,7 +1073,6 @@ router.afterEach((to, from) => {
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
-
 .card {
   width: 100%;
 }
@@ -1194,9 +1196,9 @@ router.afterEach((to, from) => {
 }
 
 h2 {
-  font-size: 1.8rem; /* اندازه مناسب برای تیتر */
+  font-size: 1.1rem; /* اندازه مناسب برای تیتر */
   font-weight: bold; /* ضخامت متن */
-  color: #333; /* رنگ متن */
+  color: #2000ff; /* رنگ متن */
   text-align: center; /* مرکزچین کردن متن */
   position: relative; /* برای استفاده از خط تزئینی زیر متن */
   padding-bottom: 0.5rem; /* فاصله از خط */

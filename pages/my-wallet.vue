@@ -1,4 +1,5 @@
 <template>
+  <SideBar/>
   <div class="wallet-container">
     <!-- کارت کیف پول -->
     <div class="wallet-card">

@@ -1,8 +1,6 @@
 <template>
+  <SideBar/>
   <div v-if="order" class="order-container">
-    <NuxtLink to="/">
-      <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
-    </NuxtLink>
     <!-- اطلاعات سفارش -->
     <div class="order-details special-background">
       <div class="order-info">
@@ -160,7 +158,7 @@ watch(
   padding: 2rem;
   border-radius: 8px;
   width: 100%;
-  margin-top: 45px;
+  margin-top: 80px;
   text-align: right;
   direction: rtl;
   overflow: hidden;

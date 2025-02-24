@@ -1,4 +1,5 @@
 <template>
+  <SideBar/>
   <div class="scores-container">
     <div v-for="score in scores" :key="score.id" class="score-card">
       <div class="score-header">
@@ -54,6 +55,7 @@ body {
   min-height: 100vh;
 }
 .scores-container {
+  margin-top: 80px;
   padding: 20Px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

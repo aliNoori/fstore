@@ -1,8 +1,6 @@
 <template>
+  <SideBar/>
   <div class="orders-container">
-    <NuxtLink to="/">
-      <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
-    </NuxtLink>
     <div v-for="order in orders"
          :key="order.id"
          :class="['order-card', { 'pending-order': order.status === 'pending','complete-order':order.status==='completed' }]">
@@ -82,7 +80,7 @@ onMounted(() => {
   max-width: 1200px;
   width: 100%;
   padding: 10px;
-  margin-top: 45px;
+  margin-top: 80px;
 }
 .order-header, .order-body, .order-footer {
   text-align: right;

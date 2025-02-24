@@ -1,4 +1,5 @@
 <template>
+  <SideBar/>
   <div class="body">
     <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">

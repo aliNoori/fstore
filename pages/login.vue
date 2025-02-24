@@ -1,6 +1,5 @@
 <template>
-  <div class="body">
-    <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
+  <div class="body">    <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
     <div class="login-container">
       <img src="https://example.com/your-logo.png" alt="لوگوی برند">
       <form @submit.prevent="handleLogin">

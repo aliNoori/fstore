@@ -11,6 +11,9 @@ export default defineNuxtConfig({
   plugins: [
     '~/plugins/axios.ts',
     '~/plugins/helper.js',
+    '~/plugins/sidebar.js',
+    '~/plugins/header.js',
+    '~/plugins/products-slider.js',
     { src: '~/plugins/echo.js', mode: 'client' },
   ],
   postcss: {

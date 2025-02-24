@@ -1,4 +1,5 @@
 <template>
+  <SideBar/>
   <div class="coupons-container">
     <div v-for="coupon in coupons" :key="coupon.id" class="coupon-card">
       <div class="coupon-header">
@@ -57,6 +58,7 @@ body {
   gap: 20px;
   max-width: 1200px;
   width: 100%;
+  margin-top: 80px;
 }
 .coupon-card {
   background: #fff;

@@ -1,4 +1,5 @@
 <template>
+  <SideBar/>
   <div v-if="product" class="product-container">
     <!-- اطلاعات محصول -->
     <div class="product-details">
@@ -20,9 +21,6 @@
             :alt="product.name"
         />
       </div>
-      <NuxtLink to="/">
-        <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
-      </NuxtLink>
     </div>
 
     <!-- بخش نظرات -->
@@ -258,7 +256,7 @@ watch(
   padding: 2rem;
   border-radius: 8px;
   width: 100%;
-  margin: 0;
+  margin-top: 80px;
   text-align: right;
   direction: rtl;
   overflow: hidden;
