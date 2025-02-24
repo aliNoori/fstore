@@ -26,6 +26,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '~/stores/auth';
+import { useNuxtApp } from '#app';
 const { $toPersian, $toPersianDate, $formatPrice } = useNuxtApp();
 
 const authStore = useAuthStore(); // Access the store in the setup function
