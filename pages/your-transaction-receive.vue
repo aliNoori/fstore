@@ -12,7 +12,7 @@
         <p><strong>مبلغ:</strong> {{ $formatPrice(transaction.amount) }}</p>
         <p><strong>کد رهگیری:</strong> {{ $toPersian(transaction.token) }}</p>
         <p><strong>کد پیگیری:</strong> {{ $toPersian(transaction.rrn) }}</p>
-        <p><strong>تاریخ تراکنش:</strong> {{ toPersianDate(transaction.created_at) }}</p>
+        <p><strong>تاریخ تراکنش:</strong> {{ $toPersianDate(transaction.created_at) }}</p>
         <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
       </div>
     </div>
@@ -26,7 +26,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '~/stores/auth';
-const { $toPersian, toPersianDate, $formatPrice } = useNuxtApp();
+const { $toPersian, $toPersianDate, $formatPrice } = useNuxtApp();
 
 const authStore = useAuthStore(); // Access the store in the setup function
 const route = useRoute();
