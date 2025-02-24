@@ -8,11 +8,11 @@
       <h1>پزداخت موفق</h1>
       <p class="message">تراکنش شما با موفقیت انجام شد.جزییات تراکتس:</p>
       <div class="transaction-details">
-        <p><strong>شناسه سفارش:</strong> {{ $toPersian(transaction.order_id) }}</p>
-        <p><strong>مبلغ:</strong> {{ $formatPrice(transaction.amount) }}</p>
+        <p><strong>شناسه سفارش:</strong> {{ toPersian(transaction.order_id) }}</p>
+<!--        <p><strong>مبلغ:</strong> {{ $formatPrice(transaction.amount) }}</p>
         <p><strong>کد رهگیری:</strong> {{ $toPersian(transaction.token) }}</p>
         <p><strong>کد پیگیری:</strong> {{ $toPersian(transaction.rrn) }}</p>
-        <p><strong>تاریخ تراکنش:</strong> {{ $toPersianDate(transaction.created_at) }}</p>
+        <p><strong>تاریخ تراکنش:</strong> {{ $toPersianDate(transaction.created_at) }}</p>-->
         <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
       </div>
     </div>
@@ -26,8 +26,12 @@
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '~/stores/auth';
-import { useNuxtApp } from '#app';
-const { $toPersian, $toPersianDate, $formatPrice } = useNuxtApp();
+/*import { useNuxtApp } from '#app';
+const { $toPersian, $toPersianDate, $formatPrice } = useNuxtApp();*/
+const toPersian = (number: { toString: () => string }) => {
+  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[parseInt(digit)]);
+};
 
 const authStore = useAuthStore(); // Access the store in the setup function
 const route = useRoute();
