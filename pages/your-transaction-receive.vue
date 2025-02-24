@@ -26,14 +26,13 @@
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useAuthStore } from '~/stores/auth';
-import helper from '~/plugins/helper';
-const { $toPersian, toPersianDate, $formatPrice } = helper;
+const { $toPersian, toPersianDate, $formatPrice } = useNuxtApp();
 
 const authStore = useAuthStore(); // Access the store in the setup function
 const route = useRoute();
 
-const error = ref(null); // در صورت وجود خطا این مقدار تنظیم می‌شود
-const transaction = ref({}); // اطلاعات تراکنش در اینجا قرار می‌گیرد
+const error = ref<string | null>(null); // در صورت وجود خطا این مقدار تنظیم می‌شود
+const transaction = ref<any>({}); // اطلاعات تراکنش در اینجا قرار می‌گیرد
 
 onMounted(() => {
   // گرفتن query params برای نمایش پیام خطا یا جزئیات تراکنش
@@ -41,7 +40,7 @@ onMounted(() => {
   console.log(query);
 
   if (query.error) {
-    error.value = query.error; // دریافت پیام خطا از query params
+    error.value = query.error as string; // دریافت پیام خطا از query params
   } else {
     // دریافت جزئیات تراکنش از API یا route params
     // برای سادگی، داده‌های ساختگی اضافه شده‌اند
@@ -52,7 +51,7 @@ onMounted(() => {
       rrn: query.rrn,
       created_at: new Date().toLocaleString() // تنظیم تاریخ ساختگی برای نمایش
     };
-    const token = query.auth_token;
+    const token = query.auth_token as string;
     localStorage.setItem('auth_token', token);
     authStore.setToken(token);
   }
