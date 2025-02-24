@@ -1,66 +1,66 @@
 <template>
-  <SideBar/>
   <div class="container">
     <h1 v-if="error" class="error">Error</h1>
     <p v-if="error" class="message">{{ error }}</p>
 
     <div v-else>
-      <h1>پزداخت موفق</h1>
-      <p class="message">تراکنش شما با موفقیت انجام شد.جزییات تراکتس:</p>
+      <h1>Transaction Successful</h1>
+      <p class="message">Your transaction was completed successfully. Here are the details:</p>
       <div class="transaction-details">
-        <p><strong>شناسه سفارش:</strong> {{ transaction.order_id }}</p>
-        <p><strong>مبلغ:</strong> {{ transaction.amount }}</p>
-        <p><strong>کد رهگیری:</strong> {{transaction.token }}</p>
-        <p><strong>کد پیگیری:</strong> {{ transaction.rrn }}</p>
-        <p><strong>تاریخ تراکنش:</strong> {{ transaction.created_at }}</p>
+        <p><strong>Order ID:</strong> {{ transaction.order_id }}</p>
+        <p><strong>Amount:</strong> {{ transaction.amount }}</p>
+        <p><strong>Token:</strong> {{ transaction.token }}</p>
+        <p><strong>RRN:</strong> {{ transaction.rrn }}</p>
+        <p><strong>Transaction Date:</strong> {{ transaction.created_at }}</p>
         <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
       </div>
     </div>
 
-    <nuxt-link to="/" class="back-button">برگشت یه صفحه اصلی</nuxt-link>
+    <nuxt-link to="/" class="back-button">Back to Home</nuxt-link>
   </div>
 </template>
 
+<script>
+import { useAuthStore } from '~/stores/auth.js';
 
-<script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { useAuthStore } from '~/stores/auth';
-/*import { useNuxtApp } from '#app';
-const { $toPersian, $toPersianDate, $formatPrice } = useNuxtApp();*/
-/*const toPersian = (number: { toString: () => string }) => {
-  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[parseInt(digit)]);
-};*/
+export default {
+  setup() {
+    const authStore = useAuthStore(); // Access the store in the setup function
 
-const authStore = useAuthStore(); // Access the store in the setup function
-const route = useRoute();
-
-const error = ref<string | null>(null); // در صورت وجود خطا این مقدار تنظیم می‌شود
-const transaction = ref<any>({}); // اطلاعات تراکنش در اینجا قرار می‌گیرد
-
-onMounted(() => {
-  // گرفتن query params برای نمایش پیام خطا یا جزئیات تراکنش
-  const query = route.query;
-  console.log(query);
-
-  if (query.error) {
-    error.value = query.error as string; // دریافت پیام خطا از query params
-  } else {
-    // دریافت جزئیات تراکنش از API یا route params
-    // برای سادگی، داده‌های ساختگی اضافه شده‌اند
-    transaction.value = {
-      order_id: query.order_id,
-      amount: query.amount,
-      token: query.token,
-      rrn: query.rrn,
-      created_at: new Date().toLocaleString() // تنظیم تاریخ ساختگی برای نمایش
+    return {
+      authStore
     };
-    const token = query.auth_token as string;
-    localStorage.setItem('auth_token', token);
-    authStore.setToken(token);
+  },
+  data() {
+    return {
+      error: null, // در صورت وجود خطا این مقدار تنظیم می‌شود
+      transaction: {} // اطلاعات تراکنش در اینجا قرار می‌گیرد
+
+    };
+  },
+  mounted() {
+    // گرفتن query params برای نمایش پیام خطا یا جزئیات تراکنش
+    const query = this.$route.query;
+    console.log(query);
+
+    if (query.error) {
+      this.error = query.error; // دریافت پیام خطا از query params
+    } else {
+      // دریافت جزئیات تراکنش از API یا route params
+      // برای سادگی، داده‌های ساختگی اضافه شده‌اند
+      this.transaction = {
+        order_id: query.order_id,
+        amount: query.amount,
+        token: query.token,
+        rrn: query.rrn,
+        created_at: new Date().toLocaleString() // تنظیم تاریخ ساختگی برای نمایش
+      };
+      const token = query.auth_token;
+      localStorage.setItem('auth_token',token);
+      this.authStore.setToken(token);
+    }
   }
-});
+};
 </script>
 
 <style scoped>
