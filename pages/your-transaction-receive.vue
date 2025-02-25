@@ -1,30 +1,36 @@
 <template>
-  <div class="container">
-    <h1 v-if="error" class="error">Error</h1>
-    <p v-if="error" class="message">{{ error }}</p>
+  <SideBar/>
+  <div class="transaction-container">
+    <div class="transaction">
+      <h1 v-if="error" class="error">Error</h1>
+      <p v-if="error" class="message">{{ error }}</p>
 
-    <div v-else>
-      <h1>تراکنش موفق</h1>
-      <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
-      <div class="transaction-details">
-        <p><strong>شناسه سفارش :</strong> {{ transaction.order_id }}</p>
-        <p><strong>مبلغ سفارش :</strong> {{ transaction.amount }}</p>
-        <p><strong>کد رهگیری :</strong> {{ transaction.token }}</p>
-        <p><strong>شماره پیگیری :</strong> {{ transaction.rrn }}</p>
-        <p><strong>تاریخ تراکنش :</strong> {{ transaction.created_at }}</p>
-        <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
+      <div v-else>
+        <h1>تراکنش موفق</h1>
+        <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
+        <div class="transaction-details">
+          <p><strong>شناسه سفارش :</strong> {{ $toPersian(transaction.order_id) }}</p>
+          <p><strong>مبلغ سفارش :</strong> {{ $formatPrice(transaction.amount) }}</p>
+          <p><strong>کد رهگیری :</strong> {{ $toPersian(transaction.token) }}</p>
+          <p><strong>شماره پیگیری :</strong> {{ $toPersian(transaction.rrn) }}</p>
+          <p><strong>تاریخ تراکنش :</strong> {{ $toPersianDate(transaction.created_at) }}</p>
+          <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
+        </div>
       </div>
-    </div>
 
-    <nuxt-link to="/" class="back-button">برگشت به صفحه اصلی</nuxt-link>
+      <nuxt-link to="/" class="back-button">برگشت به صفحه اصلی</nuxt-link>
+    </div>
   </div>
+
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import { useAuthStore } from '~/stores/auth';
-import { useNuxtApp } from '#app';
+import {ref, onMounted} from 'vue';
+import {useRoute} from 'vue-router';
+import {useAuthStore} from '~/stores/auth';
+import {useNuxtApp} from '#app';
+
+const {$toPersian, $toPersianDate, $formatPrice} = useNuxtApp();
 
 const authStore = useAuthStore(); // Access the store in the setup function
 const route = useRoute();
@@ -67,10 +73,15 @@ body {
   height: 100vh;
   margin: 0;
 }
+.transaction-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-.container {
+.transaction {
   background-color: #fff;
-  margin-top: 80px;
+  margin-top: 150px;
   padding: 20px 40px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -96,6 +107,9 @@ h1.error {
 }
 
 .transaction-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   text-align: left;
   margin-top: 20px;
 }
