@@ -414,9 +414,6 @@
 import {ref, onMounted,watchEffect} from 'vue';
 import {useNuxtApp, useRuntimeConfig} from '#app';
 import {useStepStore} from "~/stores/useStepStore.js";
-definePageMeta({
-  layout: 'default'
-});
 const router = useRouter();
 /////////// convert number to persian ///////
 // تعداد مراحل و نام‌های هر مرحله
