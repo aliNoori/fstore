@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted} from 'vue';
+import {ref, onMounted,watch} from 'vue';
 import {useRoute} from 'vue-router';
 import {useAuthStore} from '~/stores/auth';
 import jalaali from "jalaali-js";
@@ -51,7 +51,9 @@ const route = useRoute();
 
 const error = ref<string | null>(null); // در صورت وجود خطا این مقدار تنظیم می‌شود
 const transaction = ref<any>({}); // اطلاعات تراکنش در اینجا قرار می‌گیرد
-
+watch(transaction, (newTransaction) => {
+  console.log('Transaction updated:', newTransaction);
+}, { immediate: true });
 onMounted(() => {
   // گرفتن query params برای نمایش پیام خطا یا جزئیات تراکنش
   const query = route.query;
