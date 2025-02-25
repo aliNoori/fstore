@@ -21,18 +21,25 @@
 </template>
 
 <script setup lang="ts">
-import {useAuthStore} from '~/stores/auth.js';
-import {useRoute} from "#app";
-import { onMounted, ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useAuthStore } from '~/stores/auth';
+import { useNuxtApp } from '#app';
+
+const authStore = useAuthStore(); // Access the store in the setup function
 const route = useRoute();
-const authStore = useAuthStore();
-const error = ref(null);
-const transaction = ref(null);
-const query = route.query;
+/*const { $helper } = useNuxtApp();*/
+
+const error = ref<string | null>(null); // در صورت وجود خطا این مقدار تنظیم می‌شود
+const transaction = ref<any>({}); // اطلاعات تراکنش در اینجا قرار می‌گیرد
 
 onMounted(() => {
+  // گرفتن query params برای نمایش پیام خطا یا جزئیات تراکنش
+  const query = route.query;
+  console.log(query);
+
   if (query.error) {
-    error.value = query.error; // دریافت پیام خطا از query params
+    error.value = query.error as string; // دریافت پیام خطا از query params
   } else {
     // دریافت جزئیات تراکنش از API یا route params
     // برای سادگی، داده‌های ساختگی اضافه شده‌اند
@@ -43,12 +50,11 @@ onMounted(() => {
       rrn: query.rrn,
       created_at: new Date().toLocaleString() // تنظیم تاریخ ساختگی برای نمایش
     };
-    const token = query.auth_token;
-    localStorage.setItem('auth_token', token.value);
-    authStore.setToken(token.value);
+    const token = query.auth_token as string;
+    localStorage.setItem('auth_token', token);
+    authStore.setToken(token);
   }
-})
-;
+});
 </script>
 
 <style scoped>
