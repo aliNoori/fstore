@@ -8,7 +8,7 @@
       <div v-else>
         <h1>تراکنش موفق</h1>
         <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
-        <div class="transaction-details">
+        <div v-if="transaction" class="transaction-details">
           <p><strong>شناسه سفارش :</strong> {{ $toPersian(transaction.order_id) }}</p>
           <p><strong>مبلغ سفارش :</strong> {{ $formatPrice(transaction.amount) }}</p>
           <p><strong>کد رهگیری :</strong> {{ $toPersian(transaction.token) }}</p>
@@ -34,7 +34,6 @@ const {$toPersian, $toPersianDate, $formatPrice} = useNuxtApp();
 
 const authStore = useAuthStore(); // Access the store in the setup function
 const route = useRoute();
-/*const { $helper } = useNuxtApp();*/
 
 const error = ref<string | null>(null); // در صورت وجود خطا این مقدار تنظیم می‌شود
 const transaction = ref<any>({}); // اطلاعات تراکنش در اینجا قرار می‌گیرد
