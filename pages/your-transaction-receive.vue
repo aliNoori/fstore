@@ -9,11 +9,11 @@
         <h1>تراکنش موفق</h1>
         <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
         <div v-if="transaction" class="transaction-details">
-          <p><strong>شناسه سفارش :</strong> {{ toPersian(transaction.order_id) }}</p>
-<!--          <p><strong>مبلغ سفارش :</strong> {{ formatPrice(transaction.amount) }}</p>
-          <p><strong>کد رهگیری :</strong> {{ transaction.token }}</p>
-          <p><strong>شماره پیگیری :</strong> {{ transaction.rrn }}</p>
-          <p><strong>تاریخ تراکنش :</strong> {{ transaction.created_at }}</p>-->
+          <p><strong>شناسه سفارش :</strong> {{ convertedOrderId }}</p>
+          <p><strong>مبلغ سفارش :</strong> {{ convertedAmount }}</p>
+          <p><strong>کد رهگیری :</strong> {{ convertedToken }}</p>
+          <p><strong>شماره پیگیری :</strong> {{ convertedRrn }}</p>
+<!--          <p><strong>تاریخ تراکنش :</strong> {{ convertedDate }}</p>-->
           <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
         </div>
       </div>
@@ -21,17 +21,18 @@
       <nuxt-link to="/" class="back-button">برگشت به صفحه اصلی</nuxt-link>
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted,watch} from 'vue';
-import {useRoute} from 'vue-router';
-import {useAuthStore} from '~/stores/auth';
+import { ref, onMounted, computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useAuthStore } from '~/stores/auth';
 import jalaali from "jalaali-js";
+
 const formatPrice = (price: number) => {
   return Math.floor(price).toLocaleString('fa-IR');
 };
+
 const toPersian = (number: { toString: () => string }) => {
   const persianNumbers: string[] = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
   return number.toString().replace(/[0-9]/g, (digit: string) => {
@@ -40,42 +41,43 @@ const toPersian = (number: { toString: () => string }) => {
   });
 };
 
-/*const toPersianDate= (dateString: string | number | Date) => {
+/*const toPersianDate = (dateString: string | number | Date) => {
   const date = new Date(dateString);
   const jalaaliDate = jalaali.toJalaali(date);
   return `${jalaaliDate.jy}/${jalaaliDate.jm}/${jalaaliDate.jd}`;
 };*/
 
-const authStore = useAuthStore(); // Access the store in the setup function
+const authStore = useAuthStore();
 const route = useRoute();
 
-const error = ref<string | null>(null); // در صورت وجود خطا این مقدار تنظیم می‌شود
-const transaction = ref<any>({}); // اطلاعات تراکنش در اینجا قرار می‌گیرد
-watch(transaction, (newTransaction) => {
-  console.log('Transaction updated:', newTransaction);
-}, { immediate: true });
+const error = ref<string | null>(null);
+const transaction = ref<any>({});
+
+const convertedOrderId = computed(() => toPersian(transaction.value.order_id || ''));
+const convertedAmount = computed(() => formatPrice(transaction.value.amount || 0));
+const convertedToken = computed(() => toPersian(transaction.value.token || ''));
+const convertedRrn = computed(() => toPersian(transaction.value.rrn || ''));
+/*const convertedDate = computed(() => toPersianDate(transaction.value.created_at || new Date()));*/
+
 onMounted(() => {
-  // گرفتن query params برای نمایش پیام خطا یا جزئیات تراکنش
   const query = route.query;
   console.log(query);
 
   if (query.error) {
-    error.value = query.error as string; // دریافت پیام خطا از query params
+    error.value = query.error as string;
   } else {
-    // دریافت جزئیات تراکنش از API یا route params
-    // برای سادگی، داده‌های ساختگی اضافه شده‌اند
     transaction.value = {
       order_id: query.order_id,
       amount: query.amount,
       token: query.token,
       rrn: query.rrn,
-      created_at: new Date().toLocaleString() // تنظیم تاریخ ساختگی برای نمایش
+      created_at: new Date().toLocaleString()
     };
     const token = query.auth_token as string;
-    /*localStorage.setItem('auth_token', token);*/
-    console.log('transaction',transaction.value);
     authStore.setToken(token);
   }
+
+  console.log('Transaction:', transaction.value);
 });
 </script>
 
