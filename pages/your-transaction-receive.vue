@@ -9,11 +9,11 @@
         <h1>تراکنش موفق</h1>
         <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
         <div v-if="transaction" class="transaction-details">
-<!--          <p><strong>شناسه سفارش :</strong> {{ toPersian(transaction.order_id) }}</p>
-          <p><strong>مبلغ سفارش :</strong> {{ formatPrice(transaction.amount) }}</p>
-          <p><strong>کد رهگیری :</strong> {{ toPersian(transaction.token) }}</p>
-          <p><strong>شماره پیگیری :</strong> {{ toPersian(transaction.rrn) }}</p>
-          <p><strong>تاریخ تراکنش :</strong> {{ toPersianDate(transaction.created_at) }}</p>-->
+          <p><strong>شناسه سفارش :</strong> {{ transaction.order_id }}</p>
+          <p><strong>مبلغ سفارش :</strong> {{ transaction.amount }}</p>
+          <p><strong>کد رهگیری :</strong> {{ transaction.token }}</p>
+          <p><strong>شماره پیگیری :</strong> {{ transaction.rrn }}</p>
+          <p><strong>تاریخ تراکنش :</strong> {{ transaction.created_at }}</p>
           <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
         </div>
       </div>
@@ -24,28 +24,18 @@
 
 </template>
 
-<script setup>
+<script setup lang="ts">
 import {ref, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
 import {useAuthStore} from '~/stores/auth';
-import jalaali from "jalaali-js";
-/*const formatPrice = (price) => {
-  return Math.floor(price).toLocaleString('fa-IR');
-};
-const toPersian = (number) => {
-  const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return number.toString().replace(/[0-9]/g, (digit) => persianNumbers[digit]);
-};
-const toPersianDate= (dateString) => {
-  const date = new Date(dateString);
-  const jalaaliDate = jalaali.toJalaali(date);
-  return `${jalaaliDate.jy}/${jalaaliDate.jm}/${jalaaliDate.jd}`;
-};*/
+import {useNuxtApp} from '#app';
+/*const {$toPersian, $toPersianDate, $formatPrice} = useNuxtApp();*/
+
 const authStore = useAuthStore(); // Access the store in the setup function
 const route = useRoute();
 
-const error = ref(null); // در صورت وجود خطا این مقدار تنظیم می‌شود
-const transaction = ref({}); // اطلاعات تراکنش در اینجا قرار می‌گیرد
+const error = ref<string | null>(null); // در صورت وجود خطا این مقدار تنظیم می‌شود
+const transaction = ref<any>({}); // اطلاعات تراکنش در اینجا قرار می‌گیرد
 
 onMounted(() => {
   // گرفتن query params برای نمایش پیام خطا یا جزئیات تراکنش
@@ -53,7 +43,7 @@ onMounted(() => {
   console.log(query);
 
   if (query.error) {
-    error.value = query.error; // دریافت پیام خطا از query params
+    error.value = query.error as string; // دریافت پیام خطا از query params
   } else {
     // دریافت جزئیات تراکنش از API یا route params
     // برای سادگی، داده‌های ساختگی اضافه شده‌اند
@@ -64,9 +54,9 @@ onMounted(() => {
       rrn: query.rrn,
       created_at: new Date().toLocaleString() // تنظیم تاریخ ساختگی برای نمایش
     };
-    console.log('transaction',transaction.value);
-    const token = query.auth_token;
+    const token = query.auth_token as string;
     /*localStorage.setItem('auth_token', token);*/
+    console.log('transaction',transaction.value);
     authStore.setToken(token);
   }
 });
