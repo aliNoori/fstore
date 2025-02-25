@@ -9,8 +9,8 @@
         <h1>تراکنش موفق</h1>
         <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
         <div v-if="transaction" class="transaction-details">
-          <p><strong>شناسه سفارش :</strong> {{ transaction.order_id }}</p>
-          <p><strong>مبلغ سفارش :</strong> {{ transaction.amount }}</p>
+          <p><strong>شناسه سفارش :</strong> {{ toPersian(transaction.order_id) }}</p>
+          <p><strong>مبلغ سفارش :</strong> {{ formatPrice(transaction.amount) }}</p>
           <p><strong>کد رهگیری :</strong> {{ transaction.token }}</p>
           <p><strong>شماره پیگیری :</strong> {{ transaction.rrn }}</p>
           <p><strong>تاریخ تراکنش :</strong> {{ transaction.created_at }}</p>
@@ -28,8 +28,23 @@
 import {ref, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
 import {useAuthStore} from '~/stores/auth';
-import {useNuxtApp} from '#app';
-/*const {$toPersian, $toPersianDate, $formatPrice} = useNuxtApp();*/
+import jalaali from "jalaali-js";
+const formatPrice = (price: number) => {
+  return Math.floor(price).toLocaleString('fa-IR');
+};
+const toPersian = (number: { toString: () => string }) => {
+  const persianNumbers: string[] = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  return number.toString().replace(/[0-9]/g, (digit: string) => {
+    const digitNumber = parseInt(digit, 10); // تبدیل digit به عدد
+    return persianNumbers[digitNumber];
+  });
+};
+
+/*const toPersianDate= (dateString: string | number | Date) => {
+  const date = new Date(dateString);
+  const jalaaliDate = jalaali.toJalaali(date);
+  return `${jalaaliDate.jy}/${jalaaliDate.jm}/${jalaaliDate.jd}`;
+};*/
 
 const authStore = useAuthStore(); // Access the store in the setup function
 const route = useRoute();
