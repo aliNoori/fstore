@@ -9,11 +9,11 @@
         <h1>تراکنش موفق</h1>
         <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
         <div v-if="transaction" class="transaction-details">
-          <p><strong>شناسه سفارش :</strong> {{ toPersian(transaction.order_id) }}</p>
-          <p><strong>مبلغ سفارش :</strong> {{ formatPrice(transaction.amount) }}</p>
+          <p><strong>شناسه سفارش :</strong> {{ toPersian(1234) }}</p>
+<!--          <p><strong>مبلغ سفارش :</strong> {{ formatPrice(transaction.amount) }}</p>
           <p><strong>کد رهگیری :</strong> {{ transaction.token }}</p>
           <p><strong>شماره پیگیری :</strong> {{ transaction.rrn }}</p>
-          <p><strong>تاریخ تراکنش :</strong> {{ transaction.created_at }}</p>
+          <p><strong>تاریخ تراکنش :</strong> {{ transaction.created_at }}</p>-->
           <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
         </div>
       </div>
