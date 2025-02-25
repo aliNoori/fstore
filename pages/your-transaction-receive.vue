@@ -9,11 +9,11 @@
         <h1>تراکنش موفق</h1>
         <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
         <div v-if="transaction" class="transaction-details">
-          <p><strong>شناسه سفارش :</strong> {{ toPersian(transaction.order_id) }}</p>
+<!--          <p><strong>شناسه سفارش :</strong> {{ toPersian(transaction.order_id) }}</p>
           <p><strong>مبلغ سفارش :</strong> {{ formatPrice(transaction.amount) }}</p>
           <p><strong>کد رهگیری :</strong> {{ toPersian(transaction.token) }}</p>
           <p><strong>شماره پیگیری :</strong> {{ toPersian(transaction.rrn) }}</p>
-          <p><strong>تاریخ تراکنش :</strong> {{ toPersianDate(transaction.created_at) }}</p>
+          <p><strong>تاریخ تراکنش :</strong> {{ toPersianDate(transaction.created_at) }}</p>-->
           <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
         </div>
       </div>
@@ -29,7 +29,7 @@ import {ref, onMounted} from 'vue';
 import {useRoute} from 'vue-router';
 import {useAuthStore} from '~/stores/auth';
 import jalaali from "jalaali-js";
-const formatPrice = (price) => {
+/*const formatPrice = (price) => {
   return Math.floor(price).toLocaleString('fa-IR');
 };
 const toPersian = (number) => {
@@ -40,7 +40,7 @@ const toPersianDate= (dateString) => {
   const date = new Date(dateString);
   const jalaaliDate = jalaali.toJalaali(date);
   return `${jalaaliDate.jy}/${jalaaliDate.jm}/${jalaaliDate.jd}`;
-};
+};*/
 const authStore = useAuthStore(); // Access the store in the setup function
 const route = useRoute();
 
@@ -64,6 +64,7 @@ onMounted(() => {
       rrn: query.rrn,
       created_at: new Date().toLocaleString() // تنظیم تاریخ ساختگی برای نمایش
     };
+    console.log('transaction',transaction.value);
     const token = query.auth_token;
     /*localStorage.setItem('auth_token', token);*/
     authStore.setToken(token);
