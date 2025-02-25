@@ -9,11 +9,11 @@
         <h1>تراکنش موفق</h1>
         <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
         <div v-if="transaction" class="transaction-details">
-          <p><strong>شناسه سفارش :</strong> {{ convertedOrderId }}</p>
-          <p><strong>مبلغ سفارش :</strong> {{ convertedAmount }}</p>
-          <p><strong>کد رهگیری :</strong> {{ convertedToken }}</p>
-          <p><strong>شماره پیگیری :</strong> {{ convertedRrn }}</p>
-<!--          <p><strong>تاریخ تراکنش :</strong> {{ convertedDate }}</p>-->
+          <p><strong>شناسه سفارش :</strong><span class="dotted-line"></span>{{ convertedOrderId }}</p>
+          <p><strong>مبلغ سفارش :</strong><span class="dotted-line"></span>{{ convertedAmount }}</p>
+          <p><strong>کد رهگیری :</strong><span class="dotted-line"></span>{{ convertedToken }}</p>
+          <p><strong>شماره پیگیری :</strong><span class="dotted-line"></span>{{ convertedRrn }}</p>
+          <p><strong>تاریخ تراکنش :</strong><span class="dotted-line"></span>{{ convertedDate }}</p>
           <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
         </div>
       </div>
@@ -27,9 +27,11 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '~/stores/auth';
-import jalaali from "jalaali-js";
+import{useNuxtApp} from "#app";
+const {$formatPrice,$toPersian,$toPersianDate}=useNuxtApp();
+/*import jalaali from "jalaali-js";*/
 
-const formatPrice = (price: number) => {
+/*const formatPrice = (price: number) => {
   return Math.floor(price).toLocaleString('fa-IR');
 };
 
@@ -39,7 +41,7 @@ const toPersian = (number: { toString: () => string }) => {
     const digitNumber = parseInt(digit, 10); // تبدیل digit به عدد
     return persianNumbers[digitNumber];
   });
-};
+};*/
 
 /*const toPersianDate = (dateString: string | number | Date) => {
   const date = new Date(dateString);
@@ -53,11 +55,11 @@ const route = useRoute();
 const error = ref<string | null>(null);
 const transaction = ref<any>({});
 
-const convertedOrderId = computed(() => toPersian(transaction.value.order_id || ''));
-const convertedAmount = computed(() => formatPrice(transaction.value.amount || 0));
-const convertedToken = computed(() => toPersian(transaction.value.token || ''));
-const convertedRrn = computed(() => toPersian(transaction.value.rrn || ''));
-/*const convertedDate = computed(() => toPersianDate(transaction.value.created_at || new Date()));*/
+const convertedOrderId = computed(() => $toPersian(transaction.value.order_id || ''));
+const convertedAmount = computed(() => $formatPrice(transaction.value.amount || 0));
+const convertedToken = computed(() => $toPersian(transaction.value.token || ''));
+const convertedRrn = computed(() => $toPersian(transaction.value.rrn || ''));
+const convertedDate = computed(() => $toPersianDate(transaction.value.created_at || new Date()));
 
 onMounted(() => {
   const query = route.query;
@@ -135,6 +137,13 @@ h1.error {
 .transaction-details p {
   margin: 10px 0;
   font-size: 0.9rem;
+  display: flex; /* اضافه کردن این ویژگی */
+  align-items: center; /* اضافه کردن این ویژگی */
+}
+.transaction-details .dotted-line {
+  flex-grow: 1; /* اضافه کردن این ویژگی */
+  border-bottom: 1px dotted #333; /* اضافه کردن این ویژگی */
+  margin: 0 8px; /* اضافه کردن این ویژگی */
 }
 
 .back-button {
