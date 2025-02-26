@@ -84,6 +84,12 @@ body {
   height: 100vh;
   margin: 0;
 }
+/*.transaction-details{
+  background-color: #14ff0073;
+  padding: 20px;
+  margin-top: 5px;
+  border-radius: 10px;
+}*/
 .transaction-details h2{
   display: flex;
   flex-direction: row;
@@ -134,13 +140,14 @@ body {
 .store-details {
   display: flex;
   flex-direction: column;
-  text-align: center;
+  text-align: right;
+  margin-right: 10px;
 }
 .payment-info {
   background-color: #0800ff1c;
   border-radius: 10px;
   padding: 20px;
-  margin-top: 5px;
+  margin-top: 20px;
   text-align: left;
 }
 
