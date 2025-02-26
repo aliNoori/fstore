@@ -24,8 +24,8 @@
 
       <div class="payment-info">
         <h2>اطلاعات پرداخت</h2>
-        <p><strong>نوع پرداخت:</strong> کارت بانکی</p>
-        <p><strong>شماره کارت:</strong> **** **** **** ۱۲۳۴</p>
+        <p><strong>نوع پرداخت:</strong><span class="dotted-line"></span><strong> کارت بانکی</strong></p>
+        <p><strong>شماره کارت:</strong><span class="dotted-line"></span><strong> **** **** **** ۱۲۳۴</strong></p>
       </div>
 
       <nuxt-link to="/" class="back-button">برگشت به صفحه اصلی</nuxt-link>
@@ -50,7 +50,7 @@ const convertedOrderId = computed(() => $toPersian(transaction.value.order_id ||
 const convertedAmount = computed(() => $formatPrice(transaction.value.amount || 0));
 const convertedToken = computed(() => $toPersian(transaction.value.token || ''));
 const convertedRrn = computed(() => $toPersian(transaction.value.rrn || ''));
-const convertedDate = computed(() => $toPersianDate(transaction.value.created_at || new Date()));
+const convertedDate = computed(() => $toPersian($toPersianDate(transaction.value.created_at || new Date())));
 
 onMounted(() => {
   const query = route.query;
@@ -84,7 +84,20 @@ body {
   height: 100vh;
   margin: 0;
 }
-
+.transaction-details h2{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #14ff0073;
+  padding: 20px;
+  margin-top: 5px;
+  border-radius: 10px;
+}
+.payment-info h2{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 .transaction-container {
   display: flex;
   flex-direction: column;
@@ -92,8 +105,9 @@ body {
 }
 
 .transaction {
+  font-size: .8rem;
   background-color: #fff;
-  margin-top: 50px;
+  margin-top: 100px;
   padding: 30px 50px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -106,21 +120,27 @@ body {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
+  background-color: #fffb005e;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .store-logo {
   width: 80px;
   height: 80px;
-  margin-right: 20px;
+  margin-right: -5px;
 }
 
 .store-details {
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
-
-.transaction-details,
 .payment-info {
-  margin-top: 20px;
+  background-color: #0800ff1c;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 5px;
   text-align: left;
 }
 
