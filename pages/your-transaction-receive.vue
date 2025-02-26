@@ -2,20 +2,30 @@
   <SideBar/>
   <div class="transaction-container">
     <div class="transaction">
-      <h1 v-if="error" class="error">Error</h1>
-      <p v-if="error" class="message">{{ error }}</p>
-
-      <div v-else>
-        <h1>تراکنش موفق</h1>
-        <p class="message">تراکنش شما با موفقیت به انجام رسید</p>
-        <div v-if="transaction" class="transaction-details">
-          <p><strong>شناسه سفارش :</strong><span class="dotted-line"></span>{{ convertedOrderId }}</p>
-          <p><strong>مبلغ سفارش :</strong><span class="dotted-line"></span>{{ convertedAmount }}</p>
-          <p><strong>کد رهگیری :</strong><span class="dotted-line"></span>{{ convertedToken }}</p>
-          <p><strong>شماره پیگیری :</strong><span class="dotted-line"></span>{{ convertedRrn }}</p>
-          <p><strong>تاریخ تراکنش :</strong><span class="dotted-line"></span>{{ convertedDate }}</p>
-          <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
+      <div class="store-info">
+        <img src="@/src/static/images/basket-32.png" alt="Store Logo" class="store-logo"/>
+        <div class="store-details">
+          <h2>نام فروشگاه</h2>
+          <p>آدرس: خیابان مثال، شهر مثال</p>
+          <p>تلفن: ۰۱۲۳۴۵۶۷۸۹</p>
+          <p>ایمیل: example@example.com</p>
         </div>
+      </div>
+
+      <div class="transaction-details">
+        <h2>جزئیات تراکنش</h2>
+        <p><strong>شناسه سفارش :</strong><span class="dotted-line"></span><strong>{{ convertedOrderId }}</strong></p>
+        <p><strong>مبلغ سفارش :</strong><span class="dotted-line"></span><strong>{{ convertedAmount }}</strong></p>
+        <p><strong>کد رهگیری :</strong><span class="dotted-line"></span><strong>{{ convertedToken }}</strong></p>
+        <p><strong>شماره پیگیری :</strong><span class="dotted-line"></span><strong>{{ convertedRrn }}</strong></p>
+        <p><strong>تاریخ تراکنش :</strong><span class="dotted-line"></span><strong>{{ convertedDate }}</strong></p>
+        <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
+      </div>
+
+      <div class="payment-info">
+        <h2>اطلاعات پرداخت</h2>
+        <p><strong>نوع پرداخت:</strong> کارت بانکی</p>
+        <p><strong>شماره کارت:</strong> **** **** **** ۱۲۳۴</p>
       </div>
 
       <nuxt-link to="/" class="back-button">برگشت به صفحه اصلی</nuxt-link>
@@ -27,27 +37,8 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '~/stores/auth';
-import{useNuxtApp} from "#app";
-const {$formatPrice,$toPersian,$toPersianDate}=useNuxtApp();
-/*import jalaali from "jalaali-js";*/
-
-/*const formatPrice = (price: number) => {
-  return Math.floor(price).toLocaleString('fa-IR');
-};
-
-const toPersian = (number: { toString: () => string }) => {
-  const persianNumbers: string[] = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-  return number.toString().replace(/[0-9]/g, (digit: string) => {
-    const digitNumber = parseInt(digit, 10); // تبدیل digit به عدد
-    return persianNumbers[digitNumber];
-  });
-};*/
-
-/*const toPersianDate = (dateString: string | number | Date) => {
-  const date = new Date(dateString);
-  const jalaaliDate = jalaali.toJalaali(date);
-  return `${jalaaliDate.jy}/${jalaaliDate.jm}/${jalaaliDate.jd}`;
-};*/
+import { useNuxtApp } from '#app';
+const { $formatPrice, $toPersian, $toPersianDate } = useNuxtApp();
 
 const authStore = useAuthStore();
 const route = useRoute();
@@ -93,7 +84,8 @@ body {
   height: 100vh;
   margin: 0;
 }
-.transaction-container{
+
+.transaction-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -101,55 +93,55 @@ body {
 
 .transaction {
   background-color: #fff;
-  margin-top: 150px;
-  padding: 20px 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 50px;
+  padding: 30px 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width: 500px;
+  max-width: 800px;
   width: 100%;
 }
 
-h1 {
-  color: #27ae60; /* سبز برای موفقیت */
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-h1.error {
-  color: #e74c3c; /* قرمز برای خطا */
-}
-
-.message {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 20px;
-}
-
-.transaction-details {
+.store-info {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  margin-top: 20px;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
-.transaction-details p {
-  margin: 10px 0;
-  font-size: 0.9rem;
-  display: flex; /* اضافه کردن این ویژگی */
-  align-items: center; /* اضافه کردن این ویژگی */
+.store-logo {
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
 }
-.transaction-details .dotted-line {
-  flex-grow: 1; /* اضافه کردن این ویژگی */
-  border-bottom: 1px dotted #333; /* اضافه کردن این ویژگی */
-  margin: 0 8px; /* اضافه کردن این ویژگی */
+
+.store-details {
+  text-align: left;
+}
+
+.transaction-details,
+.payment-info {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.transaction-details p,
+.payment-info p {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.transaction-details .dotted-line,
+.payment-info .dotted-line {
+  flex-grow: 1;
+  border-bottom: 1px dotted #333;
+  margin: 0 8px;
 }
 
 .back-button {
   display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
+  margin-top: 30px;
+  padding: 12px 24px;
   background-color: #3498db;
   color: #fff;
   text-decoration: none;
