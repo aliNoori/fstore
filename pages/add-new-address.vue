@@ -1,7 +1,4 @@
 <template>
-  <NuxtLink to="/">
-    <img class="home-page-btn" src="@/src/static/images/house-32.png" alt="صفحه اصلی">
-  </NuxtLink>
   <div class="body">
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
       <h2>فرم ثبت‌ نام آدرس</h2>

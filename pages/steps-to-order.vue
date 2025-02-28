@@ -185,20 +185,22 @@
 
           <!-- خلاصه فاکتور -->
           <div class="invoice-summary">
-            <div>
+            <div class="sub_total_amount">
               <span>جمع کل:</span>
+              <span class="dotted-line"></span>
               <strong>{{ $toPersian($formatPrice(invoice.sub_total_amount)) }}</strong>
             </div>
-            <div>
+            <div class="tax">
               <span>مالیات ({{ $toPersian($formatPrice(invoice.tax_rate)) }}%):</span>
+              <span class="dotted-line"></span>
               <strong>{{ $toPersian($formatPrice(invoice.tax)) }}</strong>
             </div>
-            <div>
-              <span>هزینه ارسال:</span>
+            <div class="shipping_cost">
+              <span>هزینه ارسال:</span><span class="dotted-line"></span>
               <strong>{{ $toPersian($formatPrice(invoice.shipping_cost)) }}</strong>
             </div>
             <div class="total">
-              <span>مجموع کل:</span>
+              <span>مجموع کل:</span><span class="dotted-line"></span>
               <strong>{{ $toPersian($formatPrice(invoice.total_amount)) }}</strong>
             </div>
           </div>
@@ -208,7 +210,7 @@
         <button @click="() => {fetchPaymentMethods().then(nextStep).catch(error => console.error(error));}">انتخاب روش
           پرداخت
         </button>
-        <button @click="previousStep">برگست به روش ارسال</button>
+        <button @click="previousStep">برگشت به روش ارسال</button>
       </div>
     </div>
     <div v-if="currentStep === 5" class="page payment">
@@ -219,8 +221,8 @@
               v-for="paymentMethod in paymentMethods"
               :key="paymentMethod.id"
               class="payment-card"
-              :class="{ selected: selectedPaymentMethod === paymentMethod.id }"
-              @click="selectedPaymentMethod = paymentMethod.id"
+              :class="{ 'payment-card': true, selected: selectedPaymentMethod === paymentMethod.id, inactive: paymentMethod.is_active === 0 }"
+              @click="paymentMethod.is_active === 1 ? selectedPaymentMethod = paymentMethod.id : null"
           >
             <label>
               <input
@@ -229,6 +231,7 @@
                   v-model="selectedPaymentMethod"
                   required
                   hidden
+                  :disabled="paymentMethod.is_active === 0"
               />
               <div class="header-payment-card">
                 <h3>{{ getPaymentMethodName(paymentMethod.name) }}</h3>
@@ -266,9 +269,8 @@
             <div
                 v-for="onlineMethod in onlinePaymentMethods"
                 :key="onlineMethod.id"
-                class="online-card"
-                :class="{ selected: selectedOnlinePaymentMethod === onlineMethod.id }"
-                @click="selectedOnlinePaymentMethod = onlineMethod.id"
+                :class="{ 'online-card': true, selected: selectedOnlinePaymentMethod === onlineMethod.id, inactive: onlineMethod.gateway === 'melli' || onlineMethod.gateway === 'mellat' }"
+                @click="onlineMethod.gateway === 'parsian' ? selectedOnlinePaymentMethod = onlineMethod.id : null"
             >
               <input
                   type="radio"
@@ -276,6 +278,7 @@
                   v-model="selectedOnlinePaymentMethod"
                   required
                   hidden
+                  :disabled="onlineMethod.gateway !== 'melli' && onlineMethod.gateway !== 'mellat'"
               />
               <h3>{{ getOnlineMethodGateway(onlineMethod.gateway) }}</h3>
               <img
@@ -551,7 +554,7 @@ const handleSelectedAddress = async () => {
 };
 const editAddress = (addressId) => {
   // انتقال به صفحه ویرایش آدرس با شناسه آدرس
-  router.push(`/edit-address/${addressId}`);
+  router.push(`/address/${addressId}`);
 };
 const selectAddress = (addressId) => {
   selectedAddress.value = addressId;
@@ -751,12 +754,6 @@ router.afterEach((to, from) => {
 });
 </script>
 <style scoped>
-.home-page-btn{
-  position: absolute;
-  top:160px;
-  left: 20px;
-  z-index: 200;
-}
 .empty-cart {
   text-align: center;
   padding: 20px;
@@ -1486,7 +1483,10 @@ h2:hover::after {
   gap: 20px;
   justify-content: flex-start;
 }
-
+.payment-card.inactive {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 .payment-card {
   display: flex;
   flex-direction: column;
@@ -1550,7 +1550,7 @@ h2:hover::after {
 
 @media (max-width: 768px) {
   .payment-cards-container {
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
   }
 
@@ -1568,7 +1568,7 @@ h2:hover::after {
 /* استایل برای موبایل */
 @media (max-width: 768px) {
   .payment-cards-container {
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
   }
 
@@ -1590,7 +1590,10 @@ h2:hover::after {
   gap: 20px;
   justify-content: center;
 }
-
+.online-card.inactive {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 .online-card {
   display: flex;
   align-items: flex-end;
@@ -1652,7 +1655,7 @@ h2:hover::after {
 
 @media (max-width: 768px) {
   .online-cards-container {
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
   }
 
@@ -1670,7 +1673,7 @@ h2:hover::after {
 /* استایل برای موبایل */
 @media (max-width: 768px) {
   .online-cards-container {
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
   }
 
@@ -1687,7 +1690,7 @@ h2:hover::after {
 
 .body {
   direction: rtl;
-  font-family: 'Vazir', Arial, sans-serif;
+  font-family:Vazirmatn, sans-serif;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -1695,7 +1698,7 @@ h2:hover::after {
 }
 
 .invoice-container {
-  font-family: 'IRANSans', sans-serif;
+  /*font-family: 'IRANSans', sans-serif;*/
   background: #f9f9f9;
   padding: 20px;
   border-radius: 10px;
@@ -1758,6 +1761,7 @@ h2:hover::after {
 .invoice-summary div {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 10px 0;
   font-size: 1rem;
 }
@@ -1765,6 +1769,11 @@ h2:hover::after {
 .invoice-summary .total {
   font-weight: bold;
   color: #388e3c;
+}
+.invoice-summary .dotted-line{
+  flex-grow: 1;
+  border-bottom: 1px dotted #333;
+  margin: 0 8px;
 }
 
 .invoice-controls {

@@ -4,11 +4,16 @@ import {useUser} from "~/composables/user.js";
 export function useHeader() {
     const isMessagesOpen = ref(false);
     const messages = ref([]);
-    const {user} =useUser();
+    const {user,fetchUser} =useUser();
     const toggleMessages = () => {
         isMessagesOpen.value = !isMessagesOpen.value;
     };
     async function getMessages() {
+        if (typeof fetchUser === 'function') { // بررسی اینکه fetchUser یک تابع است
+            await fetchUser(); // فراخوانی fetchUser
+        } else {
+            console.error('fetchUser is not a function');
+        }
 
         if(user.value && user.value.id){
             const token = localStorage.getItem('auth_token');
@@ -78,6 +83,9 @@ export function useHeader() {
                 });
         }
     }
+    onMounted(async () => {
+        await getMessages(); // استفاده از await برای فراخوانی getMessages
+    });
     return {
         user,
         messages,

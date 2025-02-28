@@ -17,7 +17,7 @@
         <p><strong>شناسه سفارش :</strong><span class="dotted-line"></span><strong>{{ convertedOrderId }}</strong></p>
         <p><strong>مبلغ سفارش :</strong><span class="dotted-line"></span><strong>{{ convertedAmount }}</strong></p>
         <p><strong>کد رهگیری :</strong><span class="dotted-line"></span><strong>{{ convertedToken }}</strong></p>
-        <p><strong>شماره پیگیری :</strong><span class="dotted-line"></span><strong>{{ convertedRrn }}</strong></p>
+        <p><strong>شماره پیگیری :</strong><span class="dotted-line"></span><strong>{{ convertedRRN }}</strong></p>
         <p><strong>تاریخ تراکنش :</strong><span class="dotted-line"></span><strong>{{ convertedDate }}</strong></p>
         <!-- می‌توانید جزئیات بیشتری اضافه کنید -->
       </div>
@@ -25,7 +25,7 @@
       <div class="payment-info">
         <h2>اطلاعات پرداخت</h2>
         <p><strong>نوع پرداخت:</strong><span class="dotted-line"></span><strong> کارت بانکی</strong></p>
-        <p><strong>شماره کارت:</strong><span class="dotted-line"></span><strong> **** **** **** ۱۲۳۴</strong></p>
+        <p><strong>شماره کارت:</strong><span class="dotted-line"></span><strong> {{ convertedCardNumberMasked }}</strong></p>
       </div>
 
       <nuxt-link to="/" class="back-button">برگشت به صفحه اصلی</nuxt-link>
@@ -49,9 +49,9 @@ const transaction = ref<any>({});
 const convertedOrderId = computed(() => $toPersian(transaction.value.order_id || ''));
 const convertedAmount = computed(() => $formatPrice(transaction.value.amount || 0));
 const convertedToken = computed(() => $toPersian(transaction.value.token || ''));
-const convertedRrn = computed(() => $toPersian(transaction.value.rrn || ''));
+const convertedRRN = computed(() => $toPersian(transaction.value.rrn || ''));
 const convertedDate = computed(() => $toPersian($toPersianDate(transaction.value.created_at || new Date())));
-
+const convertedCardNumberMasked = computed(() => $toPersian(transaction.value.card_number_masked || ''));
 onMounted(() => {
   const query = route.query;
   console.log(query);

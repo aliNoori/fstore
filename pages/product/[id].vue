@@ -12,7 +12,7 @@
         <p class="price">قیمت: {{ toPersian(formatPrice(product.price)) }} تومان</p>
         <button @click.prevent="addToCart(product.id)" class="add-to-cart-btn">
           <i class="fas fa-shopping-cart"></i> افزودن به سبد خرید
-          <span v-if="cartCount > 0" class="cart-badge">{{ toPersian(cartCount) }}</span>
+          <span v-if="cartCount > 0" class="cart-badge-btn-product">{{ toPersian(cartCount) }}</span>
         </button>
       </div>
       <div class="product-image" data-aos="zoom-in">
@@ -384,6 +384,7 @@ watch(
 
 .add-to-cart-btn i {
   margin-right: 0.5rem; /* آیکون فاصله با متن */
+  padding-left: 10px;
 }
 
 .add-to-cart-btn:hover {
@@ -405,7 +406,7 @@ watch(
 
 
 /* نشانگر تعداد سبد خرید */
-.cart-badge {
+.cart-badge-btn-product {
   width: 20px;
   height: 20px;
   background-color: red;
