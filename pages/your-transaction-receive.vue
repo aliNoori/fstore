@@ -64,10 +64,12 @@ onMounted(() => {
       amount: query.amount,
       token: query.token,
       rrn: query.rrn,
+      card_number_masked:query.card_number_masked,
       created_at: new Date().toLocaleString()
     };
     const token = query.auth_token as string;
     authStore.setToken(token);
+    localStorage.setItem('auth_token',token);
   }
 
   console.log('Transaction:', transaction.value);

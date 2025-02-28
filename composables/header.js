@@ -1,10 +1,12 @@
 import { ref } from 'vue';
 import { useNuxtApp } from '#app';
 import {useUser} from "~/composables/user.js";
+import {useAuthStore} from "~/stores/auth.js";
 export function useHeader() {
     const isMessagesOpen = ref(false);
     const messages = ref([]);
     const {user,fetchUser} =useUser();
+    const authStore=useAuthStore();
     const toggleMessages = () => {
         isMessagesOpen.value = !isMessagesOpen.value;
     };
@@ -84,7 +86,10 @@ export function useHeader() {
         }
     }
     onMounted(async () => {
-        await getMessages(); // استفاده از await برای فراخوانی getMessages
+        authStore.hydrateToken();
+        if(authStore.token!=null) {
+            await getMessages(); // استفاده از await برای فراخوانی getMessages
+        }
     });
     return {
         user,

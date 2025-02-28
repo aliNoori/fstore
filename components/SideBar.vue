@@ -2,12 +2,18 @@
 import {useUser} from '~/composables/user.js';
 import {useNuxtApp, useRuntimeConfig} from '#app';
 import {useSidebarState} from "~/composables/useSidebarState";
+import {useAuthStore} from "~/stores/auth";
 const {$toPersian}=useNuxtApp();
 const config=useRuntimeConfig();
 const {user,fetchUser,logout} =useUser();
 const {isMenuOpen,toggleSidebar}=useSidebarState();
+const authStore=useAuthStore();
 onMounted(() => {
-  fetchUser();
+  // بازیابی توکن از localStorage
+  authStore.hydrateToken();
+  if(authStore.token!=null){
+    fetchUser();
+  }
 });
 </script>
 <template>
