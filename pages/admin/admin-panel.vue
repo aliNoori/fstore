@@ -1,11 +1,10 @@
 <template>
+  <SideBar/>
   <div class="container">
     <!-- Header -->
     <header class="header">
-      <h1 class="title">Admin Panel</h1>
-      <button class="btn" @click="navigateTo('add-item')">Add Item</button>
+      <h1 class="title">صفحه مدیریت</h1>
     </header>
-
     <!-- Cards Section -->
     <section class="cards">
       <!-- Example Card 1 -->
@@ -13,9 +12,9 @@
         <div class="icon-wrapper">
           <i class="icon fa fa-users"></i>
         </div>
-        <h2 class="card-title">Users</h2>
-        <p class="card-description">Manage all registered users and control their access.</p>
-        <button class="btn-secondary" @click="navigateTo('/admin/users-management')">View Details</button>
+        <h2 class="card-title">کاربران</h2>
+        <p class="card-description">مدیریت کاربران ثبت‌نام‌شده و کنترل دسترسی آن‌ها.</p>
+        <button class="btn-secondary" @click="navigateTo('/admin/users-management')">مشاهده جزئیات</button>
       </div>
 
       <!-- Example Card 2 -->
@@ -23,9 +22,9 @@
         <div class="icon-wrapper">
           <i class="icon fa fa-shopping-cart"></i>
         </div>
-        <h2 class="card-title">Orders</h2>
-        <p class="card-description">Track and manage customer orders with ease.</p>
-        <button class="btn-secondary" @click="navigateTo('/admin/orders-management')">View Details</button>
+        <h2 class="card-title">سفارشات</h2>
+        <p class="card-description">پیگیری و مدیریت سفارشات مشتریان با سهولت.</p>
+        <button class="btn-secondary" @click="navigateTo('/admin/orders-management')">مشاهده جزئیات</button>
       </div>
 
       <!-- Example Card 3 -->
@@ -33,13 +32,14 @@
         <div class="icon-wrapper">
           <i class="icon fa fa-box"></i>
         </div>
-        <h2 class="card-title">Products</h2>
-        <p class="card-description">Add, update, and manage inventory seamlessly.</p>
-        <button class="btn-secondary" @click="navigateTo('/admin/products-management')">View Details</button>
+        <h2 class="card-title">محصولات</h2>
+        <p class="card-description">افزودن، به‌روزرسانی و مدیریت موجودی به راحتی.</p>
+        <button class="btn-secondary" @click="navigateTo('/admin/products-management')">مشاهده جزئیات</button>
       </div>
     </section>
   </div>
 </template>
+
 
 <script setup lang="ts">
 //import { useRouter } from "vue-router"; // برای هدایت استفاده می‌شود
@@ -58,7 +58,7 @@ function navigateTo(path:any) {
   min-height: 100vh;
   background: #f3f4f6;
   padding: 30px;
-  font-family: 'Arial', sans-serif;
+  /*font-family: 'Arial', sans-serif;*/
 }
 
 /* استایل هدر */

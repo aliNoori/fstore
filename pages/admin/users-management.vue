@@ -1,6 +1,7 @@
 <template>
+  <SideBar/>
   <div class="container">
-    <h1 class="header">Users List</h1>
+    <h1 class="header">لیست کاربران</h1>
     <div class="user-list">
       <div
           v-for="user in usersList"
@@ -11,10 +12,10 @@
         <img
             :src="user.image ? `${config.public.API_BASE_URL}${user.image.path}` : '/default-avatar.png'"
             :alt="user.name"
-            class="user-avatar"
+            class="user-avatar-admin"
         />
         <!-- User Info -->
-        <div class="user-info">
+        <div class="user-info-admin">
           <h2 class="user-name">{{ user.name }}</h2>
           <p class="user-email">{{ user.email }}</p>
           <div class="roles-container">
@@ -26,7 +27,7 @@
                 :disabled="role.loading"
             >
               <span v-if="!role.loading">{{ role.name }}</span>
-              <span v-else>Loading...</span>
+              <span v-else>در حال بارگزاری ...</span>
             </button>
           </div>
         </div>
@@ -103,8 +104,12 @@ onMounted(() => {
 /* General Styles */
 .container {
   min-height: 100vh;
-  background-color: #f7f7f7;
+  margin-top: 100px;
+  /*background-color: #f7f7f7;*/
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .header {
@@ -117,41 +122,60 @@ onMounted(() => {
 .user-list {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 5px;
+  margin-top: 0;
 }
 
 /* User Card */
 .user-card {
   display: flex;
   align-items: center;
-  background: #fff;
+  justify-content: space-between;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 15px;
+  gap: 20px;
 }
 
-.user-avatar {
+.user-card:nth-child(even) {
+  background-color: #fff;
+}
+
+.user-card:nth-child(odd) {
+  background-color: #00ffc31f;
+}
+
+.user-avatar-admin {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 15px;
+  margin-right: 5px;
   border: 2px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  font-size: .5rem;
 }
 
-.user-info {
+.user-info-admin {
   flex: 1;
-}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 
+}
 .user-name {
-  font-size: 18px;
+  font-size: 10px;
   font-weight: bold;
   color: #444;
-  margin-bottom: 5px;
+  margin-bottom: 0;
 }
-
 .user-email {
-  font-size: 14px;
+  font-size: 10px;
   color: #777;
 }
 
@@ -159,13 +183,13 @@ onMounted(() => {
 .roles-container {
   display: flex;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .role-button {
-  padding: 8px 12px;
-  border-radius: 5px;
-  font-size: 14px;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 10px;
   cursor: pointer;
   transition: all 0.3s;
 }

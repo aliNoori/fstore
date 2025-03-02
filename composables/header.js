@@ -87,6 +87,7 @@ export function useHeader() {
     }
     onMounted(async () => {
         authStore.hydrateToken();
+        console.log('authStore.token :',authStore.token);
         if(authStore.token!=null) {
             await getMessages(); // استفاده از await برای فراخوانی getMessages
         }

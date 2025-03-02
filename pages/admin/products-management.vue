@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <SideBar/>
+  <div class="body">
     <div class="fixed top-0 right-0 w-full flex flex-row-reverse items-center bg-blue-600 text-white py-3 px-4 z-50">
       <h1 class="text-lg font-bold flex items-center gap-2 py-1 px-3 rounded-lg">
         مدیریت محصولات <i class="fas fa-box"></i>
@@ -67,12 +68,12 @@
           افزودن محصول جدید <i class="fas fa-plus text-amber-50 text-2xl"></i>
         </div>
         <div v-for="product in filteredProducts" :key="product.id" class="border rounded-lg shadow-md p-6 flex flex-col items-center justify-between">
-          <div class="relative w-full h-40 mb-4">
-            <img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" class="object-cover w-full h-full rounded-md" />
+          <div class="relative h-40 mb-4">
+            <img :src="product.image ? `${config.public.API_BASE_URL}${product.image.path}` : '/default-product-image.jpg'" :alt="product.name" class="object-cover h-full rounded-md" />
           </div>
           <h2 class="text-lg font-semibold mb-2 text-center">{{ product.name }}</h2>
-          <p class="text-gray-600 text-center">قیمت: {{ product.price }} تومان</p>
-          <p class="text-gray-600 text-center">موجودی: {{ product.stock }}</p>
+          <p class="text-gray-600 text-center">قیمت: {{ $toPersian($formatPrice(product.price)) }} تومان</p>
+          <p class="text-gray-600 text-center">موجودی: {{ $toPersian(product.stock) }}</p>
           <p class="text-sm text-gray-500 mt-2 text-center">{{ product.description }}</p>
           <div class="flex mt-4 gap-2 w-full justify-center">
             <button @click="openModal('edit', product)" class="bg-yellow-500 text-white rounded-lg py-2 px-3 hover:bg-yellow-600 transition w-full max-w-xs flex items-center justify-center flex-row-reverse gap-2">
@@ -97,9 +98,9 @@ useHead({
 });
 import { useRuntimeConfig } from '#app';
 import { onMounted, ref, computed } from 'vue';
-import { useNuxtApp} from '#app';
+import { useNuxtApp,useRouter} from '#app';
 const config = useRuntimeConfig();
-const { $axios } = useNuxtApp();
+const { $axios,$toPersian,$formatPrice } = useNuxtApp();
 const products = ref([]);
 const categories = ref([]);
 const productForm = ref({ name: '', sku: '', image: '', price: '', discount: '', stock: '', description: '', category_id: '' });
@@ -115,7 +116,7 @@ const filteredProducts = computed(() => {
   const query = searchQuery.value.toLowerCase();
   return products.value.filter((product) =>
       product.name.toLowerCase().includes(query) || // جستجو در نام محصول
-      product.sku.toLowerCase().includes(query) || // جستجو در کد محصول
+      /*product.sku.toLowerCase().includes(query) ||*/ // جستجو در کد محصول
       product.description.toLowerCase().includes(query) // جستجو در توضیحات
   );
 });
@@ -233,6 +234,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.body{
+  margin-top: 100px;
+}
 .modal-content {
   max-height: 100vh; /* حداکثر ارتفاع 80% از ارتفاع پنجره */
   overflow-y: scroll; /* فعال کردن اسکرول عمودی */

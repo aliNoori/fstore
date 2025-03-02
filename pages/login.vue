@@ -1,7 +1,12 @@
 <template>
-  <div class="body">    <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
+  <SideBar/>
+  <div class="body">
     <div class="login-container">
-      <img src="https://example.com/your-logo.png" alt="لوگوی برند">
+      <div class="logo">
+        <p>صفحه ورود</p>
+        <img src="@/src/static/images/logo-login.png" alt="لوگوی ورود">
+      </div>
+
       <form @submit.prevent="handleLogin">
         <input type="text" v-model="email" placeholder="ایمیل" required />
         <input type="password" v-model="password" placeholder="رمز عبور" required />
@@ -61,18 +66,29 @@ export default {
 
 <style scoped>
 .body {
-  margin: 0;
+  margin-top: 80px;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   background-color: #f0f0f5;
-  font-family: 'Roboto', sans-serif;
+  font-family:Vazirmatn, sans-serif;
+}
+.logo{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.logo p {
+  align-content: center;
+  margin-right: 5px;
+  padding-right: 10px;
 }
 
 .login-container {
-
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
@@ -100,9 +116,9 @@ export default {
 }
 
 .login-container img {
-  width: 100px;
-  margin-bottom: 20px;
-  border-radius: 50%;
+  width: 40px;
+  margin-bottom: 0;
+  border-radius: 100%;
   object-fit: cover;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

@@ -76,6 +76,8 @@
 import {ref, onMounted, watch} from 'vue';
 import {useNuxtApp, useRoute} from '#app';
 import {useRuntimeConfig} from '#app';
+import Swal from 'sweetalert2';
+import 'animate.css';
 
 const {$axios} = useNuxtApp();
 const route = useRoute();
@@ -126,58 +128,75 @@ async function fetchProduct() {
 }
 
 // افزودن محصول به سبد خرید
-async function addToCart(productId) {
 
+
+async function addToCart(productId) {
   isLoggedIn.value = checkUserLoginStatus();
   if (isLoggedIn.value) {
     try {
       const response = await $axios.post(`cart/item/add/${productId}`);
       if (response.status === 200) {
         console.log('محصول به سبد خرید اضافه شد:', response.data);
-        //alert('محصول با موفقیت به سبد خرید اضافه شد');
+        Swal.fire('موفقیت', 'محصول با موفقیت به سبد خرید اضافه شد', 'success');
         cartCount.value += 1;
       } else if (response.status === 400) {
         console.log('تعداد درخواستی بیشتر از موجودی محصول است', response.data);
-        alert('تعداد درخواستی بیشتر از موجودی محصول است');
+        Swal.fire('خطا', 'تعداد درخواستی بیشتر از موجودی محصول است', 'error');
       } else if (response.status === 404) {
         console.log('محصول مورد نظر یافت نشد', response.data);
-        alert('محصول مورد نظر یافت نشد');
+        Swal.fire('خطا', 'محصول مورد نظر یافت نشد', 'error');
       } else if (response.status === 500) {
         console.log('خطایی در افزودن محصول به سبد خرید رخ داده است', response.data);
-        alert('خطایی در افزودن محصول به سبد خرید رخ داده است');
+        Swal.fire('خطا', 'خطایی در افزودن محصول به سبد خرید رخ داده است', 'error');
       } else {
         console.log('خطا:', response.data);
-        alert('خطایی رخ داده است');
+        Swal.fire('خطا', 'خطایی رخ داده است', 'error');
       }
     } catch (error) {
       if (error.response && error.response.status) {
         switch (error.response.status) {
           case 400:
             console.error('تعداد درخواستی بیشتر از موجودی محصول است:', error.response.data);
-            alert('تعداد درخواستی بیشتر از موجودی محصول است');
+            Swal.fire('خطا', 'تعداد درخواستی بیشتر از موجودی محصول است', 'error');
             break;
           case 404:
             console.error('محصول مورد نظر یافت نشد:', error.response.data);
-            alert('محصول مورد نظر یافت نشد');
+            Swal.fire('خطا', 'محصول مورد نظر یافت نشد', 'error');
             break;
           case 500:
             console.error('خطایی در افزودن محصول به سبد خرید رخ داده است:', error.response.data);
-            alert('خطایی در افزودن محصول به سبد خرید رخ داده است');
+            Swal.fire('خطا', 'خطایی در افزودن محصول به سبد خرید رخ داده است', 'error');
             break;
           default:
             console.error('خطا:', error.response.data);
-            alert('خطایی رخ داده است');
+            Swal.fire('خطا', 'خطایی رخ داده است', 'error');
         }
       } else {
         console.error('خطا در افزودن محصول به سبد خرید:', error);
-        alert('خطایی در افزودن محصول به سبد خرید رخ داد.');
+        Swal.fire('خطا', 'خطایی در افزودن محصول به سبد خرید رخ داد.', 'error');
       }
     }
   } else {
-    console.log('لطفا لاگین نمایید.');
-    alert('لطفا لاگین نمایید.');
+    Swal.fire({
+      title: 'لطفا لاگین نمایید.',
+      showClass: {
+        popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `
+      },
+      hideClass: {
+        popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+      }
+    });
   }
 }
+
 
 
 // ثبت نظر جدید

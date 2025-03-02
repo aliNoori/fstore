@@ -13,6 +13,7 @@
     "@heroicons/vue": "^2.2.0",
     "@nuxtjs/pwa": "^3.3.5",
     "@pinia/nuxt": "^0.5.5",
+    "animate.css": "^4.1.1",
     "aos": "^2.3.4",
     "axios": "^1.7.7",
     "jalaali-js": "^1.2.7",
@@ -21,6 +22,7 @@
     "pinia": "^2.2.4",
     "pusher-js": "^8.4.0-rc2",
     "socket.io-client": "^2.5.0",
+    "sweetalert2": "^11.17.2",
     "swiper": "^11.1.15",
     "vue": "latest",
     "vue-router": "latest"

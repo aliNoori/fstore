@@ -1,11 +1,13 @@
 import { ref } from 'vue';
 import { useNuxtApp } from '#app';
+import {useAuthStore} from "~/stores/auth.js";
 
 
 export function useUser() {
     const user = ref(null);
     const { $axios } = useNuxtApp();
     const router = useRouter();
+    const authStore=useAuthStore();
     async function fetchUser() {
         if (!$axios) {
             console.error('Axios is not available');
@@ -25,6 +27,8 @@ export function useUser() {
             await $axios.get('user/logout'); // Adjust the endpoint as needed
             user.value = null;
             localStorage.removeItem('auth_token');
+            authStore.setToken(null);
+
             await router.push('/');
         } catch (error) {
             console.error("Logout error:", error.response ? error.response.data : error);

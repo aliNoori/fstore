@@ -32,34 +32,34 @@ onMounted(() => {
           <button @click="logout" class="logout-button">خروج</button>
         </div>
         <div v-else style="margin-top: 70px;">
-          <NuxtLink to="/login" class="sidebar-link">ورود</NuxtLink>
-          <NuxtLink to="/register" class="sidebar-link">ثبت نام</NuxtLink>
+          <NuxtLink to="/login" @click="toggleSidebar" class="sidebar-link">ورود</NuxtLink>
+          <NuxtLink to="/register" @click="toggleSidebar" class="sidebar-link">ثبت نام</NuxtLink>
         </div>
 
         <!-- منوی سایدبار -->
         <div v-if="user" class="user-info">
           <nav class="sidebar-menu">
-            <NuxtLink to="/my-wallet">
+            <NuxtLink to="/my-wallet" @click="toggleSidebar">
               کیف پول
               <span v-if="user.wallet_balance > 0" class="badge-sidebar">{{ $toPersian(user.wallet_balance) }}</span>
             </NuxtLink>
-            <NuxtLink to="/my-scores">
+            <NuxtLink to="/my-scores" @click="toggleSidebar">
               امتیازات
               <span v-if="user.score > 0" class="badge-sidebar">{{ $toPersian(user.score) }}</span>
             </NuxtLink>
-            <NuxtLink to="/my-coupons">
+            <NuxtLink to="/my-coupons" @click="toggleSidebar">
               کد های تخفیف
               <span v-if="user.coupons_count > 0" class="badge-sidebar">{{ $toPersian(user.coupons_count) }}</span>
             </NuxtLink>
-            <NuxtLink to="/my-orders">
+            <NuxtLink to="/my-orders" @click="toggleSidebar">
               سفارشات
               <span v-if="user.orders_count > 0" class="badge-sidebar">{{ $toPersian(user.orders_count) }}</span>
             </NuxtLink>
-            <NuxtLink to="/steps-to-order">
+            <NuxtLink to="/steps-to-order" @click="toggleSidebar">
               سبد خرید
               <span v-if="user.items_cart > 0" class="badge-sidebar">{{ $toPersian(user.items_cart) }}</span>
             </NuxtLink>
-            <NuxtLink to="/admin/admin-panel">صفحه مدیریت</NuxtLink>
+            <NuxtLink to="/admin/admin-panel" @click="toggleSidebar">صفحه مدیریت</NuxtLink>
           </nav>
         </div>
         <div v-else></div>

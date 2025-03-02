@@ -1,7 +1,6 @@
 <template>
   <SideBar/>
   <div class="body">
-    <img src="@/src/static/images/house-64.png" alt="صفحه اصلی">
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
       <h2>فرم ثبت‌نام کاربر</h2>
       <!-- ورودی آپلود آواتار -->
@@ -167,12 +166,12 @@ const handleSubmit = async () => {
 /* General Styles */
 .body {
   font-family: Vazirmatn, sans-serif;
-  background-color: #f0f2f5;
+  /*background-color: #f0f2f5;*/
   display: flex;
   justify-content: center;
   align-items: center;
   height: auto;
-  margin: 0;
+  margin-top: 100px;
   padding: 20px;
   box-sizing: border-box;
 }
