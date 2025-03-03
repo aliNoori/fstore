@@ -121,7 +121,8 @@ onMounted(() => {
 
 .user-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 5px;
   margin-top: 0;
 }
@@ -129,6 +130,7 @@ onMounted(() => {
 /* User Card */
 .user-card {
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: space-between;
   border-radius: 8px;
