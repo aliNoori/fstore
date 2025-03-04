@@ -1065,7 +1065,7 @@ router.afterEach((to, from) => {
   padding: 1rem;
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);*/
 }
 .card {
   width: 100%;
@@ -1702,7 +1702,7 @@ h2:hover::after {
   background: #f9f9f9;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);*/
   direction: rtl;
 }
 
@@ -1710,12 +1710,18 @@ h2:hover::after {
   display: flex;
   justify-content: space-between;
   border-bottom: 2px solid #4caf50;
-  padding-bottom: 15px;
+  /*padding-bottom: 15px;*/
   margin-bottom: 20px;
   flex-direction: row;
   align-items: center;
+  background-color: azure;
+  padding: 15px;
+  border-radius: 15px;
+  margin-top: 10px;
 }
-
+.store-details{
+  flex: 1;
+}
 .store-details h2 {
   font-size: 9px;
   color: #4caf50;
@@ -1724,6 +1730,7 @@ h2:hover::after {
 
 .user-details {
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: flex-start;
 }

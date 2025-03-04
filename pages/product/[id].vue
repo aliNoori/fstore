@@ -2,7 +2,7 @@
   <SideBar/>
   <div v-if="product" class="product-container">
     <!-- اطلاعات محصول -->
-    <div class="product-details">
+    <div class="product-id-details">
       <div class="product-info" data-aos="fade-up">
         <h1>{{ product.name }}</h1>
         <p class="description">{{ product.description }}</p>
@@ -275,7 +275,7 @@ watch(
   padding: 2rem;
   border-radius: 8px;
   width: 100%;
-  margin-top: 80px;
+  margin-top: 60px;
   text-align: right;
   direction: rtl;
   overflow: hidden;
@@ -283,36 +283,37 @@ watch(
 }
 
 /* جزئیات محصول */
-.product-details {
+.product-id-details {
   display: flex;
   flex-direction: row-reverse;
-  justify-content: flex-end;
-  align-items: flex-end;
-  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  /*gap: 2rem;*/
   width: 100vw;
   height: auto;
-//border-bottom: 2px solid #ddd; padding: 2.5rem; //margin-bottom: 2rem;
+/*//border-bottom: 2px solid #ddd; padding: 2.5rem; //margin-bottom: 2rem;*/
 }
 
 /* اطلاعات محصول */
 .product-info {
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 //gap: 10px; width: 100%; height: auto;
   background-color: #f9f9f9; /* پس‌زمینه ملایم */
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* سایه نرم */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 10px;
+  /*border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); !* سایه نرم *!
+  transition: transform 0.3s ease, box-shadow 0.3s ease;*/
 //flex: 1;
 }
-
+/*
 .product-info:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
+}*/
 
 .product-info h1,
 .product-info .description,
@@ -369,21 +370,27 @@ watch(
   color: #d9534f; /* قرمز برای موجودی تمام شده */
   font-weight: bold;
 }
+.product-image{
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  flex: 1;
+}
 
 /* تصویر محصول */
 .product-image img {
-  max-width: 300px;
-  max-height: 50vh;
+  margin-bottom: 1rem;
+  width: 40%;
+  max-width: 70%;
+  /*max-height: 50vh;*/
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transform: scale(0.85);
-  transition: transform 0.5s ease, box-shadow 0.3s ease;
+  /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);*/
 }
-
+/*
 .product-image img:hover {
   transform: scale(1.1) rotate(3deg);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
+}*/
 
 /* دکمه افزودن به سبد خرید */
 .add-to-cart-btn {
@@ -441,14 +448,14 @@ watch(
   width: 100%;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
-  padding: 1.5rem;
+  /*padding: 1.5rem;*/
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  /*box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;*/
 }
 
 .product-comments:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);*/
 }
 
 
@@ -634,7 +641,7 @@ button.loading::after {
   //gap: 1rem;
   }
 
-  .product-details {
+  .product-id-details {
     flex-direction: column;
     padding: 0;
     align-items: center;
@@ -653,6 +660,8 @@ button.loading::after {
     height: auto; /* نسبت تصویر حفظ شود */
     border-radius: 0; /* حذف گوشه‌های گرد در موبایل */
     box-shadow: none; /* حذف سایه اضافی در موبایل */
+    transform: scale(0.85);
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
   }
 
   .product-info {
@@ -660,7 +669,7 @@ button.loading::after {
     width: 100%; /* عرض کامل */
     max-width: 100%;
   //padding: 1rem; box-sizing: border-box; background: #f9f9f9; /* پس‌زمینه ملایم */
-    border-radius: 10px;
+    /*border-radius: 10px;*/
   }
 
   .add-to-cart-btn {
