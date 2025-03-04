@@ -76,6 +76,7 @@
 import {ref, onMounted, watch} from 'vue';
 import {useNuxtApp, useRoute} from '#app';
 import {useRuntimeConfig} from '#app';
+import Fuse from "fuse.js";
 import Swal from 'sweetalert2';
 import 'animate.css';
 
@@ -261,12 +262,6 @@ watch(
 
 
 <style scoped>
-.home-page-btn{
-  position: absolute;
-  top:15px;
-  left: 20px;
-  z-index: 200;
-}
 /* کانتینر اصلی */
 .product-container {
   display: flex;
@@ -448,7 +443,7 @@ watch(
   width: 100%;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
-  /*padding: 1.5rem;*/
+  padding: 1.5rem;
   border-radius: 8px;
   /*box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;*/

@@ -99,6 +99,7 @@ useHead({
 import { useRuntimeConfig } from '#app';
 import { onMounted, ref, computed } from 'vue';
 import { useNuxtApp,useRouter} from '#app';
+import Fuse from "fuse.js";
 const config = useRuntimeConfig();
 const { $axios,$toPersian,$formatPrice } = useNuxtApp();
 const products = ref([]);
@@ -109,18 +110,28 @@ const editingProductId = ref(null);
 const showModal = ref(false);
 const imagePreview = computed(() => (productForm.value.image instanceof File ? URL.createObjectURL(productForm.value.image) : productForm.value.image));
 const router = useRouter();
-const searchQuery = ref(""); // متغیر جستجو
+// متغیر جستجو
+const searchQuery = ref("");
+
+// تنظیمات Fuse.js برای جستجوی تطبیقی
+const fuseOptions = {
+  keys: ['name', 'description'], // جستجو در نام و توضیحات محصول
+  threshold: 0.3, // حساسیت جستجو (هرچه کمتر باشد، نتایج دقیق‌تر خواهند بود)
+  ignoreLocation: true, // نادیده گرفتن موقعیت کاراکترهای منطبق در متن
+  useExtendedSearch: true, // امکان جستجوی تطبیقی مانند "پلوپز" و "پلو پز"
+  findAllMatches: true, // نمایش تمام تطابق‌های ممکن
+};
+
+// ایجاد نمونه‌ای از Fuse برای جستجو
+const fuse = computed(() => new Fuse(products.value, fuseOptions));
 
 const filteredProducts = computed(() => {
-  // فیلتر کردن محصولات بر اساس متن جستجو
-  const query = searchQuery.value.toLowerCase();
-  return products.value.filter((product) =>
-      product.name.toLowerCase().includes(query) || // جستجو در نام محصول
-      /*product.sku.toLowerCase().includes(query) ||*/ // جستجو در کد محصول
-      product.description.toLowerCase().includes(query) // جستجو در توضیحات
-  );
-});
+  if (!searchQuery.value) return products.value; // اگر چیزی وارد نشده، همه محصولات نمایش داده شوند
 
+  // جستجو در داده‌های محصولات
+  const results = fuse.value.search(searchQuery.value);
+  return results.map(result => result.item); // استخراج محصولات از نتایج Fuse
+});
 async function fetchProducts() {
   try {
     const response = await $axios.get('product/list');

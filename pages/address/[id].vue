@@ -1,7 +1,7 @@
 <template>
   <div class="body">
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
-      <h2>فرم ویرایش آدرس</h2>
+      <h2>فرم ثبت‌ آدرس</h2>
       <!-- اطلاعات آدرس -->
       <p>
         <label for="street">خیابان</label>
@@ -10,12 +10,22 @@
 
       <p>
         <label for="city">شهر</label>
-        <input type="text" id="city" v-model="form.city" />
+        <div class="select-wrapper">
+          <select id="city" v-model="form.city">
+            <option disabled value="">انتخاب شهر</option>
+            <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
+          </select>
+        </div>
       </p>
 
       <p>
         <label for="state">استان</label>
-        <input type="text" id="state" v-model="form.state" />
+        <div class="select-wrapper">
+          <select id="state" v-model="form.state">
+            <option disabled value="">انتخاب استان</option>
+            <option v-for="state in states" :key="state" :value="state">{{ state }}</option>
+          </select>
+        </div>
       </p>
 
       <p>
@@ -25,7 +35,12 @@
 
       <p>
         <label for="country">کشور</label>
-        <input type="text" id="country" v-model="form.country" />
+        <div class="select-wrapper">
+          <select id="country" v-model="form.country">
+            <option disabled value="">انتخاب کشور</option>
+            <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
+          </select>
+        </div>
       </p>
       <button type="submit">ذخیره</button>
     </form>
@@ -38,6 +53,9 @@ import {useNuxtApp, useRouter,useRoute} from "#app";
 const router=useRouter();
 const route = useRoute();
 const address = ref(null);
+const cities = ref(["تهران", "مشهد", "اصفهان","بجنورد", "شیروان", "کرمان"]);
+const states = ref(["تهران", "خراسان شمالی", "اصفهان"]);
+const countries = ref(["ایران", "آمریکا", "کانادا"]);
 const form = ref({
   street: '',
   city: '',
@@ -187,10 +205,45 @@ button[type="submit"]:active {
 input[type="file"] {
   display: none;
 }
-.home-page-btn{
-  position: absolute;
-  top:15px;
-  left: 20px;
-  z-index: 200;
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 12px;
+  padding-left: 40px; /* Increase left padding for arrow */
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+  cursor: pointer;
 }
+
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::before {
+  content: '▼';
+  font-size: 12px;
+  color: #333;
+  position: absolute;
+  top: 50%;
+  left: 15px; /* Move arrow to the left side */
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.select-wrapper select {
+  padding-left: 40px; /* Increase left padding for arrow */
+}
+
 </style>
