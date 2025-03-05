@@ -99,12 +99,12 @@ const handleSubmit = async () => {
 /* General Styles */
 .body {
   font-family: Vazirmatn, sans-serif;
-  background-color: #f0f2f5;
+  /*background-color: #f0f2f5;*/
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
-  margin: 0;
+  margin-top: 100px;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -123,7 +123,7 @@ form {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   padding: 40px;
   width: 100%;
-  max-width: 450px;
+  /*max-width: 450px;*/
 }
 
 /* Form Elements */
