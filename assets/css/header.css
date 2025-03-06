@@ -54,8 +54,8 @@
 }
 .cart-badge {
     position: absolute;
-    top:-10px;
-    left:10px;
+    top:0;
+    left:12px;
     background-color: #f27474;
     color: white;
     font-size: 0.8rem;
@@ -69,8 +69,8 @@
 
 .ribbon-badge {
     position: absolute;
-    top:-5px;
-    left:15px;
+    top:0;
+    left:48px;
     background-color: #f27474;
     color: white;
     font-size: 0.8rem;
