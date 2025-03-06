@@ -14,8 +14,8 @@ export default defineNuxtPlugin(nuxtApp => {
         auth: {
             headers: {
                 'Authorization': `Bearer ${token}`,  // ارسال توکن Sanctum در هدر Authorization
-                'X-App-ID': '963c9466e5e96e6f',
-                'X-App-Key': '4571675e392b748f312b0614e84c9024',
+                'X-App-ID': '24472a8bd6cb6441',
+                'X-App-Key': '22c94e01c7ea87e8981adbf55c6c30b6',
             },
         },
     });
