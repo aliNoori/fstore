@@ -8,14 +8,8 @@ export default defineNuxtPlugin(nuxtApp => {
     const echo = new Echo({
         broadcaster: 'socket.io',
         //host: 'http://192.168.1.105:6001', // جایگزین با آدرس سرور Echo خود
-        host: 'https://185.204.197.237:6001',
-        //host: 'http://nemoonehshow.ir:6001',
-        wsHost: window.location.hostname,
-        wsPort: 6001,
-        wssPort: 6001,
-        encrypted: true,
-        disableStats: true,
-        enabledTransports: ['ws', 'wss'] ,// تنظیم پروتکل‌ها
+        //host: 'http://185.204.197.237:6001',
+        host: 'https://nemoonehshow.ir:6001',
         client: io,
         auth: {
             headers: {
