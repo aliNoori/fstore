@@ -51,7 +51,12 @@ const convertedAmount = computed(() => $formatPrice(transaction.value.amount || 
 const convertedToken = computed(() => $toPersian(transaction.value.token || ''));
 const convertedRRN = computed(() => $toPersian(transaction.value.rrn || ''));
 const convertedDate = computed(() => $toPersian($toPersianDate(transaction.value.created_at || new Date())));
-const convertedCardNumberMasked = computed(() => $toPersian(transaction.value.card_number_masked || ''));
+const convertedCardNumberMasked = computed(() => {
+  const cardNumber = transaction.value.card_number_masked || '';
+  const maskedNumber = cardNumber.slice(-16).padStart(16, '*');
+  return $toPersian(maskedNumber);
+});
+
 onMounted(() => {
   const query = route.query;
   console.log(query);
