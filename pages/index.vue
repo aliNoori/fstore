@@ -47,10 +47,10 @@ const {$toPersian,$formatPrice}=useNuxtApp();
 </template>
 <style>
 .store-banner {
-//background: linear-gradient(135deg, #f9f9f9, #ececec);
+/*background: linear-gradient(135deg, #f9f9f9, #ececec);*/
   padding: 80px 80px 40px 80px;
-//border-radius: 10px;
-//box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+/*border-radius: 10px;
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);*/
   text-align: center;
   max-width: 100%;
   margin-top: 80px;
@@ -70,12 +70,12 @@ const {$toPersian,$formatPrice}=useNuxtApp();
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 .store-banner-buy-fast {
-//background: linear-gradient(135deg, #f0f0f0, #dcdcdc);
+/*background: linear-gradient(135deg, #f0f0f0, #dcdcdc);*/
   padding: 80px 80px 80px 80px;
   max-width: 100%;
   margin-top: 80px;
-//border-radius: 10px;
-//box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+/*border-radius: 10px;
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);*/
   text-align: center;
 }
 
@@ -93,12 +93,12 @@ const {$toPersian,$formatPrice}=useNuxtApp();
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 .store-banner-height-quality {
-//background: linear-gradient(135deg, #ffefba, #ffffff);
+/*background: linear-gradient(135deg, #ffefba, #ffffff);*/
   padding: 80px 80px 80px 80px;
   margin-top: 80px;
   max-width: 100%;
-//border-radius: 10px;
-//box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+/*border-radius: 10px;
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);*/
   text-align: center;
 
 }
@@ -118,12 +118,12 @@ const {$toPersian,$formatPrice}=useNuxtApp();
 }
 
 .store-banner-off {
-//background: linear-gradient(135deg, #fceabb, #f8b500);
+/*background: linear-gradient(135deg, #fceabb, #f8b500);*/
   padding: 80px 80px 80px 80px;
   margin-top: 80px;
   max-width: 100%;
-//border-radius: 10px;
-//box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+/*border-radius: 10px;
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);*/
   text-align: center;
 }
 
@@ -141,12 +141,12 @@ const {$toPersian,$formatPrice}=useNuxtApp();
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 .store-banner-support {
-//background: linear-gradient(135deg, #d4fc79, #96e6a1);
+/*background: linear-gradient(135deg, #d4fc79, #96e6a1);*/
   padding: 80px 80px 80px 80px;
   margin-top: 80px;
   max-width: 100%;
-//border-radius: 10px;
-//box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+/*border-radius: 10px;
+box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);*/
   text-align: center;
 }
 

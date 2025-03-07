@@ -3,12 +3,12 @@
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
       <h2>فرم ثبت‌ آدرس</h2>
       <!-- اطلاعات آدرس -->
-      <p>
+      <div>
         <label for="street">خیابان</label>
         <input type="text" id="street" v-model="form.street" />
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="city">شهر</label>
         <div class="select-wrapper">
           <select id="city" v-model="form.city">
@@ -19,9 +19,9 @@
             <!-- Add more cities as needed -->
           </select>
         </div>
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="state">استان</label>
         <div class="select-wrapper">
           <select id="state" v-model="form.state">
@@ -32,14 +32,14 @@
             <!-- Add more states as needed -->
           </select>
         </div>
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="postal_code">کد پستی</label>
         <input type="text" id="postal_code" v-model="form.postal_code" />
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="country">کشور</label>
         <div class="select-wrapper">
           <select id="country" v-model="form.country">
@@ -50,7 +50,7 @@
             <!-- Add more countries as needed -->
           </select>
         </div>
-      </p>
+      </div>
       <button type="submit">ذخیره</button>
     </form>
   </div>
@@ -127,7 +127,7 @@ form {
 }
 
 /* Form Elements */
-form p {
+form div {
   margin-bottom: 20px;
 }
 
@@ -232,6 +232,4 @@ select:focus {
 .select-wrapper select {
   padding-left: 40px; /* Increase left padding for arrow */
 }
-
-
 </style>

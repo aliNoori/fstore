@@ -28,7 +28,7 @@ import {useRouter} from "#app";
 
 export default {
   setup() {
-    const authStore = useAuthStore(); // Access the store in the setup function
+    const authStore = useAuthStore(); /*// Access the store in the setup function*/
     const router=useRouter();
     return {
       authStore,

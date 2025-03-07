@@ -153,11 +153,11 @@ async function fetchCategories() {
 async function createProduct() {
   try {
     const formData = new FormData();
-    // اطمینان از ارسال category_id و حذف category
-    const sanitizedForm = { ...productForm.value }; // کپی از آبجکت اصلی
-    sanitizedForm.category_id = productForm.value.category_id; // اضافه کردن category_id
-    delete sanitizedForm.category; // حذف category آبجکت
-    // افزودن تمام فیلدها به formData
+    /*// اطمینان از ارسال category_id و حذف category*/
+    const sanitizedForm = { ...productForm.value };/* // کپی از آبجکت اصلی*/
+    sanitizedForm.category_id = productForm.value.category_id; /*// اضافه کردن category_id*/
+    delete sanitizedForm.category; /*// حذف category آبجکت*/
+    /*// افزودن تمام فیلدها به formData*/
     Object.keys(sanitizedForm).forEach(key => {
       formData.append(key, sanitizedForm[key]);
     });
@@ -174,11 +174,11 @@ async function createProduct() {
 async function updateProduct() {
   try {
     const formData = new FormData();
-    // اطمینان از ارسال category_id و حذف category
-    const sanitizedForm = { ...productForm.value }; // کپی از آبجکت اصلی
-    sanitizedForm.category_id = productForm.value.category_id; // اضافه کردن category_id
-    delete sanitizedForm.category; // حذف category آبجکت
-    // افزودن تمام فیلدها به formData
+    /*// اطمینان از ارسال category_id و حذف category*/
+    const sanitizedForm = { ...productForm.value }; /*// کپی از آبجکت اصلی*/
+    sanitizedForm.category_id = productForm.value.category_id; /*// اضافه کردن category_id*/
+    delete sanitizedForm.category; /*// حذف category آبجکت*/
+    /*// افزودن تمام فیلدها به formData*/
     Object.keys(sanitizedForm).forEach(key => {
       formData.append(key, sanitizedForm[key]);
     });

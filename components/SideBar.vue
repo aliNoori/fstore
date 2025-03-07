@@ -39,19 +39,19 @@ onMounted(() => {
         <!-- منوی سایدبار -->
         <div v-if="user" class="user-info">
           <nav class="sidebar-menu">
-            <NuxtLink to="/my-wallet" @click="toggleSidebar">
+            <NuxtLink to="/user-wallet" @click="toggleSidebar">
               کیف پول
               <span v-if="user.wallet_balance > 0" class="badge-sidebar">{{ $toPersian(user.wallet_balance) }}</span>
             </NuxtLink>
-            <NuxtLink to="/my-scores" @click="toggleSidebar">
+            <NuxtLink to="/user-scores" @click="toggleSidebar">
               امتیازات
               <span v-if="user.score > 0" class="badge-sidebar">{{ $toPersian(user.score) }}</span>
             </NuxtLink>
-            <NuxtLink to="/my-coupons" @click="toggleSidebar">
+            <NuxtLink to="/user-coupons" @click="toggleSidebar">
               کد های تخفیف
               <span v-if="user.coupons_count > 0" class="badge-sidebar">{{ $toPersian(user.coupons_count) }}</span>
             </NuxtLink>
-            <NuxtLink to="/my-orders" @click="toggleSidebar">
+            <NuxtLink to="/user-orders" @click="toggleSidebar">
               سفارشات
               <span v-if="user.orders_count > 0" class="badge-sidebar">{{ $toPersian(user.orders_count) }}</span>
             </NuxtLink>

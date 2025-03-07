@@ -10,21 +10,21 @@
     color: #f27474;
     display: flex; /* تغییر از حالت block به flex */
     align-items: center; /* تراز عمودی آیکون و عنوان */
-//gap: 10px; /* فاصله بین آیکون و عنوان */
+/*gap: 10px; /* فاصله بین آیکون و عنوان */
 }
 .ribbon h3 {
     position: absolute;
-//top: 15px;
+/*top: 15px;*/
     right:80px;
     margin: 0; /* حذف فاصله‌های پیش‌فرض */
     font-size: 1.2rem;
-//flex: 1; /* عنوان به اندازه فضای باقی‌مانده گسترش یابد */
-//text-align: left; /* تراز به چپ برای عنوان */
+/*flex: 1; /* عنوان به اندازه فضای باقی‌مانده گسترش یابد */
+/*text-align: left; /* تراز به چپ برای عنوان */
 }
 .icons{
     position: absolute;
     left:10px;
-//bottom: 20px;
+/*bottom: 20px;*/
     display: flex;
     flex-direction: row;
     gap: 15px;
@@ -41,7 +41,7 @@
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s ease;
-//color: #f5a623; /* تغییر رنگ هنگام هاور */
+/*color: #f5a623; /* تغییر رنگ هنگام هاور */
 }
 .icon:hover i {
     color: #007bff;
@@ -148,4 +148,14 @@
     display: flex;
     flex-direction: row;
     gap: 15px;
+}
+/* پیام خوانده شده */
+.message.read {
+    background-color: #f0f0f0; /* رنگ پس‌زمینه خاکستری */
+    text-decoration: line-through; /* خط کشیده شده بر روی متن */
+    opacity: 0.6; /* شفافیت کمتر */
+}
+/* پیام خوانده نشده */
+.message {
+    cursor: pointer;
 }

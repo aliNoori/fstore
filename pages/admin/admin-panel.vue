@@ -42,11 +42,11 @@
 
 
 <script setup lang="ts">
-//import { useRouter } from "vue-router"; // برای هدایت استفاده می‌شود
+/*import { useRouter } from "vue-router";  برای هدایت استفاده می‌شود*/
 
 const router = useRouter();
 
-// متدی برای هدایت به مسیرهای مختلف
+/* متدی برای هدایت به مسیرهای مختلف*/
 function navigateTo(path:any) {
   router.push(path);
 }

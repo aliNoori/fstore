@@ -849,7 +849,7 @@ router.afterEach((to, from) => {
   display: inline-block;
   width: 30px;
   height: 30px;
-  //background: url('path/to/check-circle-icon.svg') no-repeat center center;
+  /*background: url('path/to/check-circle-icon.svg') no-repeat center center;*/
   background-size: contain;
   margin-right: 10px;
 }
@@ -1493,7 +1493,7 @@ h2:hover::after {
   align-items: flex-start;
   position: relative;
   width: calc(33.333% - 20px); /* برای نمایش سه کارت در یک ردیف */
-//max-width: 300px; padding: 20px; border: 1px solid #ddd; border-radius: 10px;
+/*max-width: 300px; padding: 20px; border: 1px solid #ddd; border-radius: 10px;*/
   background-color: #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
@@ -1694,7 +1694,7 @@ h2:hover::after {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-//min-height: 100vh; overflow-y: auto; /* امکان اسکرول عمودی */
+/*min-height: 100vh; overflow-y: auto; /* امکان اسکرول عمودی */
 }
 
 .invoice-container {
@@ -1863,7 +1863,7 @@ h2:hover::after {
   display: flex;
   flex-direction: column;
   gap: 20px;
-//justify-content: flex-start; align-items: center;
+/*justify-content: flex-start; align-items: center;*/
 }
 
 .coupons-card-container {
@@ -1877,7 +1877,7 @@ h2:hover::after {
 
 .coupon-card {
   position: relative;
-//width: calc(33.333% - 20px); max-width: 300px; padding: 25px;
+/*width: calc(33.333% - 20px); max-width: 300px; padding: 25px;*/
   border: 1px solid #ddd;
   border-radius: 10px;
   background-color: #fff;

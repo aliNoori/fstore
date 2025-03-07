@@ -29,7 +29,7 @@ import {useNuxtApp} from '#app';
 import jalaali from 'jalaali-js';
 
 const orders = ref([]);
-const {$axios} = useNuxtApp(); // Inject Axios from Nuxt context
+const {$axios} = useNuxtApp(); /* Inject Axios from Nuxt context*/
 const formatPrice = (price) => {
   return Math.floor(price).toLocaleString('fa-IR');
 };
@@ -52,7 +52,7 @@ const getOrderStatus = (status) => {
 }
 const fetchOrders = async () => {
   try {
-    const response = await $axios.get('user/orders'); // Make sure the API URL is correct
+    const response = await $axios.get('user/orders'); /* Make sure the API URL is correct*/
     orders.value = response.data.orders;
   } catch (error) {
     console.error('Failed to fetch orders data:', error);

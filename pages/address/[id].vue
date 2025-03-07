@@ -3,12 +3,12 @@
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
       <h2>فرم ثبت‌ آدرس</h2>
       <!-- اطلاعات آدرس -->
-      <p>
+      <div>
         <label for="street">خیابان</label>
         <input type="text" id="street" v-model="form.street" />
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="city">شهر</label>
         <div class="select-wrapper">
           <select id="city" v-model="form.city">
@@ -16,9 +16,9 @@
             <option v-for="city in cities" :key="city" :value="city">{{ city }}</option>
           </select>
         </div>
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="state">استان</label>
         <div class="select-wrapper">
           <select id="state" v-model="form.state">
@@ -26,14 +26,14 @@
             <option v-for="state in states" :key="state" :value="state">{{ state }}</option>
           </select>
         </div>
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="postal_code">کد پستی</label>
         <input type="text" id="postal_code" v-model="form.postal_code" />
-      </p>
+      </div>
 
-      <p>
+      <div>
         <label for="country">کشور</label>
         <div class="select-wrapper">
           <select id="country" v-model="form.country">
@@ -41,11 +41,12 @@
             <option v-for="country in countries" :key="country" :value="country">{{ country }}</option>
           </select>
         </div>
-      </p>
+      </div>
       <button type="submit">ذخیره</button>
     </form>
   </div>
 </template>
+
 <script setup>
 import {onMounted, ref} from 'vue';
 const { $axios } = useNuxtApp();
@@ -140,7 +141,7 @@ form {
 }
 
 /* Form Elements */
-form p {
+form div {
   margin-bottom: 20px;
 }
 

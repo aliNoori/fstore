@@ -15,8 +15,8 @@ export function useUser() {
         }
 
         try {
-            const response = await $axios.get('user/profile'); // Adjust the endpoint as needed
-            user.value = response.data; // Assuming the user data is in this field
+            const response = await $axios.get('user/profile'); /*// Adjust the endpoint as needed*/
+            user.value = response.data; /*// Assuming the user data is in this field*/
             console.log(user.value);
         } catch (error) {
             alert('خطایی در بارگذاری اطلاعات رخ داد.');
@@ -24,7 +24,7 @@ export function useUser() {
     }
     async function logout() {
         try {
-            await $axios.get('user/logout'); // Adjust the endpoint as needed
+            await $axios.get('user/logout'); /*// Adjust the endpoint as needed*/
             user.value = null;
             localStorage.removeItem('auth_token');
             authStore.setToken(null);
