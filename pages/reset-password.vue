@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center min-h-screen bg-gradient-to-tr from-blue-100 to-gray-100">
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-5 mt-52">
       <h1 class="text-2xl font-semibold text-center text-gray-700 mb-6">بازنشانی رمز عبور</h1>
       <form @submit.prevent="submitForm">
         <input type="hidden" name="token" :value="token">
@@ -39,7 +39,7 @@
         </div>
         <button
             type="submit"
-            class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300 transition duration-300"
+            class="w-full bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 transition duration-300"
         >
           بازنشانی رمز عبور
         </button>
