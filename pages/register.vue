@@ -1,6 +1,12 @@
 <template>
   <SideBar/>
   <div class="body">
+    <div class="store-info">
+      <img src="@/src/static/images/basket-32.png" alt="Store Logo" class="store-logo"/>
+      <div class="store-details">
+        <h2>فروشگاه آنلاین </h2>
+      </div>
+    </div>
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
       <h2>فرم ثبت‌نام کاربر</h2>
       <!-- ورودی آپلود آواتار -->
@@ -168,10 +174,11 @@ const handleSubmit = async () => {
   font-family: Vazirmatn, sans-serif;
   /*background-color: #f0f2f5;*/
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: auto;
-  margin-top: 100px;
+  margin-top: 70px;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -289,5 +296,38 @@ button[type="submit"]:active {
 /* Hide File Input */
 input[type="file"] {
   display: none;
+}
+
+.store-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  background-color: #e3e5ff5e;
+  padding: 20px;
+  border-radius: 10px;
+  gap: 20px;
+  max-width: 450px;
+  width: 100%;
+}
+
+.store-logo {
+  width: 80px;
+  height: 80px;
+  margin-right: -5px;
+}
+
+.store-details {
+  font-weight: bold;
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  margin-right: 10px;
+}
+.store-details h2{
+  color: #ff5400;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 </style>

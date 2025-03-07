@@ -1,10 +1,17 @@
 <template>
   <SideBar/>
   <div class="body">
+    <div class="store-info">
+      <img src="@/src/static/images/basket-32.png" alt="Store Logo" class="store-logo"/>
+      <div class="store-details">
+        <h2>فروشگاه آنلاین </h2>
+      </div>
+    </div>
     <div class="login-container">
+
       <div class="logo">
         <p>صفحه ورود</p>
-        <img src="@/src/static/images/logo-login.png" alt="لوگوی ورود">
+        <img class="login-logo" src="@/src/static/images/logo-login.png" alt="لوگوی ورود">
       </div>
 
       <form @submit.prevent="handleLogin">
@@ -13,7 +20,7 @@
         <button type="submit">ورود</button>
       </form>
       <div class="forgot-password">
-        <a href="#">رمز عبور خود را فراموش کرده‌اید؟</a>
+        <NuxtLink :to="`/forgot-password`">رمز عبور خود را فراموش کرده‌اید؟</NuxtLink>
       </div>
       <div class="signup">
         جدید در سایت؟ <router-link to="/register">همین حالا ثبت‌نام کنید</router-link>
@@ -69,6 +76,7 @@ export default {
   margin-top: 80px;
   padding: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -99,7 +107,7 @@ export default {
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   box-sizing: border-box;
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -200,6 +208,37 @@ button[type="submit"]:active {
     font-size: 14px;
     padding: 10px;
   }
+}
+
+.store-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  background-color: #e3e5ff5e;
+  padding: 20px;
+  border-radius: 10px;
+  gap: 20px;
+  max-width: 450px;
+  width: 100%;
+}
+
+.store-logo {
+  width: 80px;
+  height: 80px;
+  margin-right: -5px;
+}
+
+.store-details {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  margin-right: 10px;
+}
+.store-details h2{
+  color: #ff5400;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 </style>
