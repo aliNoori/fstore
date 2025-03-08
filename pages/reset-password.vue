@@ -1,55 +1,47 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-gradient-to-tr from-blue-100 to-gray-100 p-20" style="margin-top: 200px;">
-    <div class="w-full max-w-lg bg-white rounded-3xl shadow-xl p-10">
-      <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-8">بازنشانی رمز عبور</h1>
+  <div class="container">
+    <div class="reset-password-box">
+      <h1>بازنشانی رمز عبور</h1>
       <form @submit.prevent="submitForm">
         <input type="hidden" name="token" :value="token">
-        <div class="mb-6">
-          <label for="email" class="block text-right text-gray-700 mb-2 font-medium">ایمیل</label>
+        <div class="form-group">
+          <label for="email">ایمیل</label>
           <input
               v-model="email"
               type="email"
               id="email"
               name="email"
-              class="input w-full px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
               required
           />
         </div>
-        <div class="mb-6">
-          <label for="password" class="block text-right text-gray-700 mb-2 font-medium">رمز عبور جدید</label>
+        <div class="form-group">
+          <label for="password">رمز عبور جدید</label>
           <input
               v-model="password"
               type="password"
               id="password"
               name="password"
-              class="input w-full px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
               required
           />
         </div>
-        <div class="mb-6">
-          <label for="password_confirmation" class="block text-right text-gray-700 mb-2 font-medium">تایید رمز عبور</label>
+        <div class="form-group">
+          <label for="password_confirmation">تایید رمز عبور</label>
           <input
               v-model="passwordConfirmation"
               type="password"
               id="password_confirmation"
               name="password_confirmation"
-              class="input w-full px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
               required
           />
         </div>
-        <button
-            type="submit"
-            class="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition duration-300" style="margin-top: 20px;"
-        >
-          بازنشانی رمز عبور
-        </button>
+        <button type="submit">بازنشانی رمز عبور</button>
       </form>
-      <div v-if="error" class="mt-6 bg-red-100 border border-red-400 text-red-700 px-5 py-4 rounded-lg">
-        <ul class="list-disc text-right">
+      <div v-if="error" class="error-message">
+        <ul>
           <li>{{ error }}</li>
         </ul>
       </div>
-      <div v-if="status" class="mt-6 bg-green-100 border border-green-400 text-green-700 px-5 py-4 rounded-lg">
+      <div v-if="status" class="status-message">
         {{ status }}
       </div>
     </div>
@@ -64,7 +56,6 @@ export default {
       password: '',
       passwordConfirmation: '',
       token: this.$route.query.token || '',
-      /*csrfToken: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // دریافت توکن CSRF*/
       error: null,
       status: null,
     }
@@ -78,7 +69,6 @@ export default {
           password: this.password,
           password_confirmation: this.passwordConfirmation,
           token: this.token,
-          /*_token: this.csrfToken, // ارسال توکن CSRF*/
         })
         this.status = response.data.message
         this.error = null
@@ -92,7 +82,82 @@ export default {
 </script>
 
 <style scoped>
-.input:focus {
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to top right, #ebf8ff, #f7f7f7);
+  padding: 20px;
+  margin-top: 200px;
+}
+
+.reset-password-box {
+  width: 100%;
+  max-width: 400px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  text-align: center;
+}
+
+.reset-password-box h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666666;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.error-message {
+  margin-top: 20px;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.status-message {
+  margin-top: 20px;
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  padding: 10px;
+  border-radius: 10px;
 }
 </style>
