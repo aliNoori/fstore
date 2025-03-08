@@ -3,7 +3,7 @@
     <div class="store-info">
       <img src="@/src/static/images/basket-32.png" alt="Store Logo" class="store-logo"/>
       <div class="store-details">
-        <h2>ورود به فروشگاه آنلاین</h2>
+        <h2> فروشگاه آنلاین</h2>
       </div>
     </div>
     <div class="reset-password-box">
@@ -102,7 +102,7 @@ export default {
 
 .reset-password-box {
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   /*background: #ffffff;*/
   border-radius: 20px;
   /*box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);*/
