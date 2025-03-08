@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="reset-container">
     <div class="reset-password-box">
       <h1>بازنشانی رمز عبور</h1>
       <form @submit.prevent="submitForm">
@@ -82,14 +82,14 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.reset-container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(to top right, #ebf8ff, #f7f7f7);
+  /*background: linear-gradient(to top right, #ebf8ff, #f7f7f7);*/
   padding: 20px;
-  margin-top: 200px;
+/*  margin-top: 100px;*/
 }
 
 .reset-password-box {

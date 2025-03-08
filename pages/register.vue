@@ -4,12 +4,10 @@
     <div class="store-info">
       <img src="@/src/static/images/basket-32.png" alt="Store Logo" class="store-logo"/>
       <div class="store-details">
-        <h2>فروشگاه آنلاین </h2>
+        <h2>ثبت نام در فروشگاه آنلاین</h2>
       </div>
     </div>
     <form @submit.prevent="handleSubmit" enctype="multipart/form-data">
-      <h2>فرم ثبت‌نام کاربر</h2>
-      <!-- ورودی آپلود آواتار -->
       <p style="display: flex;flex-direction: column;justify-content: center;align-items: center">
         <label for="avatar">آپلود آواتار</label>
         <input
@@ -195,10 +193,10 @@ h2 {
 form {
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);*/
   padding: 40px;
   width: 100%;
-  max-width: 450px;
+  max-width: 700px;
 }
 
 /* Form Elements */
@@ -297,17 +295,16 @@ button[type="submit"]:active {
 input[type="file"] {
   display: none;
 }
-
 .store-info {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 30px;
-  background-color: #e3e5ff5e;
+  background-color: #3af9c3;
   padding: 20px;
   border-radius: 10px;
   gap: 20px;
-  max-width: 450px;
+  max-width: 700px;
   width: 100%;
 }
 
@@ -318,16 +315,15 @@ input[type="file"] {
 }
 
 .store-details {
-  font-weight: bold;
-  font-size: 1.5rem;
   display: flex;
   flex-direction: column;
   text-align: right;
   margin-right: 10px;
 }
 .store-details h2{
-  color: #ff5400;
-  font-size: 1.5rem;
+  color:black;
+  font-size: 1.3rem;
   font-weight: bold;
 }
+
 </style>

@@ -55,12 +55,12 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(to top right, #ebf8ff, #f7f7f7);
+  /*background: linear-gradient(to top right, #ebf8ff, #f7f7f7);*/
   padding: 20px;
-  margin-top: 200px;
+  margin-top: 100px;
 }
 
 .reset-password-box {
