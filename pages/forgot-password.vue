@@ -1,5 +1,11 @@
 <template>
-  <div class="container">
+  <div class="forgot-container">
+    <div class="store-info">
+      <img src="@/src/static/images/basket-32.png" alt="Store Logo" class="store-logo"/>
+      <div class="store-details">
+        <h2>ورود به فروشگاه آنلاین</h2>
+      </div>
+    </div>
     <div class="reset-password-box">
       <h1>بازنشانی رمز عبور</h1>
       <form @submit.prevent="submitForm">
@@ -53,10 +59,11 @@ export default {
 </script>
 
 <style scoped>
-.container {
+.forgot-container {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  /*justify-content: center;*/
   min-height: 100vh;
   /*background: linear-gradient(to top right, #ebf8ff, #f7f7f7);*/
   padding: 20px;
@@ -69,7 +76,7 @@ export default {
   background: #ffffff;
   border-radius: 20px;
   /*box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);*/
-  padding: 30px;
+  padding: 0;
   text-align: center;
 }
 
@@ -130,5 +137,35 @@ button:hover {
   color: #155724;
   padding: 10px;
   border-radius: 10px;
+}
+.store-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  background-color: #3af9c3;
+  padding: 20px;
+  border-radius: 10px;
+  gap: 20px;
+  max-width: 700px;
+  width: 100%;
+}
+
+.store-logo {
+  width: 80px;
+  height: 80px;
+  margin-right: -5px;
+}
+
+.store-details {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  margin-right: 10px;
+}
+.store-details h2{
+  color:black;
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 </style>

@@ -194,7 +194,7 @@ form {
   background-color: #fff;
   border-radius: 12px;
   /*box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);*/
-  padding: 40px;
+  /*padding: 40px;*/
   width: 100%;
   max-width: 700px;
 }
