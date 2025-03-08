@@ -89,15 +89,15 @@ export default {
   min-height: 100vh;
   /*background: linear-gradient(to top right, #ebf8ff, #f7f7f7);*/
   padding: 20px;
-/*  margin-top: 100px;*/
+  margin-top: 100px;
 }
 
 .reset-password-box {
   width: 100%;
-  max-width: 400px;
-  background: #ffffff;
+  max-width: 600px;
+  /*background: #ffffff;*/
   border-radius: 20px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);*/
   padding: 30px;
   text-align: center;
 }

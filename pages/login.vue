@@ -73,11 +73,11 @@ export default {
 
 <style scoped>
 .body {
-  margin-top: 80px;
-  padding: 0;
+  margin-top: 100px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /*justify-content: center;*/
   align-items: center;
   height: 100vh;
   background-color: #f0f0f5;
@@ -99,12 +99,12 @@ export default {
 .login-container {
   justify-content: center;
   align-items: center;
-  background-color: #ffffff;
-  padding: 40px;
+  /*background-color: #ffffff;*/
+ /* padding: 40px;
   margin-left: 20px;
-  margin-right: 20px;
+  margin-right: 20px;*/
   border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);*/
   text-align: center;
   width: 100%;
   max-width:700px;
