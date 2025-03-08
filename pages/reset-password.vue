@@ -64,7 +64,7 @@ export default {
       password: '',
       passwordConfirmation: '',
       token: this.$route.query.token || '',
-      csrfToken: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // دریافت توکن CSRF
+      /*csrfToken: document.querySelector('meta[name="csrf-token"]').getAttribute('content'), // دریافت توکن CSRF*/
       error: null,
       status: null,
     }
@@ -78,7 +78,7 @@ export default {
           password: this.password,
           password_confirmation: this.passwordConfirmation,
           token: this.token,
-          _token: this.csrfToken, // ارسال توکن CSRF
+          /*_token: this.csrfToken, // ارسال توکن CSRF*/
         })
         this.status = response.data.message
         this.error = null
