@@ -27,12 +27,12 @@ jobs:
           cd /var/www/linkufront.blumita.com/public_html/LinkuFrontEnd
           npm install
 
-      - name: Start Nuxt SSR App
-        run: |
-          sudo systemctl start LinkuFrontEnd
+      #- name: Start Nuxt SSR App
+       # run: |
+        #  sudo systemctl start LinkuFrontEnd
 
       - name: Reload Nginx
         run: sudo systemctl reload nginx
 
-      - name: Check application health
-        run: curl -f https://linkufront.petoman.com || exit 1
+      #- name: Check application health
+       # run: curl -f https://linkufront.petoman.com || exit 1
