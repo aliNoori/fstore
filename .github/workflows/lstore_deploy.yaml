@@ -1,4 +1,4 @@
-name: FStore Deploy (Nuxt - Prebuilt)
+name: LinkUFront Deploy (Nuxt - Prebuilt)
 
 on:
   push:
@@ -12,15 +12,27 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Deploy to local server
+
+      - name: Stop Nuxt SSR App
+        run: sudo systemctl stop LinkuFrontEnd
+
+      - name: Deploy prebuilt Nuxt app to Nginx
         run: |
-          sudo rsync -avz --delete --exclude='.git' ./ /var/www/store/public_html/fstore/
-          sudo chmod -R 770 /var/www/store/public_html/fstore
-          sudo chown -R www-data:www-data /var/www/store/public_html/fstore
-      - name: Enable site and restart Apache
+          sudo rsync -avz --delete --exclude='.git' ./ /var/www/linkufront.blumita.com/public_html/LinkuFrontEnd
+          sudo chmod -R 770 /var/www/linkufront.blumita.com/public_html/LinkuFrontEnd
+          sudo chown -R www-data:www-data /var/www/linkufront.blumita.com/public_html/LinkuFrontEnd
+
+      - name: Install dependencies on server
         run: |
-          sudo a2dissite nemoonehshow.ir.conf
-            sudo a2ensite nemoonehshow.ir.conf
-          sudo systemctl restart apache2
+          cd /var/www/linkufront.blumita.com/public_html/LinkuFrontEnd
+          npm install
+
+      - name: Start Nuxt SSR App
+        run: |
+          sudo systemctl start LinkuFrontEnd
+
+      - name: Reload Nginx
+        run: sudo systemctl reload nginx
+
       - name: Check application health
-        run: curl -f http://185.204.197.237/health-check
+        run: curl -f https://linkufront.petoman.com || exit 1
